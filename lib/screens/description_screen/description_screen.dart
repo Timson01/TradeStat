@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import 'package:trade_stat/styles/my_images.dart';
 
 class DescriptionScreen extends StatelessWidget {
   const DescriptionScreen({Key? key}) : super(key: key);
+  static const id = 'description_screen';
 
   @override
   Widget build(BuildContext context) {
@@ -66,13 +68,13 @@ class DescriptionScreen extends StatelessWidget {
                             fontSize: 16,
                             color: Colors.white),
                       ),
-                      GestureDetector(
+                      InkWell(
+                        onTap: () => Navigator.of(context).pushNamed(WelcomeScreen.id),
                         child: SvgPicture.asset(
                           next_single_arrow,
                           width: 28,
                           fit: BoxFit.scaleDown,
                         ),
-                        onTap: (){},
                       )
                     ],
                   ),
