@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
-import 'package:trade_stat/styles/my_images.dart';
+import 'package:trade_stat/styles/style_exports.dart';
 
 class DescriptionScreen extends StatelessWidget {
   const DescriptionScreen({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class DescriptionScreen extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: height * 0.05),
-          SvgPicture.asset(desc_image, width: width, fit: BoxFit.scaleDown),
+          SvgPicture.asset(descImage, width: width, fit: BoxFit.scaleDown),
           SizedBox(height: height * 0.05),
           const Text(
             'TradeStat',
@@ -37,7 +37,7 @@ class DescriptionScreen extends StatelessWidget {
                 Positioned(
                   bottom: 0,
                   right: 0,
-                  child: SvgPicture.asset(bottom_background,
+                  child: SvgPicture.asset(bottomBackground,
                       width: width, fit: BoxFit.cover),
                 ),
                 Positioned(
@@ -71,7 +71,7 @@ class DescriptionScreen extends StatelessWidget {
                       InkWell(
                         onTap: () => Navigator.of(context).pushNamed(WelcomeScreen.id),
                         child: SvgPicture.asset(
-                          next_single_arrow,
+                          nextSingleArrow,
                           width: 28,
                           fit: BoxFit.scaleDown,
                         ),
