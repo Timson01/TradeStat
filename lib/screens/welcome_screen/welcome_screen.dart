@@ -17,15 +17,9 @@ class WelcomeScreen extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: height * 0.05),
-          const Text(
+          Text(
             'Welcome',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 32,
-              letterSpacing: 4,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w400,
-            ),
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
           SizedBox(height: height * 0.07),
           SvgPicture.asset(welcomeImage, width: width, fit: BoxFit.scaleDown),

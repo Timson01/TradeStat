@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
+import 'package:trade_stat/services/app_theme.dart';
 import 'package:trade_stat/services/route_generator.dart';
 
 void main() {
@@ -20,11 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        fontFamily: 'Montserrat',
-        primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.white,
-      ),
+      theme: AppThemes.appThemeData[AppTheme.lightTheme],
       initialRoute: DescriptionScreen.id,
       onGenerateRoute: RouteGenerator.generateRoute,
     );

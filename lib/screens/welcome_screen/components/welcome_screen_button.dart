@@ -20,14 +20,8 @@ class WelcomeScreenButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 15.0),
         child: Text(title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              letterSpacing: 1,
-              fontFamily: 'Lato',
-              fontWeight: FontWeight.w400,
+            style: Theme.of(context).textTheme.subtitle1,
             )),
-      ),
     );
   }
 }

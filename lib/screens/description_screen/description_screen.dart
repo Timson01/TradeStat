@@ -19,15 +19,9 @@ class DescriptionScreen extends StatelessWidget {
           SizedBox(height: height * 0.05),
           SvgPicture.asset(descImage, width: width, fit: BoxFit.scaleDown),
           SizedBox(height: height * 0.05),
-          const Text(
+          Text(
             'TradeStat',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 32,
-              letterSpacing: 4,
-              fontFamily: 'Montserrat',
-              fontWeight: FontWeight.w400,
-            ),
+            style: Theme.of(context).textTheme.headlineLarge,
           ),
           SizedBox(height: height * 0.05),
           Expanded(
@@ -43,13 +37,9 @@ class DescriptionScreen extends StatelessWidget {
                 Positioned(
                   left: width * 0.08,
                   right: width * 0.08,
-                  child: const Text(
+                  child: Text(
                     'Keep statistics, improve your strategy correctly and increase your income with TradeStat',
-                    style: TextStyle(
-                        fontFamily: 'Lato',
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: Colors.white),
+                    style: Theme.of(context).textTheme.subtitle1,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -60,13 +50,9 @@ class DescriptionScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Let’s started',
-                        style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: Colors.white),
+                        style: Theme.of(context).textTheme.subtitle1,
                       ),
                       InkWell(
                         onTap: () => Navigator.of(context).pushNamed(WelcomeScreen.id),

@@ -35,13 +35,10 @@ class WelcomeScreenBottom extends StatelessWidget {
                 child: const WelcomeScreenButton(title: 'Sign Up'),
               ),
               SizedBox(height: height * 0.02),
-              const Text('or',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontFamily: 'Lato',
-                    fontWeight: FontWeight.w400,
-                  )),
+              Text(
+                  'or',
+                style: Theme.of(context).textTheme.subtitle1
+              ),
               SizedBox(height: height * 0.02),
               InkWell(
                 onTap: () {},
@@ -63,14 +60,8 @@ class WelcomeScreenBottom extends StatelessWidget {
                   ),
                   InkWell(
                     onTap: (){},
-                    child: const Text(' Log In',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontFamily: 'Lato',
-                          letterSpacing: 1,
-                          fontWeight: FontWeight.w400,
-                        )
+                    child: Text(' Log In',
+                        style: Theme.of(context).textTheme.subtitle2
                     ),
                   ),
                 ],
