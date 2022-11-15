@@ -19,7 +19,7 @@ class WelcomeScreen extends StatelessWidget {
           SizedBox(height: height * 0.05),
           Text(
             'Welcome',
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headline4,
           ),
           SizedBox(height: height * 0.07),
           SvgPicture.asset(welcomeImage, width: width, fit: BoxFit.scaleDown),

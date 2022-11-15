@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trade_stat/screens/log_in_screen/log_in_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/components/welcome_screen_button.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
@@ -59,7 +60,7 @@ class WelcomeScreenBottom extends StatelessWidget {
                       )
                   ),
                   InkWell(
-                    onTap: (){},
+                    onTap: () => Navigator.of(context).pushNamed(LogInScreen.id),
                     child: Text(' Log In',
                         style: Theme.of(context).textTheme.subtitle2
                     ),

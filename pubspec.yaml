@@ -65,6 +65,7 @@ flutter:
     - assets/images/next_single_arrow.svg
     - assets/images/welcome_screen_image.svg
     - assets/images/bottom_background.svg
+    - assets/images/top_background_image.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

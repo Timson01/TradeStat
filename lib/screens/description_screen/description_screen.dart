@@ -21,7 +21,7 @@ class DescriptionScreen extends StatelessWidget {
           SizedBox(height: height * 0.05),
           Text(
             'TradeStat',
-            style: Theme.of(context).textTheme.headlineLarge,
+            style: Theme.of(context).textTheme.headline4,
           ),
           SizedBox(height: height * 0.05),
           Expanded(

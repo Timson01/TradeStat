@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import '../styles/app_colors.dart';
+import '../styles/style_exports.dart';
 
 enum AppTheme{
   lightTheme, darkTheme,
@@ -22,13 +23,20 @@ class AppThemes {
       dividerColor: const Color(0xFF737373),
       fontFamily: 'Montserrat',
       scaffoldBackgroundColor: Colors.white,
-      textTheme: const TextTheme(
-        headlineLarge: TextStyle(
+      textTheme: TextTheme(
+        headline4: TextStyle(
           color: Colors.black,
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w400,
           letterSpacing: 4,
           fontSize: 32,
+        ),
+        headline5: TextStyle(
+          color: Colors.black,
+          fontFamily: 'Montserrat',
+          fontWeight: FontWeight.w400,
+          letterSpacing: 4,
+          fontSize: 28,
         ),
         subtitle1: TextStyle(
           color: Colors.white,
