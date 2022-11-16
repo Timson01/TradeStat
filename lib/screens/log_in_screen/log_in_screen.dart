@@ -44,11 +44,10 @@ class LogInScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: height * 0.08),
-                  LogInRegisterBottomSection(),
+                  LogInRegisterBottomSection(id: id),
                 ],
               )
             ),
-
           ],
         ),
       ),

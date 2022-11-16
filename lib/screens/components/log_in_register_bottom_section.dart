@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 
 import '../../styles/app_colors.dart';
+import '../log_in_screen/log_in_screen.dart';
 
 class LogInRegisterBottomSection extends StatelessWidget {
-  const LogInRegisterBottomSection({
+
+  String id;
+
+  LogInRegisterBottomSection({
     Key? key,
+    required this.id
   }) : super(key: key);
 
   @override
@@ -16,7 +22,8 @@ class LogInRegisterBottomSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Create',
+              id == LogInScreen.id ?
+              'Log In' : 'Create',
               style: Theme.of(context).textTheme.headlineMedium,
 
             ),
@@ -40,21 +47,29 @@ class LogInRegisterBottomSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Already have an account?',
+              id == LogInScreen.id ?
+              'Don’t have an account?' : 'Already have an account?',
               style: Theme.of(context).textTheme.subtitle2?.copyWith(
                 color: colorDarkGrey
               ),
             ),
             SizedBox(width: 5),
-            Text(
-              'Log In',
-              style: TextStyle(
-                color: colorBlue,
-                fontFamily: 'Lato',
-                fontWeight: FontWeight.w400,
-                fontSize: 14,
-                letterSpacing: 2,
+            InkWell(
+              child: Text(
+                id == LogInScreen.id ?
+                'Sign Up' : 'Log In',
+                style: TextStyle(
+                  color: colorBlue,
+                  fontFamily: 'Lato',
+                  fontWeight: FontWeight.w400,
+                  fontSize: 14,
+                  letterSpacing: 2,
+                ),
               ),
+              onTap: () =>
+              id == LogInScreen.id ?
+              Navigator.of(context).pushNamed(RegistrationScreen.id)
+              : Navigator.of(context).pushNamed(LogInScreen.id),
             ),
           ],
         )
