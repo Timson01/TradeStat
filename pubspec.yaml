@@ -62,10 +62,15 @@ flutter:
 
   assets:
     - assets/images/desc_image.svg
-    - assets/images/next_single_arrow.svg
     - assets/images/welcome_screen_image.svg
     - assets/images/bottom_background.svg
     - assets/images/top_background_image.svg
+    - assets/icons/next_single_arrow.svg
+    - assets/icons/burger_menu.svg
+    - assets/icons/more_menu_icon.svg
+    - assets/icons/add_deal_icon.svg
+    - assets/icons/rules_icon.svg
+    - assets/icons/strategy_icon.svg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

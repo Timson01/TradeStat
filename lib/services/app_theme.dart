@@ -38,6 +38,13 @@ class AppThemes {
           letterSpacing: 4,
           fontSize: 28,
         ),
+        headline6: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Lato',
+            fontWeight: FontWeight.w500,
+            fontSize: 18,
+            letterSpacing: 1
+        ),
         subtitle1: TextStyle(
           color: Colors.white,
           fontFamily: 'Lato',

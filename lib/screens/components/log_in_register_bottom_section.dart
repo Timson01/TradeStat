@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 
 import '../../styles/app_colors.dart';
@@ -32,7 +33,7 @@ class LogInRegisterBottomSection extends StatelessWidget {
               height: 50,
               child: FloatingActionButton(
                 backgroundColor: colorBlue,
-                onPressed: (){},
+                onPressed: () => Navigator.of(context).pushNamed(DealsScreen.id),
                 child: const Icon(
                     size: 18,
                     color: Colors.white,
@@ -68,8 +69,8 @@ class LogInRegisterBottomSection extends StatelessWidget {
               ),
               onTap: () =>
               id == LogInScreen.id ?
-              Navigator.of(context).pushNamed(RegistrationScreen.id)
-              : Navigator.of(context).pushNamed(LogInScreen.id),
+              Navigator.of(context).pushReplacementNamed(RegistrationScreen.id)
+              : Navigator.of(context).pushReplacementNamed(LogInScreen.id),
             ),
           ],
         )

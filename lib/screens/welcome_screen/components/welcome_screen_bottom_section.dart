@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trade_stat/screens/log_in_screen/log_in_screen.dart';
+import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/components/welcome_screen_button.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
@@ -32,7 +33,7 @@ class WelcomeScreenBottom extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () {},
+                onTap: () => Navigator.of(context).pushNamed(RegistrationScreen.id),
                 child: const WelcomeScreenButton(title: 'Sign Up'),
               ),
               SizedBox(height: height * 0.02),

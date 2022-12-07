@@ -57,7 +57,7 @@ class DescriptionScreen extends StatelessWidget {
                       InkWell(
                         onTap: () => Navigator.of(context).pushNamed(WelcomeScreen.id),
                         child: SvgPicture.asset(
-                          nextSingleArrow,
+                          nextSingleArrowIcon,
                           width: 28,
                           fit: BoxFit.scaleDown,
                         ),
