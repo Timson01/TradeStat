@@ -4,6 +4,8 @@ const descImage = 'assets/images/desc_image.svg';
 const welcomeImage = 'assets/images/welcome_screen_image.svg';
 const bottomBackground = 'assets/images/bottom_background.svg';
 const topBackground = 'assets/images/top_background_image.svg';
+const addEditDealBackground = 'assets/images/add_edit_deal_background.svg';
+const addPhoto = 'assets/images/add_photo.svg';
 
 // --- Icons ---
 
