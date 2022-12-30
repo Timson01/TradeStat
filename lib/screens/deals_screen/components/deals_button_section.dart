@@ -4,11 +4,16 @@ import 'package:trade_stat/screens/add_edit_deal_screen/add_edit_deal_screen.dar
 
 import '../../../styles/style_exports.dart';
 
-class DealsButtonSection extends StatelessWidget {
+class DealsButtonSection extends StatefulWidget {
   const DealsButtonSection({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<DealsButtonSection> createState() => _DealsButtonSectionState();
+}
+
+class _DealsButtonSectionState extends State<DealsButtonSection> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -39,7 +44,7 @@ class DealsButtonSection extends StatelessWidget {
           SvgPicture.asset(rulesIcon, width: 20, fit: BoxFit.cover),
           InkWell(
               child: SvgPicture.asset(addDealIcon, width: 20, fit: BoxFit.cover),
-            onTap: () => Navigator.of(context).pushReplacementNamed(AddEditDealScreen.id),
+              onTap: () => Navigator.of(context).pushReplacementNamed(AddEditDealScreen.id),
           ),
           SvgPicture.asset(strategyIcon, width: 20, fit: BoxFit.cover),
         ],

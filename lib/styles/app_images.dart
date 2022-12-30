@@ -6,6 +6,7 @@ const bottomBackground = 'assets/images/bottom_background.svg';
 const topBackground = 'assets/images/top_background_image.svg';
 const addEditDealBackground = 'assets/images/add_edit_deal_background.svg';
 const addPhoto = 'assets/images/add_photo.svg';
+const noDataImage = 'assets/images/no_data_image.svg';
 
 // --- Icons ---
 
@@ -15,3 +16,5 @@ const moreMenuIcon = 'assets/icons/more_menu_icon.svg';
 const addDealIcon = 'assets/icons/add_deal_icon.svg';
 const rulesIcon = 'assets/icons/rules_icon.svg';
 const strategyIcon = 'assets/icons/strategy_icon.svg';
+const backBlueIcon = 'back_blue_icon.svg';
+const editBlueIcon = 'edit_blue_icon.svg';

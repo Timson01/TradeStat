@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/add_edit_deal_screen.dart';
+import 'package:trade_stat/screens/deals_detail_screen/deals_detail_screen.dart';
 import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
 import 'package:trade_stat/screens/log_in_screen/log_in_screen.dart';
@@ -22,6 +23,8 @@ class RouteGenerator {
         return CustomPageRoute(child: DealsScreen());
       case AddEditDealScreen.id:
         return CustomPageRoute(child: AddEditDealScreen());
+      case DealsDetailScreen.id:
+        return CustomPageRoute(child: DealsDetailScreen());
       default:
         return _errorRoute();
     }

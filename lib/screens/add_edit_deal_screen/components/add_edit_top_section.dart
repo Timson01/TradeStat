@@ -10,7 +10,10 @@ class AddEditTopSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(Icons.arrow_back_ios_new_rounded, size: 25, color: Colors.white),
+        InkWell(
+            child: const Icon(Icons.arrow_back_ios_new_rounded, size: 25, color: Colors.white),
+          onTap: () => Navigator.pop(context),
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [

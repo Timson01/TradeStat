@@ -38,17 +38,7 @@ class _AddEditDealScreenState extends State<AddEditDealScreen> {
                     borderRadius: BorderRadius.circular(10.0),
                     color: Colors.white
                   ),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SvgPicture.asset(addPhoto, fit: BoxFit.fitWidth, width: width * 0.85),
-                        SizedBox(height: height * 0.02),
-                        Container(
-                          padding: EdgeInsets.symmetric(horizontal: width * 0.03),
-                          child: EditSection()
-                        )
-                      ],
-                    ),
+                  child: EditSection(),
                   ),
               ],
             ),
