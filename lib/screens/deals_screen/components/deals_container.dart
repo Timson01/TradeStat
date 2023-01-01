@@ -117,16 +117,20 @@ class _DealsContainerState extends State<DealsContainer> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
-                                    ?.copyWith(color: Colors.green),
+                                    ?.copyWith(color: state.deals[index].amount >= 0 ? Colors.green : Colors.red),
                                 children: [
                                   TextSpan(
                                     text: state.deals[index].amount.toString(),
                                   ),
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
-                                    child: Icon(
+                                    child: state.deals[index].amount >= 0 ? Icon(
                                       Icons.arrow_upward,
                                       color: Colors.green,
+                                      size: 20,
+                                    ) : Icon(
+                                      Icons.arrow_downward,
+                                      color: Colors.red,
                                       size: 20,
                                     ),
                                   ),

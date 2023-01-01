@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/deal.dart';
 import 'package:trade_stat/models/image_path.dart';
@@ -367,36 +368,32 @@ class _EditSectionState extends State<EditSection> {
                               .subtitle1
                               ?.copyWith(color: Colors.black)),
                       SizedBox(height: height * 0.01),
-                      TextField(
-                        decoration: InputDecoration(
-                            isDense: true,
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 8),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              borderSide: const BorderSide(
-                                  width: 1, color: colorDarkGrey),
-                            ),
-                            suffixIcon: Container(
+                      Container(
+                        padding: const EdgeInsets.only(left: 10, top: 4, bottom: 4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(width: 1, color: colorDarkGrey),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(DateFormat("dd.MM.yyyy").format(_date),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: colorDarkGrey,
+                                        letterSpacing: 1)),
+                            Container(
                                 margin: const EdgeInsets.only(right: 10),
                                 child: InkWell(
                                   onTap: () => _showDatePicker(),
                                   child: const Icon(Icons.date_range_outlined,
-                                      size: 20, color: colorDarkGrey),
+                                      size: 18, color: colorDarkGrey),
                                 )),
-                            suffixIconConstraints:
-                                const BoxConstraints(maxHeight: 20),
-                            hintText:
-                                '${_date.day}.${_date.month}.${_date.year}',
-                            hintStyle: Theme.of(context)
-                                .textTheme
-                                .subtitle2
-                                ?.copyWith(
-                                    fontSize: 12,
-                                    color: colorDarkGrey,
-                                    letterSpacing: 1)),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -477,11 +474,15 @@ class _EditSectionState extends State<EditSection> {
                             SizedBox(height: height * 0.01),
                             TextField(
                               controller: _amountController,
-                              style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                                  fontSize: 12,
-                                  color: colorDarkGrey,
-                                  letterSpacing: 1),
-                              keyboardType: TextInputType.numberWithOptions(decimal: true),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(
+                                      fontSize: 12,
+                                      color: colorDarkGrey,
+                                      letterSpacing: 1),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true),
                               decoration: InputDecoration(
                                   isDense: true,
                                   filled: true,
@@ -520,10 +521,13 @@ class _EditSectionState extends State<EditSection> {
                             TextField(
                               controller: _numberOfStocksController,
                               keyboardType: TextInputType.number,
-                              style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                                  fontSize: 12,
-                                  color: colorDarkGrey,
-                                  letterSpacing: 1),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .subtitle2
+                                  ?.copyWith(
+                                      fontSize: 12,
+                                      color: colorDarkGrey,
+                                      letterSpacing: 1),
                               decoration: InputDecoration(
                                   isDense: true,
                                   filled: true,
@@ -565,23 +569,35 @@ class _EditSectionState extends State<EditSection> {
                             )),
                         onPressed: _tickerNameController.value.text.isNotEmpty
                             ? () {
-                          Deal deal = Deal(
-                              tickerName: _tickerNameController.value.text,
-                              description: _descriptionController.value.text,
-                              hashtag: currentSelectedValueHashtag,
-                              dateCreated: _date.millisecondsSinceEpoch,
-                              amount: double.parse(_amountController.value.text),
-                            numberOfStocks: int.parse(_numberOfStocksController.value.text)
-                          );
-                          context.read<DealsBloc>().add(AddDeal(deal: deal));
-                          _imagePaths.isEmpty ? Navigator.of(context).pushReplacementNamed(DealsScreen.id)
-                              : {
-                            _imagePaths.forEach((element) {
-                              context.read<DealsBloc>().add(AddDealImage(imagePath: DealImage(imagePath: element)));
-                              Navigator.of(context).pushReplacementNamed(DealsScreen.id);
-                            })
-                          };
-                        }
+                                Deal deal = Deal(
+                                    tickerName:
+                                        _tickerNameController.value.text,
+                                    description:
+                                        _descriptionController.value.text,
+                                    hashtag: currentSelectedValueHashtag,
+                                    dateCreated: _date.millisecondsSinceEpoch,
+                                    amount: double.parse(
+                                        _amountController.value.text),
+                                    numberOfStocks: int.parse(
+                                        _numberOfStocksController.value.text));
+                                context
+                                    .read<DealsBloc>()
+                                    .add(AddDeal(deal: deal));
+                                _imagePaths.isEmpty
+                                    ? Navigator.of(context)
+                                        .pushReplacementNamed(DealsScreen.id)
+                                    : {
+                                        _imagePaths.forEach((element) {
+                                          context.read<DealsBloc>().add(
+                                              AddDealImage(
+                                                  imagePath: DealImage(
+                                                      imagePath: element)));
+                                          Navigator.of(context)
+                                              .pushReplacementNamed(
+                                                  DealsScreen.id);
+                                        })
+                                      };
+                              }
                             : () {
                                 setState(() {
                                   _tickerNameState = true;

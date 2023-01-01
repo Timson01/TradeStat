@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../deals_screen/deals_screen.dart';
+
 class AddEditTopSection extends StatelessWidget {
   const AddEditTopSection({
     Key? key,
@@ -11,26 +13,28 @@ class AddEditTopSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         InkWell(
-            child: const Icon(Icons.arrow_back_ios_new_rounded, size: 25, color: Colors.white),
-          onTap: () => Navigator.pop(context),
+          child: const Icon(Icons.arrow_back_ios_new_rounded,
+              size: 25, color: Colors.white),
+          onTap: () =>
+              Navigator.of(context).pushReplacementNamed(DealsScreen.id),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
               'Create new deal',
-              style: Theme.of(context).textTheme.headline5?.copyWith(
-                  fontSize: 24,
-                  color: Colors.white
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  ?.copyWith(fontSize: 24, color: Colors.white),
               textAlign: TextAlign.right,
             ),
             Text(
               'It\'s simple',
-              style: Theme.of(context).textTheme.headline5?.copyWith(
-                  fontSize: 22,
-                  color: Colors.white
-              ),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline5
+                  ?.copyWith(fontSize: 22, color: Colors.white),
               textAlign: TextAlign.right,
             ),
           ],
