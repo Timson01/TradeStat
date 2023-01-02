@@ -14,20 +14,20 @@ class DealsInfoSection extends StatefulWidget {
 }
 
 class _DealsInfoSectionState extends State<DealsInfoSection> {
-  DateTimeRange _dateRange = DateTimeRange(start: DateTime.now(), end: DateTime.now());
 
   @override
   Widget build(BuildContext context) {
-    final startDate = _dateRange.start;
-    final endDate = _dateRange.end;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     var income = 0.0;
 
-    Future _pickDateRange() async {
+    Future _pickDateRange({required int startDate, required int endDate}) async {
       DateTimeRange? newDateRange = await showDateRangePicker(
           context: context,
-          initialDateRange: _dateRange,
+          initialDateRange: DateTimeRange(
+              start: DateTime.fromMillisecondsSinceEpoch(startDate),
+              end: DateTime.fromMillisecondsSinceEpoch(endDate)
+          ),
           firstDate: DateTime(2010),
           lastDate: DateTime(2030),
           builder: (BuildContext? context, Widget? child) {
@@ -39,12 +39,11 @@ class _DealsInfoSectionState extends State<DealsInfoSection> {
                 child: child!,
               ),
             );
-          }
-          );
+          });
 
       if (newDateRange == null) return;
       setState(() {
-        _dateRange =  newDateRange;
+        // Put here realization
       });
     }
 
@@ -63,10 +62,29 @@ class _DealsInfoSectionState extends State<DealsInfoSection> {
                   'Date: ',
                   style: Theme.of(context).textTheme.headline6,
                 ),
+                state.deals.isNotEmpty ?
                 InkWell(
-                  onTap: _pickDateRange,
+                  onTap: () => _pickDateRange(startDate: state.deals[0].dateCreated, endDate: state.deals[state.deals.length - 1].dateCreated),
                   child: Text(
-                    '${DateFormat('dd.MM.yyyy').format(startDate)} - ${DateFormat('dd.MM.yyyy').format(endDate)}',
+                    '${DateFormat('dd.MM.yyyy').format(
+                        DateTime.fromMillisecondsSinceEpoch(state.deals[0].dateCreated))} - '
+                        '${DateFormat('dd.MM.yyyy').format(DateTime.fromMillisecondsSinceEpoch(state.deals[state.deals.length - 1].dateCreated))}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle1
+                        ?.copyWith(color: Colors.black),
+                  ),
+                ) :
+                InkWell(
+                  onTap: () => _pickDateRange(startDate: DateTime.now().millisecondsSinceEpoch, endDate: DateTime.now().millisecondsSinceEpoch),
+                  child: Text(
+                    state.deals.isNotEmpty ?
+                    '${DateFormat('dd.MM.yyyy').format(
+                        DateTime.fromMillisecondsSinceEpoch(state.deals[0].dateCreated))} - '
+                        '${DateFormat('dd.MM.yyyy').format(DateTime.fromMillisecondsSinceEpoch(state.deals[state.deals.length - 1].dateCreated))}':
+                    '${DateFormat('dd.MM.yyyy').format(
+                        DateTime.now())} - '
+                        '${DateFormat('dd.MM.yyyy').format( DateTime.now())}',
                     style: Theme.of(context)
                         .textTheme
                         .subtitle1
@@ -86,25 +104,23 @@ class _DealsInfoSectionState extends State<DealsInfoSection> {
                 ),
                 RichText(
                   text: TextSpan(
-                    style: Theme.of(context)
-                        .textTheme
-                        .subtitle1
-                        ?.copyWith(
-                        color: income >= 0 ? Colors.green : Colors.red
-                    ),
+                    style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                        color: income >= 0 ? Colors.green : Colors.red),
                     children: [
                       TextSpan(text: '$income '),
                       WidgetSpan(
                         alignment: PlaceholderAlignment.middle,
-                        child: income >= 0 ? Icon(
-                          Icons.arrow_upward,
-                          color: Colors.green,
-                          size: 20,
-                        ): Icon(
-                          Icons.arrow_downward,
-                          color: Colors.red,
-                          size: 20,
-                        ),
+                        child: income >= 0
+                            ? Icon(
+                                Icons.arrow_upward,
+                                color: Colors.green,
+                                size: 20,
+                              )
+                            : Icon(
+                                Icons.arrow_downward,
+                                color: Colors.red,
+                                size: 20,
+                              ),
                       ),
                     ],
                   ),

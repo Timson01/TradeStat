@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/screens/deals_detail_screen/deals_detail_screen.dart';
+import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 
 import '../../../models/deal.dart';
 import '../../../styles/style_exports.dart';
@@ -9,13 +10,15 @@ import '../../../styles/style_exports.dart';
 class DealsContainer extends StatefulWidget {
   const DealsContainer({
     Key? key,
-  }) : super(key: key);
+  })
+      : super(key: key);
 
   @override
   State<DealsContainer> createState() => _DealsContainerState();
 }
 
 class _DealsContainerState extends State<DealsContainer> {
+
   void showSnackBar(BuildContext context, Deal deal) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(
@@ -42,11 +45,22 @@ class _DealsContainerState extends State<DealsContainer> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context.read<DealsBloc>().add(const FetchDeals());
+  }
+
+  @override
   Widget build(BuildContext context) {
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
     var output = DateFormat('MM/dd/yyyy');
-    context.read<DealsBloc>().add(const FetchDeals());
+
+    String userSearchInput = InheritedDealsScreen.of(context).userSearchInput;
+    print(userSearchInput);
+
     return BlocBuilder<DealsBloc, DealsState>(
       builder: (context, state) {
         return Container(
@@ -99,7 +113,8 @@ class _DealsContainerState extends State<DealsContainer> {
                               color: Colors.white),
                         ),
                         child: ListTile(
-                            title: Text(state.deals[index].tickerName.toUpperCase(),
+                            title: Text(
+                                state.deals[index].tickerName.toUpperCase(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
@@ -117,22 +132,27 @@ class _DealsContainerState extends State<DealsContainer> {
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
-                                    ?.copyWith(color: state.deals[index].amount >= 0 ? Colors.green : Colors.red),
+                                    ?.copyWith(
+                                        color: state.deals[index].amount >= 0
+                                            ? Colors.green
+                                            : Colors.red),
                                 children: [
                                   TextSpan(
                                     text: state.deals[index].amount.toString(),
                                   ),
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
-                                    child: state.deals[index].amount >= 0 ? Icon(
-                                      Icons.arrow_upward,
-                                      color: Colors.green,
-                                      size: 20,
-                                    ) : Icon(
-                                      Icons.arrow_downward,
-                                      color: Colors.red,
-                                      size: 20,
-                                    ),
+                                    child: state.deals[index].amount >= 0
+                                        ? Icon(
+                                            Icons.arrow_upward,
+                                            color: Colors.green,
+                                            size: 20,
+                                          )
+                                        : Icon(
+                                            Icons.arrow_downward,
+                                            color: Colors.red,
+                                            size: 20,
+                                          ),
                                   ),
                                 ],
                               ),

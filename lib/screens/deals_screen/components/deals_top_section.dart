@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../models/deal.dart';
 import '../../../styles/style_exports.dart';
 
+typedef void StringCallback(String userSearchInput);
+
 class DealsTopSection extends StatefulWidget {
+  final StringCallback callback;
+
   const DealsTopSection({
     Key? key,
+    required this.callback
   }) : super(key: key);
 
   @override
@@ -12,6 +18,7 @@ class DealsTopSection extends StatefulWidget {
 }
 
 class _DealsTopSectionState extends State<DealsTopSection> {
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -53,6 +60,9 @@ class _DealsTopSectionState extends State<DealsTopSection> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25),
                   child: TextField(
+                    onChanged: (value){
+                      widget.callback(value);
+                    },
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 15.0),
