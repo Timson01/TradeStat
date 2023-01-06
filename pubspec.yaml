@@ -81,6 +81,7 @@ flutter:
     - assets/icons/burger_menu.svg
     - assets/icons/more_menu_icon.svg
     - assets/icons/add_deal_icon.svg
+    - assets/icons/add_rule_icon_white.svg
     - assets/icons/rules_icon.svg
     - assets/icons/strategy_icon.svg
     - assets/icons/back_blue_icon.svg

@@ -5,8 +5,7 @@ import 'components/deals_container.dart';
 import 'components/deals_info_section.dart';
 import 'components/deals_top_section.dart';
 
-class InheritedDealsScreen extends InheritedWidget{
-
+class InheritedDealsScreen extends InheritedWidget {
   final ValueNotifier<String> userSearchInput;
   final _DealsScreenState dealsScreenWidgetState;
 
@@ -17,14 +16,15 @@ class InheritedDealsScreen extends InheritedWidget{
     required Widget child,
   }) : super(child: child);
 
-  static _DealsScreenState of(BuildContext context) => context.dependOnInheritedWidgetOfExactType<InheritedDealsScreen>()!.dealsScreenWidgetState;
+  static _DealsScreenState of(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<InheritedDealsScreen>()!
+      .dealsScreenWidgetState;
 
   @override
   bool updateShouldNotify(InheritedDealsScreen oldWidget) {
     return oldWidget.userSearchInput != userSearchInput;
   }
-  
-} 
+}
 
 class DealsScreen extends StatefulWidget {
   const DealsScreen({Key? key}) : super(key: key);
@@ -35,12 +35,10 @@ class DealsScreen extends StatefulWidget {
 }
 
 class _DealsScreenState extends State<DealsScreen> {
-
   ValueNotifier<String> userSearchInput = ValueNotifier<String>('');
 
   @override
   Widget build(BuildContext context) {
-
     double height = MediaQuery.of(context).size.height;
     return InheritedDealsScreen(
       userSearchInput: userSearchInput,
@@ -49,7 +47,8 @@ class _DealsScreenState extends State<DealsScreen> {
           body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-            DealsTopSection(callback: (val) => setState(() => userSearchInput.value = val)),
+            DealsTopSection(
+                callback: (val) => setState(() => userSearchInput.value = val)),
             DealsInfoSection(),
             SizedBox(height: height * 0.03),
             const DealsButtonSection(),
@@ -61,7 +60,3 @@ class _DealsScreenState extends State<DealsScreen> {
     );
   }
 }
-
-
-
-

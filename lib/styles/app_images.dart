@@ -14,6 +14,7 @@ const burgerMenuIcon = 'assets/icons/burger_menu.svg';
 const nextSingleArrowIcon = 'assets/icons/next_single_arrow.svg';
 const moreMenuIcon = 'assets/icons/more_menu_icon.svg';
 const addDealIcon = 'assets/icons/add_deal_icon.svg';
+const addRuleIcon = 'assets/icons/add_rule_icon_white.svg';
 const rulesIcon = 'assets/icons/rules_icon.svg';
 const strategyIcon = 'assets/icons/strategy_icon.svg';
 const backBlueIcon = 'back_blue_icon.svg';

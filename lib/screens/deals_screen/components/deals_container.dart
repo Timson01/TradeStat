@@ -34,6 +34,7 @@ class _DealsContainerState extends State<DealsContainer> {
 
   void showSnackBar(BuildContext context, Deal deal) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      duration: Duration(milliseconds: 1500),
       content: Text(
         '${deal.tickerName} deleted',
         style: Theme.of(context)
