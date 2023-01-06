@@ -16,6 +16,21 @@ class DealsRepository {
     return deals;
   }
 
+  Future<List<Deal>> getDealsWithDate(int startDate, int endDate) async{
+    List<Deal> deals = await _databaseHelper.readDealsWithDate(startDate, endDate);
+    return deals;
+  }
+
+  Future<List<Deal>> getNegativeDeals(int startDate, int endDate) async{
+    List<Deal> deals = await _databaseHelper.readNegativeDeals(startDate, endDate);
+    return deals;
+  }
+
+  Future<List<Deal>> getPositiveDeals(int startDate, int endDate) async{
+    List<Deal> deals = await _databaseHelper.readPositiveDeals(startDate, endDate);
+    return deals;
+  }
+
   Future<int> updateDeal(Deal deal) async{
     int response = await _databaseHelper.update(deal: deal);
     return response;

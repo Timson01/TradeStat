@@ -60,6 +60,9 @@ class _DealsTopSectionState extends State<DealsTopSection> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25),
                   child: TextField(
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        color: colorDarkGrey,
+                        letterSpacing: 1),
                     onChanged: (value){
                       widget.callback(value);
                     },

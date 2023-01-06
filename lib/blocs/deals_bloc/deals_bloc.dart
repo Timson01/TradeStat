@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/image_path.dart';
 import 'package:trade_stat/repository/deals_repository.dart';
@@ -20,10 +21,13 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     on<AddDeal>(_onAddDeal);
     on<UpdateDeal>(_onUpdateDeal);
     on<FetchDeals>(_onFetchDeals);
+    on<FetchDealsWithDate>(_onFetchDealsWithDate);
     on<DeleteDeal>(_onDeleteDeal);
     on<AddHashtag>(_onAddHashtag);
     on<DeleteHashtag>(_onDeleteHashtag);
     on<AddDealImage>(_onAddDealImage);
+    on<FetchPositiveDeals>(_onFetchPositiveDeals);
+    on<FetchNegativeDeals>(_onFetchNegativeDeals);
   }
 
   FutureOr<void> _onAddDeal(AddDeal event, Emitter<DealsState> emit) async {
@@ -45,13 +49,43 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     emit(DealsState(
       currentDeal: state.currentDeal,
         hashtags: List.from(state.hashtags),
+        deals: deals,
+    ));
+  }
+
+  FutureOr<void> _onFetchDealsWithDate(
+      FetchDealsWithDate event, Emitter<DealsState> emit) async {
+    List<Deal> deals = await dealsRepository.getDealsWithDate(event.startDate, event.endDate);
+    emit(DealsState(
+        currentDeal: state.currentDeal,
+        hashtags: List.from(state.hashtags),
+        deals: deals
+    ));
+  }
+
+  FutureOr<void> _onFetchPositiveDeals(
+      FetchPositiveDeals event, Emitter<DealsState> emit) async {
+    List<Deal> deals = await dealsRepository.getPositiveDeals(event.startDate, event.endDate);
+    emit(DealsState(
+        currentDeal: state.currentDeal,
+        hashtags: List.from(state.hashtags),
+        deals: deals
+    ));
+  }
+
+  FutureOr<void> _onFetchNegativeDeals(
+      FetchNegativeDeals event, Emitter<DealsState> emit) async {
+    List<Deal> deals = await dealsRepository.getNegativeDeals(event.startDate, event.endDate);
+    emit(DealsState(
+        currentDeal: state.currentDeal,
+        hashtags: List.from(state.hashtags),
         deals: deals
     ));
   }
 
   FutureOr<void> _onDeleteDeal(DeleteDeal event, Emitter<DealsState> emit) async {
     await dealsRepository.deleteDeal(id: event.id);
-    add(const FetchDeals());
+    add(FetchDeals());
   }
 
 

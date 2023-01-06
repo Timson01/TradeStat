@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
                   description: 'Some description for the deal',
                   dateCreated: DateTime.now().millisecondsSinceEpoch,
                   hashtag: 'Some hashtag for deal',
-                  amount: 35.5,
+                  amount: -55.5,
                   numberOfStocks: 200
                 ))),
         )

@@ -70,10 +70,34 @@ class DatabaseHelper {
     final id = await db.insert(dealTable, deal.toMap());
     return deal.copyWith(id: id);
   }
+  
+  Future<List<Deal>> readDealsWithDate(int startDate, int endDate) async {
+    final db = await instance.database;
+    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
+    List<Deal> list =
+    res.isNotEmpty ? res.map((c) => Deal.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  Future<List<Deal>> readPositiveDeals(int startDate, int endDate) async {
+    final db = await instance.database;
+    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE amount >= 0 AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
+    List<Deal> list =
+    res.isNotEmpty ? res.map((c) => Deal.fromMap(c)).toList() : [];
+    return list;
+  }
+
+  Future<List<Deal>> readNegativeDeals(int startDate, int endDate) async {
+    final db = await instance.database;
+    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE amount < 0 AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
+    List<Deal> list =
+    res.isNotEmpty ? res.map((c) => Deal.fromMap(c)).toList() : [];
+    return list;
+  }
 
   Future<List<Deal>> readAllDeals() async {
     final db = await instance.database;
-    const orderBy = '${dealFields.dateCreated} ASC';
+    const orderBy = '${dealFields.dateCreated} DESC';
     final result = await db.query(dealTable, orderBy: orderBy);
 
     return result.map((e) => Deal.fromMap(e)).toList();

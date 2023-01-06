@@ -10,14 +10,27 @@ import '../../../styles/style_exports.dart';
 class DealsContainer extends StatefulWidget {
   const DealsContainer({
     Key? key,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   State<DealsContainer> createState() => _DealsContainerState();
 }
 
 class _DealsContainerState extends State<DealsContainer> {
+  bool doItJustOnce = false;
+  List<Deal> list = <Deal>[];
+  List<Deal> filteredList = <Deal>[];
+
+
+  void filterList(value) {
+    setState(() {
+      filteredList = list
+          .where((text) => text.tickerName
+              .toLowerCase()
+              .contains(value.toString().toLowerCase()))
+          .toList();
+    });
+  }
 
   void showSnackBar(BuildContext context, Deal deal) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -39,30 +52,30 @@ class _DealsContainerState extends State<DealsContainer> {
   }
 
   undoDelete(deal) {
-    setState(() {
       context.read<DealsBloc>().add(AddDeal(deal: deal));
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<DealsBloc>().add(const FetchDeals());
   }
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    var output = DateFormat('MM/dd/yyyy');
+    var output = DateFormat('yyyy/MM/dd');
 
-    String userSearchInput = InheritedDealsScreen.of(context).userSearchInput;
+    ValueNotifier<String> userSearchInput = InheritedDealsScreen.of(context).userSearchInput;
+    userSearchInput.addListener(() => filterList(userSearchInput.value));
     print(userSearchInput);
 
     return BlocBuilder<DealsBloc, DealsState>(
       builder: (context, state) {
+        if (state.deals.isNotEmpty) {
+          if(!doItJustOnce || list != state.deals) {
+            list = state.deals;
+            filteredList = list;
+            doItJustOnce = !doItJustOnce;
+          }
+        }
+
         return Container(
           decoration: BoxDecoration(
             color: Colors.white,
@@ -86,7 +99,7 @@ class _DealsContainerState extends State<DealsContainer> {
           height: height * 0.48,
           child: state.deals.isNotEmpty
               ? ListView.builder(
-                  itemCount: state.deals.length,
+                  itemCount: filteredList.length,
                   itemBuilder: (_, index) => Container(
                     decoration: const BoxDecoration(
                       border: Border(bottom: BorderSide()),
@@ -98,12 +111,10 @@ class _DealsContainerState extends State<DealsContainer> {
                         key: UniqueKey(),
                         direction: DismissDirection.endToStart,
                         onDismissed: (direction) {
-                          setState(() {
                             context
                                 .read<DealsBloc>()
-                                .add(DeleteDeal(id: state.deals[index].id!));
-                          });
-                          showSnackBar(context, state.deals[index]);
+                                .add(DeleteDeal(id: filteredList[index].id!));
+                          showSnackBar(context, filteredList[index]);
                         },
                         background: Container(
                           alignment: Alignment.centerRight,
@@ -114,7 +125,7 @@ class _DealsContainerState extends State<DealsContainer> {
                         ),
                         child: ListTile(
                             title: Text(
-                                state.deals[index].tickerName.toUpperCase(),
+                                filteredList[index].tickerName.toUpperCase(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
@@ -122,7 +133,7 @@ class _DealsContainerState extends State<DealsContainer> {
                             subtitle: Text(
                                 output.format(
                                     DateTime.fromMillisecondsSinceEpoch(
-                                        state.deals[index].dateCreated)),
+                                        filteredList[index].dateCreated)),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2
@@ -133,16 +144,16 @@ class _DealsContainerState extends State<DealsContainer> {
                                     .textTheme
                                     .subtitle1
                                     ?.copyWith(
-                                        color: state.deals[index].amount >= 0
+                                        color: filteredList[index].amount >= 0
                                             ? Colors.green
                                             : Colors.red),
                                 children: [
                                   TextSpan(
-                                    text: state.deals[index].amount.toString(),
+                                    text: filteredList[index].amount.toString(),
                                   ),
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
-                                    child: state.deals[index].amount >= 0
+                                    child: filteredList[index].amount >= 0
                                         ? Icon(
                                             Icons.arrow_upward,
                                             color: Colors.green,

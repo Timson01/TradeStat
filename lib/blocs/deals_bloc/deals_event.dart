@@ -43,6 +43,39 @@ class FetchDeals extends DealsEvent {
   List<Object> get props => [];
 }
 
+// ------ FetchDealsWithDate event --------
+
+class FetchDealsWithDate extends DealsEvent {
+  final int startDate;
+  final int endDate;
+  const FetchDealsWithDate({required this.startDate, required this.endDate});
+
+  @override
+  List<Object> get props => [startDate, endDate];
+}
+
+// ------ FetchPositiveDeals event --------
+
+class FetchPositiveDeals extends DealsEvent {
+  final int startDate;
+  final int endDate;
+  const FetchPositiveDeals({required this.startDate, required this.endDate});
+
+  @override
+  List<Object> get props => [startDate, endDate];
+}
+
+// ------ FetchNegativeDeals event --------
+
+class FetchNegativeDeals extends DealsEvent {
+  final int startDate;
+  final int endDate;
+  const FetchNegativeDeals({required this.startDate, required this.endDate});
+
+  @override
+  List<Object> get props => [startDate, endDate];
+}
+
 // ------ DeleteDeal event --------
 
 class DeleteDeal extends DealsEvent {

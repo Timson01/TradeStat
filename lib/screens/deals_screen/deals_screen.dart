@@ -7,7 +7,7 @@ import 'components/deals_top_section.dart';
 
 class InheritedDealsScreen extends InheritedWidget{
 
-  final String userSearchInput;
+  final ValueNotifier<String> userSearchInput;
   final _DealsScreenState dealsScreenWidgetState;
 
   const InheritedDealsScreen({
@@ -36,7 +36,7 @@ class DealsScreen extends StatefulWidget {
 
 class _DealsScreenState extends State<DealsScreen> {
 
-  String userSearchInput = '';
+  ValueNotifier<String> userSearchInput = ValueNotifier<String>('');
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +49,8 @@ class _DealsScreenState extends State<DealsScreen> {
           body: SafeArea(
         child: SingleChildScrollView(
           child: Column(children: [
-            DealsTopSection(callback: (val) => setState(() => userSearchInput = val)),
-            const DealsInfoSection(),
+            DealsTopSection(callback: (val) => setState(() => userSearchInput.value = val)),
+            DealsInfoSection(),
             SizedBox(height: height * 0.03),
             const DealsButtonSection(),
             SizedBox(height: height * 0.03),
