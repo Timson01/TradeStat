@@ -35,7 +35,9 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     emit(DealsState(
         currentDeal: deal,
         hashtags: List.from(state.hashtags),
+      deals: state.deals
     ));
+    add(FetchDeals());
   }
 
   FutureOr<void> _onUpdateDeal(

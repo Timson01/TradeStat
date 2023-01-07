@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trade_stat/screens/rules_screen/components/rules_container.dart';
 import 'package:trade_stat/screens/rules_screen/components/rules_top_section.dart';
 
 class InheritedRulesScreen extends InheritedWidget {
@@ -36,6 +37,7 @@ class _RulesScreenState extends State<RulesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     return InheritedRulesScreen(
       rulesScreenWidgetState: this,
       userSearchInput: userSearchInput,
@@ -44,7 +46,9 @@ class _RulesScreenState extends State<RulesScreen> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                RulesTopSection(callback: (val) => setState(() => userSearchInput.value = val))
+                RulesTopSection(callback: (val) => setState(() => userSearchInput.value = val)),
+                SizedBox(height: height * 0.01),
+                const RulesContainer(),
               ],
             )
           ),
