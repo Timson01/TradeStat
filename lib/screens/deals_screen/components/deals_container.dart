@@ -21,7 +21,6 @@ class _DealsContainerState extends State<DealsContainer> {
   List<Deal> list = <Deal>[];
   List<Deal> filteredList = <Deal>[];
 
-
   void filterList(value) {
     setState(() {
       filteredList = list
@@ -53,7 +52,7 @@ class _DealsContainerState extends State<DealsContainer> {
   }
 
   undoDelete(deal) {
-      context.read<DealsBloc>().add(AddDeal(deal: deal));
+    context.read<DealsBloc>().add(AddDeal(deal: deal));
   }
 
   @override
@@ -63,42 +62,39 @@ class _DealsContainerState extends State<DealsContainer> {
 
     var output = DateFormat('yyyy/MM/dd');
 
-    ValueNotifier<String> userSearchInput = InheritedDealsScreen.of(context).userSearchInput;
+    ValueNotifier<String> userSearchInput =
+        InheritedDealsScreen.of(context).userSearchInput;
     userSearchInput.addListener(() => filterList(userSearchInput.value));
     print(userSearchInput);
 
-    return BlocBuilder<DealsBloc, DealsState>(
-      builder: (context, state) {
-        if (state.deals.isNotEmpty) {
-          if(!doItJustOnce || list != state.deals) {
+    return Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+              bottomRight: Radius.circular(10)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.3),
+              spreadRadius: 3,
+              blurRadius: 5,
+              offset: const Offset(0, 3), // changes position of shadow
+            ),
+          ],
+        ),
+        padding: EdgeInsets.symmetric(
+            vertical: height * 0.01, horizontal: width * 0.05),
+        width: width * 0.85,
+        height: height * 0.48,
+        child: BlocBuilder<DealsBloc, DealsState>(builder: (context, state) {
+          if (!doItJustOnce || list != state.deals) {
             list = state.deals;
             filteredList = list;
             doItJustOnce = !doItJustOnce;
           }
-        }
-
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.3),
-                spreadRadius: 3,
-                blurRadius: 5,
-                offset: const Offset(0, 3), // changes position of shadow
-              ),
-            ],
-          ),
-          padding: EdgeInsets.symmetric(
-              vertical: height * 0.01, horizontal: width * 0.05),
-          width: width * 0.85,
-          height: height * 0.48,
-          child: state.deals.isNotEmpty
+          return state.deals.isNotEmpty
               ? ListView.builder(
                   itemCount: filteredList.length,
                   itemBuilder: (_, index) => Container(
@@ -112,9 +108,9 @@ class _DealsContainerState extends State<DealsContainer> {
                         key: UniqueKey(),
                         direction: DismissDirection.endToStart,
                         onDismissed: (direction) {
-                            context
-                                .read<DealsBloc>()
-                                .add(DeleteDeal(id: filteredList[index].id!));
+                          context
+                              .read<DealsBloc>()
+                              .add(DeleteDeal(id: filteredList[index].id!));
                           showSnackBar(context, filteredList[index]);
                         },
                         background: Container(
@@ -173,9 +169,7 @@ class _DealsContainerState extends State<DealsContainer> {
                     ),
                   ),
                 )
-              : Center(child: const Text('No data')),
-        );
-      },
-    );
+              : Center(child: const Text('No data'));
+        }));
   }
 }
