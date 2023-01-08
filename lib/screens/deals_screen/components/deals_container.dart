@@ -20,6 +20,7 @@ class _DealsContainerState extends State<DealsContainer> {
   bool doItJustOnce = false;
   List<Deal> list = <Deal>[];
   List<Deal> filteredList = <Deal>[];
+  var output = DateFormat('yyyy/MM/dd');
 
   void filterList(value) {
     setState(() {
@@ -33,7 +34,7 @@ class _DealsContainerState extends State<DealsContainer> {
 
   void showSnackBar(BuildContext context, Deal deal) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      duration: Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 1500),
       content: Text(
         '${deal.tickerName} deleted',
         style: Theme.of(context)
@@ -60,12 +61,9 @@ class _DealsContainerState extends State<DealsContainer> {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    var output = DateFormat('yyyy/MM/dd');
-
     ValueNotifier<String> userSearchInput =
         InheritedDealsScreen.of(context).userSearchInput;
     userSearchInput.addListener(() => filterList(userSearchInput.value));
-    print(userSearchInput);
 
     return Container(
         decoration: BoxDecoration(
@@ -102,8 +100,9 @@ class _DealsContainerState extends State<DealsContainer> {
                       border: Border(bottom: BorderSide()),
                     ),
                     child: InkWell(
-                      onTap: () =>
-                          Navigator.of(context).pushNamed(DealsDetailScreen.id),
+                      onTap: () {
+                        Navigator.of(context).pushNamed(DealsDetailScreen.id, arguments: filteredList[index]);
+                      },
                       child: Dismissible(
                         key: UniqueKey(),
                         direction: DismissDirection.endToStart,
@@ -115,9 +114,9 @@ class _DealsContainerState extends State<DealsContainer> {
                         },
                         background: Container(
                           alignment: Alignment.centerRight,
-                          padding: EdgeInsets.only(right: 20),
+                          padding: const EdgeInsets.only(right: 20),
                           color: Colors.red,
-                          child: Icon(Icons.delete_forever_rounded,
+                          child: const Icon(Icons.delete_forever_rounded,
                               color: Colors.white),
                         ),
                         child: ListTile(
@@ -151,12 +150,12 @@ class _DealsContainerState extends State<DealsContainer> {
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
                                     child: filteredList[index].amount >= 0
-                                        ? Icon(
+                                        ? const Icon(
                                             Icons.arrow_upward,
                                             color: Colors.green,
                                             size: 20,
                                           )
-                                        : Icon(
+                                        : const Icon(
                                             Icons.arrow_downward,
                                             color: Colors.red,
                                             size: 20,
@@ -169,7 +168,7 @@ class _DealsContainerState extends State<DealsContainer> {
                     ),
                   ),
                 )
-              : Center(child: const Text('No data'));
+              : const Center(child: Text('No data'));
         }));
   }
 }

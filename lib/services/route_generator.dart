@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:trade_stat/screens/add_edit_deal_screen/add_edit_deal_screen.dart';
+import 'package:trade_stat/screens/add_edit_deal_screen/add_deal_screen.dart';
 import 'package:trade_stat/screens/deals_detail_screen/deals_detail_screen.dart';
 import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
@@ -7,6 +7,7 @@ import 'package:trade_stat/screens/log_in_screen/log_in_screen.dart';
 import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 import 'package:trade_stat/screens/rules_screen/rules_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
+import '../models/deal.dart';
 import 'custom_page_route.dart';
 
 class RouteGenerator {
@@ -25,7 +26,7 @@ class RouteGenerator {
       case AddEditDealScreen.id:
         return CustomPageRoute(child: AddEditDealScreen());
       case DealsDetailScreen.id:
-        return CustomPageRoute(child: DealsDetailScreen());
+        return CustomPageRoute(child: DealsDetailScreen(currentDeal: routeSettings.arguments as Deal));
       case RulesScreen.id:
         return CustomPageRoute(child: RulesScreen());
       default:

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../models/deal.dart';
+import '../deals_detail_screen.dart';
+
 class DealsDetailInfoSection extends StatelessWidget {
   const DealsDetailInfoSection({
     Key? key,
@@ -9,6 +12,7 @@ class DealsDetailInfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    Deal currentDeal = InheritedDealsDetailScreen.of(context).currentDeal;
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -46,9 +50,7 @@ class DealsDetailInfoSection extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.01),
                 Text(
-                  'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna.'
-                      ' Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. '
-                      'Maecenas vitae mattis tellus..',
+                  currentDeal.description,
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: Colors.black,
                       letterSpacing: 0
@@ -71,7 +73,7 @@ class DealsDetailInfoSection extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.01),
                 Text(
-                  'Lorem ipsum dolor sit',
+                  '# ${currentDeal.hashtag}',
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: Colors.black,
                       letterSpacing: 0
@@ -94,7 +96,7 @@ class DealsDetailInfoSection extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.01),
                 Text(
-                  '300',
+                  currentDeal.numberOfStocks.toString(),
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: Colors.black,
                       letterSpacing: 0

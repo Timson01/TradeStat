@@ -591,7 +591,8 @@ class _EditSectionState extends State<EditSection> {
                                           context.read<DealsBloc>().add(
                                               AddDealImage(
                                                   imagePath: DealImage(
-                                                      imagePath: element)));
+                                                      imagePath: element,
+                                                  )));
                                           Navigator.of(context)
                                               .pushReplacementNamed(
                                                   DealsScreen.id);

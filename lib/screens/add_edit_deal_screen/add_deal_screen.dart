@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../styles/style_exports.dart';
-import '../deals_screen/deals_screen.dart';
 import 'components/add_edit_top_section.dart';
 import 'components/edit_section.dart';
 

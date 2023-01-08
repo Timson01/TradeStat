@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/image_path.dart';
 import 'package:trade_stat/repository/deals_repository.dart';
@@ -15,8 +14,11 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
   final DealsRepository dealsRepository;
 
   DealsBloc({required this.dealsRepository}) : super(DealsState(
-      currentDeal: Deal(tickerName: 'UTC', dateCreated: DateTime.now().millisecondsSinceEpoch),
-      hashtags: <String>['Add a new hashtag']
+      currentDeal: Deal(
+          tickerName: 'UTC',
+          dateCreated: DateTime.now().millisecondsSinceEpoch
+      ),
+      hashtags: <String>['Add a new hashtag'],
   )) {
     on<AddDeal>(_onAddDeal);
     on<UpdateDeal>(_onUpdateDeal);
@@ -35,7 +37,7 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     emit(DealsState(
         currentDeal: deal,
         hashtags: List.from(state.hashtags),
-      deals: state.deals
+      deals: state.deals,
     ));
     add(FetchDeals());
   }
@@ -95,10 +97,16 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     final state = this.state;
     List<String> hashtags  = List.from(state.hashtags);
     if(hashtags.contains(event.hashtag)){
-      emit(DealsState(currentDeal: state.currentDeal, hashtags: List.from(state.hashtags)));
+      emit(DealsState(
+          currentDeal: state.currentDeal,
+          hashtags: List.from(state.hashtags)
+      ));
     }else{
       hashtags.add(event.hashtag);
-      emit(DealsState(currentDeal: state.currentDeal, hashtags: hashtags));
+      emit(DealsState(
+          currentDeal: state.currentDeal,
+          hashtags: hashtags
+      ));
     }
   }
 
@@ -106,12 +114,15 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     final state = this.state;
     List<String> hashtags = List.from(state.hashtags);
     hashtags.remove(event.hashtag);
-    emit(DealsState(currentDeal: state.currentDeal, hashtags: hashtags));
+    emit(DealsState(
+        currentDeal: state.currentDeal,
+        hashtags: hashtags
+    ));
   }
 
   FutureOr<void> _onAddDealImage(AddDealImage event, Emitter<DealsState> emit) async {
-    await dealsRepository.addDealImage(event.imagePath.copyWith(deal_id: state.currentDeal.id));
-    print(state.currentDeal.id);
+    DealImage imagePath = await dealsRepository.addDealImage(event.imagePath.copyWith(deal_id: state.currentDeal.id));
+    print('addImagePath $imagePath');
   }
 
   @override

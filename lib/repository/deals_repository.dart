@@ -46,4 +46,9 @@ class DealsRepository {
     return response;
   }
 
+  Future<List<DealImage>> getImagePath(int dealId) async{
+    List<DealImage> response = await _databaseHelper.getImagePaths(dealId);
+    return response;
+  }
+
 }

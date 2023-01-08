@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:trade_stat/screens/deals_detail_screen/deals_detail_screen.dart';
 
+import '../../../models/deal.dart';
 import '../../../styles/style_exports.dart';
 
 class DealDetailCard extends StatelessWidget {
@@ -9,8 +12,11 @@ class DealDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Deal currentDeal = InheritedDealsDetailScreen.of(context).currentDeal;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+    var output = DateFormat('yyyy.MM.dd');
+
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -25,7 +31,7 @@ class DealDetailCard extends StatelessWidget {
             color: Colors.grey.withOpacity(0.3),
             spreadRadius: 3,
             blurRadius: 5,
-            offset: Offset(0, 3), // changes position of shadow
+            offset: const Offset(0, 3), // changes position of shadow
           ),
         ],
       ),
@@ -34,23 +40,41 @@ class DealDetailCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'UTC',
+            currentDeal.tickerName.toUpperCase(),
             style: Theme.of(context)
                 .textTheme
                 .subtitle1
                 ?.copyWith(color: colorBlue, fontSize: 26),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               RichText(
-                text: TextSpan(
+                text: currentDeal.amount >= 0 ? TextSpan(
+                  style: Theme.of(context)
+                      .textTheme
+                      .headline6
+                      ?.copyWith(color: Colors.green),
+                  children: [
+                    TextSpan(text: '${currentDeal.amount} '),
+                    const WidgetSpan(
+                      alignment: PlaceholderAlignment.middle,
+                      child: Icon(
+                        Icons.arrow_upward,
+                        color: Colors.green,
+                        size: 20,
+                      ),
+                    ),
+                  ],
+                ): TextSpan(
                   style: Theme.of(context)
                       .textTheme
                       .headline6
                       ?.copyWith(color: Colors.red),
-                  children: const [
-                    TextSpan(text: '30.75 '),
-                    WidgetSpan(
+                  children: [
+                    TextSpan(text: '${currentDeal.amount} '),
+                    const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(
                         Icons.arrow_downward,
@@ -63,7 +87,7 @@ class DealDetailCard extends StatelessWidget {
               ),
               const SizedBox(height: 5),
               Text(
-                '15.03.22',
+                output.format(DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated)),
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2

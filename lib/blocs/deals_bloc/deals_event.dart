@@ -1,5 +1,6 @@
 part of 'deals_bloc.dart';
 
+
 abstract class DealsEvent extends Equatable {
 
   const DealsEvent();
