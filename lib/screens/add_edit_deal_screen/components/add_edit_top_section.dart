@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
-
 import '../../deals_screen/deals_screen.dart';
+import '../add_deal_screen.dart';
 
-class AddEditTopSection extends StatelessWidget {
+class AddEditTopSection extends StatefulWidget {
+  final String id;
   const AddEditTopSection({
     Key? key,
+    required this.id
   }) : super(key: key);
 
+  @override
+  State<AddEditTopSection> createState() => _AddEditTopSectionState();
+}
+
+class _AddEditTopSectionState extends State<AddEditTopSection> {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -22,7 +29,7 @@ class AddEditTopSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              'Create new deal',
+              widget.id == AddDealScreen.id ? 'Create new deal' : 'Edit deal',
               style: Theme.of(context)
                   .textTheme
                   .headline5

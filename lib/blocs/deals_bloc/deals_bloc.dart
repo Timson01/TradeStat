@@ -14,10 +14,6 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
   final DealsRepository dealsRepository;
 
   DealsBloc({required this.dealsRepository}) : super(DealsState(
-      currentDeal: Deal(
-          tickerName: 'UTC',
-          dateCreated: DateTime.now().millisecondsSinceEpoch
-      ),
       hashtags: <String>['Add a new hashtag'],
   )) {
     on<AddDeal>(_onAddDeal);
@@ -28,6 +24,7 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     on<AddHashtag>(_onAddHashtag);
     on<DeleteHashtag>(_onDeleteHashtag);
     on<AddDealImage>(_onAddDealImage);
+    on<DeleteDealImage>(_onDeleteDealImage);
     on<FetchPositiveDeals>(_onFetchPositiveDeals);
     on<FetchNegativeDeals>(_onFetchNegativeDeals);
   }
@@ -35,7 +32,6 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
   FutureOr<void> _onAddDeal(AddDeal event, Emitter<DealsState> emit) async {
     var deal = await dealsRepository.addDeal(event.deal);
     emit(DealsState(
-        currentDeal: deal,
         hashtags: List.from(state.hashtags),
       deals: state.deals,
     ));
@@ -44,14 +40,13 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
 
   FutureOr<void> _onUpdateDeal(
       UpdateDeal event, Emitter<DealsState> emit) async {
-    await dealsRepository.updateDeal(event.deal);
+    int res = await dealsRepository.updateDeal(event.deal);
   }
 
   FutureOr<void> _onFetchDeals(
       FetchDeals event, Emitter<DealsState> emit) async {
     List<Deal> deals = await dealsRepository.getDeals();
     emit(DealsState(
-      currentDeal: state.currentDeal,
         hashtags: List.from(state.hashtags),
         deals: deals,
     ));
@@ -61,7 +56,6 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
       FetchDealsWithDate event, Emitter<DealsState> emit) async {
     List<Deal> deals = await dealsRepository.getDealsWithDate(event.startDate, event.endDate);
     emit(DealsState(
-        currentDeal: state.currentDeal,
         hashtags: List.from(state.hashtags),
         deals: deals
     ));
@@ -71,7 +65,6 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
       FetchPositiveDeals event, Emitter<DealsState> emit) async {
     List<Deal> deals = await dealsRepository.getPositiveDeals(event.startDate, event.endDate);
     emit(DealsState(
-        currentDeal: state.currentDeal,
         hashtags: List.from(state.hashtags),
         deals: deals
     ));
@@ -81,7 +74,6 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
       FetchNegativeDeals event, Emitter<DealsState> emit) async {
     List<Deal> deals = await dealsRepository.getNegativeDeals(event.startDate, event.endDate);
     emit(DealsState(
-        currentDeal: state.currentDeal,
         hashtags: List.from(state.hashtags),
         deals: deals
     ));
@@ -98,13 +90,11 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     List<String> hashtags  = List.from(state.hashtags);
     if(hashtags.contains(event.hashtag)){
       emit(DealsState(
-          currentDeal: state.currentDeal,
           hashtags: List.from(state.hashtags)
       ));
     }else{
       hashtags.add(event.hashtag);
       emit(DealsState(
-          currentDeal: state.currentDeal,
           hashtags: hashtags
       ));
     }
@@ -115,14 +105,17 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     List<String> hashtags = List.from(state.hashtags);
     hashtags.remove(event.hashtag);
     emit(DealsState(
-        currentDeal: state.currentDeal,
         hashtags: hashtags
     ));
   }
 
   FutureOr<void> _onAddDealImage(AddDealImage event, Emitter<DealsState> emit) async {
-    DealImage imagePath = await dealsRepository.addDealImage(event.imagePath.copyWith(deal_id: state.currentDeal.id));
+    DealImage imagePath = await dealsRepository.addDealImage(event.imagePath);
     print('addImagePath $imagePath');
+  }
+
+  FutureOr<void> _onDeleteDealImage(DeleteDealImage event, Emitter<DealsState> emit) async {
+    await dealsRepository.deleteDealImage(id: event.id);
   }
 
   @override

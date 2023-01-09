@@ -46,6 +46,11 @@ class DealsRepository {
     return response;
   }
 
+  Future<int> deleteDealImage({required int id}) async{
+    int response = await _databaseHelper.deleteImage(id: id);
+    return response;
+  }
+
   Future<List<DealImage>> getImagePath(int dealId) async{
     List<DealImage> response = await _databaseHelper.getImagePaths(dealId);
     return response;

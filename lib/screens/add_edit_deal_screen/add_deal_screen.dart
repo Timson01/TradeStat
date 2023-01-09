@@ -5,16 +5,16 @@ import '../../styles/style_exports.dart';
 import 'components/add_edit_top_section.dart';
 import 'components/edit_section.dart';
 
-class AddEditDealScreen extends StatefulWidget {
-  const AddEditDealScreen({Key? key}) : super(key: key);
-  static const id = 'add_edit_deal_screen';
+class AddDealScreen extends StatefulWidget {
+  const AddDealScreen({Key? key}) : super(key: key);
+  static const id = 'add_deal_screen';
 
   @override
-  State<AddEditDealScreen> createState() => _AddEditDealScreenState();
+  State<AddDealScreen> createState() => _AddDealScreenState();
 
 }
 
-class _AddEditDealScreenState extends State<AddEditDealScreen> {
+class _AddDealScreenState extends State<AddDealScreen> {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -35,7 +35,7 @@ class _AddEditDealScreenState extends State<AddEditDealScreen> {
               backgroundColor: Colors.transparent,
               body: ListView(
                 children: [
-                  AddEditTopSection(),
+                  const AddEditTopSection(id: AddDealScreen.id),
                   SizedBox(height: height * 0.05),
                   Container(
                     width: width * 0.85,
@@ -43,7 +43,7 @@ class _AddEditDealScreenState extends State<AddEditDealScreen> {
                       borderRadius: BorderRadius.circular(10.0),
                       color: Colors.white
                     ),
-                    child: EditSection(),
+                    child: const EditSection(id: AddDealScreen.id),
                     ),
                 ],
               ),

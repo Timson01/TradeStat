@@ -22,6 +22,7 @@ class DealDetailImageSection extends StatefulWidget {
 }
 
 class _DealDetailImageSectionState extends State<DealDetailImageSection> {
+  bool doItOnce = false;
   final DealsRepository dealsRepository = DealsRepository();
   List<DealImage> imagePaths = <DealImage>[];
   FutureOr<void> _onFetchImagePaths(int dealId) async {
@@ -34,7 +35,10 @@ class _DealDetailImageSectionState extends State<DealDetailImageSection> {
   @override
   Widget build(BuildContext context) {
     Deal currentDeal = InheritedDealsDetailScreen.of(context).currentDeal;
-    _onFetchImagePaths(currentDeal.id!);
+    if(!doItOnce){
+      _onFetchImagePaths(currentDeal.id!);
+      doItOnce = !doItOnce;
+    }
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -62,9 +66,37 @@ class _DealDetailImageSectionState extends State<DealDetailImageSection> {
               itemBuilder: (BuildContext context, int itemIndex,
                   int pageViewIndex) => ClipRRect(
                             borderRadius: BorderRadius.circular(5),
-                            child: Image.file(
-                                File(imagePaths[itemIndex].imagePath!),
-                                fit: BoxFit.cover)),
+                            child: GestureDetector(
+                              child: Image.file(
+                                  File(imagePaths[itemIndex].imagePath!),
+                                  fit: BoxFit.cover),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        fullscreenDialog: true,
+                                        builder: (BuildContext context) {
+                                          return Scaffold(
+                                            body: GestureDetector(
+                                              child: Container(
+                                                height: MediaQuery.of(context).size.height,
+                                                width: MediaQuery.of(context).size.width,
+                                                child: Hero(
+                                                  tag: 'imageHero',
+                                                  child: Image.file(
+                                                      File(imagePaths[itemIndex].imagePath!),
+                                                      fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              },
+                                            ),
+                                          );
+                                        }));
+                              },
+                            )
+                            ),
               options: CarouselOptions(
                 viewportFraction: 1,
                 enableInfiniteScroll: false,

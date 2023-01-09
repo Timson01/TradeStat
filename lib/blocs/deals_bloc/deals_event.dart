@@ -128,3 +128,14 @@ class AddDealImage extends DealsEvent {
   List<Object> get props => [ imagePath ];
 }
 
+// ------ DeleteDealImage event --------
+
+class DeleteDealImage extends DealsEvent {
+  final int id;
+
+  const DeleteDealImage({required this.id});
+
+  @override
+  List<Object> get props => [id];
+}
+

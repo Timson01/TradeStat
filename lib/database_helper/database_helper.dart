@@ -130,10 +130,19 @@ class DatabaseHelper {
     return imagePath.copyWith(id: id);
   }
 
-  Future<List<DealImage>> getImagePaths(int dealId) async {
-    int foreignKey = dealId - 1;
+  Future<int> deleteImage({required int id}) async {
     final db = await instance.database;
-    final res = await db.rawQuery('''SELECT * FROM $dealImagesTable WHERE deal_id = $foreignKey''');
+
+    return await db.delete(
+      dealImagesTable,
+      where: '${dealFields.id} = ?',
+      whereArgs: [id],
+    );
+  }
+
+  Future<List<DealImage>> getImagePaths(int dealId) async {
+    final db = await instance.database;
+    final res = await db.rawQuery('''SELECT * FROM $dealImagesTable WHERE deal_id = $dealId''');
     List<DealImage> imagePaths = res.isNotEmpty ? res.map((c) => DealImage.fromMap(c)).toList() : [];
     return imagePaths;
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trade_stat/screens/add_edit_deal_screen/edit_deal_screen.dart';
 import 'package:trade_stat/styles/app_colors.dart';
 
 import '../../models/deal.dart';
@@ -93,6 +94,9 @@ class _DealsDetailScreenState extends State<DealsDetailScreen> {
                             onTap: () => Navigator.pop(context),
                           ),
                           GestureDetector(
+                              onTap: () => Navigator.of(context).pushNamed(
+                                  EditDealScreen.id,
+                                  arguments: currentDeal),
                               child: const Icon(Icons.edit_note_rounded,
                                   color: colorBlue, size: 28)),
                         ],
