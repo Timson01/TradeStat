@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/add_deal_screen.dart';
 import 'package:trade_stat/screens/rules_screen/rules_screen.dart';
+import 'package:trade_stat/screens/strategy_screen/strategy_screen.dart';
 
 import '../../../styles/style_exports.dart';
 
@@ -56,7 +57,13 @@ class _DealsButtonSectionState extends State<DealsButtonSection> {
               Navigator.of(context).pushReplacementNamed(AddDealScreen.id);
             },
           ),
-          SvgPicture.asset(strategyIcon, width: 20, fit: BoxFit.cover),
+          InkWell(
+            child: SvgPicture.asset(strategyIcon, width: 20, fit: BoxFit.cover),
+            onTap: () {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              Navigator.of(context).pushReplacementNamed(StrategyScreen.id);
+            },
+          ),
         ],
       ),
     );

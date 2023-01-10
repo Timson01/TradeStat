@@ -696,7 +696,7 @@ class _EditSectionState extends State<EditSection> {
                                   });
                                   return null;
                                 },
-                          child: Text('Create',
+                          child: Text(widget.id == AddDealScreen.id ? 'Create': 'Edit',
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle1
