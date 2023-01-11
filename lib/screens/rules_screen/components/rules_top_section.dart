@@ -35,11 +35,12 @@ class _RulesTopSectionState extends State<RulesTopSection> {
                       constraints: BoxConstraints(),
                       onPressed: () => Navigator.of(context).pop(),
                       icon: const Icon(Icons.arrow_back_ios_new_rounded,
-                          size: 18, color: Colors.white)),
+                          size: 22, color: Colors.white)),
                   Text(
                     "My Rules",
                     style: Theme.of(context).textTheme.headline5?.copyWith(
                           color: Colors.white,
+                      fontSize: 24
                         ),
                   ),
                   IconButton(
@@ -47,7 +48,7 @@ class _RulesTopSectionState extends State<RulesTopSection> {
                       constraints: BoxConstraints(),
                       onPressed: () {},
                       icon: const Icon(Icons.add,
-                          size: 23, color: Colors.white)),
+                          size: 27, color: Colors.white)),
                 ],
               ),
               SizedBox(height: height * 0.04),

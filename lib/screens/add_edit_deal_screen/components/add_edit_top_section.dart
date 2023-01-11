@@ -21,7 +21,7 @@ class _AddEditTopSectionState extends State<AddEditTopSection> {
       children: [
         InkWell(
           child: const Icon(Icons.arrow_back_ios_new_rounded,
-              size: 25, color: Colors.white),
+              size: 22, color: Colors.white),
           onTap: () =>
               Navigator.of(context).pushReplacementNamed(DealsScreen.id),
         ),

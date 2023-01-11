@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/deal.dart';
 import 'package:trade_stat/models/image_path.dart';
@@ -29,7 +30,8 @@ class EditSection extends StatefulWidget {
 
 class _EditSectionState extends State<EditSection> {
   List<String> _imagePaths = [];
-  var currentSelectedValueHashtag;
+  List<String> hashtags = [];
+  var currentSelectedValueHashtag = 'Add a new hashtag';
   late Deal currentDeal;
   final _tickerNameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -41,6 +43,23 @@ class _EditSectionState extends State<EditSection> {
   bool doItOnce = false;
   final DealsRepository dealsRepository = DealsRepository();
   List<DealImage> imagePaths = <DealImage>[];
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+
+  Future setHashtag(List<String> hashtags) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setStringList("Hashtags", hashtags);
+    hashtags = prefs.getStringList("Hashtags") ?? <String>['Add a new hashtag'];
+  }
+
+  Future<List<String>> getHashtags() async {
+    final SharedPreferences prefs = await _prefs;
+    hashtags = prefs.getStringList("Hashtags") as List<String>;
+    hashtags.forEach((element) {
+      context.read<DealsBloc>().add(AddHashtag(hashtag: element));
+    });
+    return hashtags;
+  }
 
   FutureOr<void> _onFetchImagePaths(int dealId) async {
     List<DealImage> imagePath = await dealsRepository.getImagePath(dealId);
@@ -112,7 +131,7 @@ class _EditSectionState extends State<EditSection> {
     }
   }
 
-  void _showHashtagDialog() {
+  FutureOr<void> _showHashtagDialog() async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -153,9 +172,11 @@ class _EditSectionState extends State<EditSection> {
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
                     fontSize: 15, color: colorBlue, letterSpacing: 1),
               ),
-              onPressed: () {
+              onPressed: () async {
                 if (_hashtagController.value.text.isNotEmpty) {
                   var hashtag = _hashtagController.value.text;
+                  hashtags.add(hashtag);
+                  setHashtag(hashtags);
                   context.read<DealsBloc>().add(AddHashtag(hashtag: hashtag));
                   Navigator.of(context).pop();
                 }
@@ -226,11 +247,13 @@ class _EditSectionState extends State<EditSection> {
       currentDeal = InheritedEditDealScreen.of(context).currentDeal;
       if (!doItOnce) {
         _onFetchImagePaths(currentDeal.id!);
+        getHashtags();
         _tickerNameController.text = currentDeal.tickerName;
         _descriptionController.text = currentDeal.description;
         _numberOfStocksController.text = currentDeal.numberOfStocks.toString();
         _amountController.text = currentDeal.amount.toString();
         _date = DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated);
+        currentSelectedValueHashtag = currentDeal.hashtag.isNotEmpty ? currentDeal.hashtag :"Add a new hashtag";
         doItOnce = !doItOnce;
       }
     }
@@ -483,6 +506,8 @@ class _EditSectionState extends State<EditSection> {
                                                     constraints:
                                                         BoxConstraints(),
                                                     onPressed: () {
+                                                      hashtags.remove(value);
+                                                      setHashtag(hashtags);
                                                       context.read<DealsBloc>()
                                                         ..add(DeleteHashtag(
                                                             hashtag: value));

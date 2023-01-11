@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
                   tickerName: 'UTC',
                   description: 'Some description for the deal',
                   dateCreated: DateTime.now().millisecondsSinceEpoch,
-                  hashtag: 'Some hashtag for deal',
+                  hashtag: 'Add a new hashtag',
                   amount: -55.5,
                   numberOfStocks: 200
                 ))),

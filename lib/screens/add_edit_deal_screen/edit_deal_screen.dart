@@ -50,7 +50,7 @@ class _EditDealScreenState extends State<EditDealScreen> {
       children: <Widget>[
         SvgPicture.asset(addEditDealBackground, fit: BoxFit.cover),
         Positioned(
-          top: height * 0.1,
+          top: height * 0.05,
           left: width * 0.075,
           right: width * 0.075,
           bottom: height * 0.05,
