@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:trade_stat/models/rule.dart';
 
 import '../models/deal.dart';
 import '../models/image_path.dart';
@@ -44,6 +45,14 @@ class DatabaseHelper {
     imagePath TEXT NOT NULL,
     deal_id INTEGER,
     FOREIGN KEY (deal_id) REFERENCES deal_table (id)
+    )
+    ''');
+    batch.execute('''
+    CREATE TABLE rule_table (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    ruleName TEXT NOT NULL,
+    description TEXT NOT NULL,
+    ruleColor TEXT NOT NULL,
     )
     ''');
     List<dynamic> res = await batch.commit();
@@ -124,6 +133,8 @@ class DatabaseHelper {
     );
   }
 
+  // ------- DEAL IMAGE SECTION ----------
+
   Future<DealImage> addImage(DealImage imagePath) async {
     final db = await instance.database;
     final id = await db.insert(dealImagesTable, imagePath.toMap());
@@ -151,6 +162,43 @@ class DatabaseHelper {
     final db = await instance.database;
 
     db.close();
+  }
+
+  // ------- RULE SECTION ----------
+
+  Future<Rule> createRule(Rule rule) async {
+    final db = await instance.database;
+    final id = await db.insert(ruleTable, rule.toMap());
+    return rule.copyWith(id: id);
+  }
+
+  Future<List<Rule>> readAllRules() async {
+    final db = await instance.database;
+    const orderBy = '${RuleFields.id} DESC';
+    final result = await db.query(ruleTable, orderBy: orderBy);
+
+    return result.map((e) => Rule.fromMap(e)).toList();
+  }
+
+  Future<int> updateRule({required Rule rule}) async {
+    final db = await instance.database;
+
+    return db.update(
+      ruleTable,
+      rule.toMap(),
+      where: '${RuleFields.id} = ?',
+      whereArgs: [rule.id],
+    );
+  }
+
+  Future<int> deleteRule({required int id}) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      ruleTable,
+      where: '${RuleFields.id} = ?',
+      whereArgs: [id],
+    );
   }
 
 }
