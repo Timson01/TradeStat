@@ -19,13 +19,13 @@ class Rule extends Equatable {
   final int? id;
   final String ruleName;
   String description;
-  String ruleColor;
+  int ruleColor;
 
   Rule({
     this.id,
     required this.ruleName,
     this.description = 'You didn\'t put anything here',
-    this.ruleColor = '0xFF407BFF',
+    this.ruleColor = 1,
   });
 
 
@@ -39,7 +39,7 @@ class Rule extends Equatable {
     int? id,
     String? ruleName,
     String? description,
-    String? ruleColor,
+    int? ruleColor,
   }) {
     return Rule(
       id: id ?? this.id,
@@ -63,7 +63,7 @@ class Rule extends Equatable {
       id: map['id'] as int,
       ruleName: map['ruleName'] as String,
       description: map['description'] as String,
-      ruleColor: map['ruleColor'] as String,
+      ruleColor: map['ruleColor'] as int,
     );
   }
 
@@ -71,7 +71,7 @@ class Rule extends Equatable {
     id: json['id'] as int,
     ruleName: json['ruleName'] as String,
     description: json['description'] as String,
-    ruleColor: json['ruleColor'] as String,
+    ruleColor: json['ruleColor'] as int,
   );
 
   Map<String, Object?> toJson() => {

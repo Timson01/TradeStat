@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/screens/rules_screen/components/rules_container.dart';
 import 'package:trade_stat/screens/rules_screen/components/rules_top_section.dart';
 
@@ -47,7 +48,7 @@ class _RulesScreenState extends State<RulesScreen> {
             child: Column(
               children: [
                 RulesTopSection(callback: (val) => setState(() => userSearchInput.value = val)),
-                SizedBox(height: height * 0.01),
+                SizedBox(height: height * 0.005),
                 const RulesContainer(),
               ],
             )

@@ -52,7 +52,7 @@ class DatabaseHelper {
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ruleName TEXT NOT NULL,
     description TEXT NOT NULL,
-    ruleColor TEXT NOT NULL,
+    ruleColor INTEGER NOT NULL
     )
     ''');
     List<dynamic> res = await batch.commit();

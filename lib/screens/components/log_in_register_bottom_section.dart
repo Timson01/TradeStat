@@ -60,7 +60,7 @@ class LogInRegisterBottomSection extends StatelessWidget {
                 id == LogInScreen.id ?
                 'Sign Up' : 'Log In',
                 style: TextStyle(
-                  color: colorBlue,
+                  color: colorMidnightBlue,
                   fontFamily: 'Lato',
                   fontWeight: FontWeight.w400,
                   fontSize: 14,

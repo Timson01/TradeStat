@@ -18,7 +18,7 @@ class DescriptionScreen extends StatelessWidget {
         children: [
           SizedBox(height: height * 0.05),
           SvgPicture.asset(descImage, width: width, fit: BoxFit.scaleDown),
-          SizedBox(height: height * 0.05),
+          SizedBox(height: height * 0.08),
           Text(
             'TradeStat',
             style: Theme.of(context).textTheme.headline4,

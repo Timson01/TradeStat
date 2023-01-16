@@ -2,7 +2,7 @@ import 'package:trade_stat/database_helper/database_helper.dart';
 
 import '../models/rule.dart';
 
-class DealsRepository {
+class RulesRepository {
   final DatabaseHelper _databaseHelper = DatabaseHelper.instance;
 
   Future<Rule> addRule(Rule rule) async {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:trade_stat/models/rule.dart';
 
 import '../../../styles/style_exports.dart';
+import 'add_edit_dialog.dart';
 
 typedef void StringCallback(String userSearchInput);
 
@@ -38,17 +40,25 @@ class _RulesTopSectionState extends State<RulesTopSection> {
                           size: 22, color: Colors.white)),
                   Text(
                     "My Rules",
-                    style: Theme.of(context).textTheme.headline5?.copyWith(
-                          color: Colors.white,
-                      fontSize: 24
-                        ),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headline5
+                        ?.copyWith(color: Colors.white, fontSize: 24),
                   ),
                   IconButton(
                       padding: EdgeInsets.zero,
                       constraints: BoxConstraints(),
-                      onPressed: () {},
-                      icon: const Icon(Icons.add,
-                          size: 27, color: Colors.white)),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AddEditDialog(
+                                rule: Rule(ruleName: '', description: '_'));
+                          },
+                        );
+                      },
+                      icon:
+                          const Icon(Icons.add, size: 27, color: Colors.white)),
                 ],
               ),
               SizedBox(height: height * 0.04),

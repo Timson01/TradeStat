@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/repository/deals_repository.dart';
+import 'package:trade_stat/repository/rules_repository.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
 import 'package:trade_stat/services/app_theme.dart';
 import 'package:trade_stat/services/route_generator.dart';
 
 import 'models/deal.dart';
+import 'models/rule.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,15 +29,16 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
             create: (context) =>
-                DealsBloc(dealsRepository: DealsRepository())..add(AddDeal(deal: Deal(
-                  tickerName: 'UTC',
-                  description: 'Some description for the deal',
-                  dateCreated: DateTime.now().millisecondsSinceEpoch,
-                  hashtag: 'Add a new hashtag',
-                  amount: -55.5,
-                  numberOfStocks: 200
-                ))),
-        )
+                DealsBloc(dealsRepository: DealsRepository()),
+        ),
+        BlocProvider(
+          create: (context) =>
+              RulesBloc(rulesRepository: RulesRepository())..add(AddRule(rule: Rule(
+                ruleName: 'Rule 7',
+                description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi. Aliquam in hendrerit urna. Lorem ipsum dolor sit amet consectetur adipiscing elit Ut et massa mi.',
+                ruleColor: 0
+              ))),
+        ),
       ],
       child: MaterialApp(
         title: 'Flutter Trade Stat',
