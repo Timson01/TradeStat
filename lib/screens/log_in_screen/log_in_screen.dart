@@ -16,39 +16,41 @@ class LogInScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            LogInRegisterTopBackground(id: id),
-            SizedBox(height: height * 0.08),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: width * 0.1),
-              child: Column(
-                children: [
-                  CompletedInputField(hintText: 'eMail'),
-                  CompletedPasswordField(),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Text(
-                            'Forgot your password?',
-                          style: TextStyle(
-                            fontFamily: 'Lato',
-                            fontSize: 10,
-                            fontWeight: FontWeight.w400,
-                            color: colorDarkGrey
-                          ),
-                        )
-                      ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              LogInRegisterTopBackground(id: id),
+              SizedBox(height: height * 0.08),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: width * 0.1),
+                child: Column(
+                  children: [
+                    CompletedInputField(hintText: 'eMail'),
+                    CompletedPasswordField(),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Text(
+                              'Forgot your password?',
+                            style: TextStyle(
+                              fontFamily: 'Lato',
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: colorDarkGrey
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  SizedBox(height: height * 0.08),
-                  LogInRegisterBottomSection(id: id),
-                ],
-              )
-            ),
-          ],
+                    SizedBox(height: height * 0.08),
+                    LogInRegisterBottomSection(id: id),
+                  ],
+                )
+              ),
+            ],
+          ),
         ),
       ),
     );

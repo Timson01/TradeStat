@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/edit_deal_screen.dart';
+import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/styles/app_colors.dart';
 
 import '../../models/deal.dart';
@@ -52,57 +53,62 @@ class _DealsDetailScreenState extends State<DealsDetailScreen> {
         dealsDetailScreen: this,
         currentDeal: widget.currentDeal,
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: Center(
-              child: Container(
-                width: width * 0.9,
-                padding: EdgeInsets.symmetric(vertical: height * 0.05),
-                child: Column(
-                  children: [
-                    const DealDetailCard(),
-                    SizedBox(height: height * 0.03),
-                    const DealDetailImageSection(),
-                    SizedBox(height: height * 0.03),
-                    const DealsDetailInfoSection(),
-                    SizedBox(height: height * 0.03),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                            bottomLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10)),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.grey.withOpacity(0.3),
-                            spreadRadius: 3,
-                            blurRadius: 5,
-                            offset: const Offset(
-                                0, 3), // changes position of shadow
-                          ),
-                        ],
-                      ),
-                      padding: EdgeInsets.symmetric(
-                          horizontal: width * 0.05, vertical: height * 0.01),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          GestureDetector(
-                            child: const Icon(Icons.arrow_back_ios_new_rounded,
-                                color: colorBlue, size: 25),
-                            onTap: () => Navigator.pop(context),
-                          ),
-                          GestureDetector(
-                              onTap: () => Navigator.of(context).pushNamed(
-                                  EditDealScreen.id,
-                                  arguments: currentDeal),
-                              child: const Icon(Icons.edit_note_rounded,
-                                  color: colorBlue, size: 28)),
-                        ],
-                      ),
-                    )
-                  ],
+          body: WillPopScope(
+            onWillPop: () async {
+              return false;
+            },
+            child: SingleChildScrollView(
+              child: Center(
+                child: Container(
+                  width: width * 0.9,
+                  padding: EdgeInsets.symmetric(vertical: height * 0.05),
+                  child: Column(
+                    children: [
+                      const DealDetailCard(),
+                      SizedBox(height: height * 0.03),
+                      const DealDetailImageSection(),
+                      SizedBox(height: height * 0.03),
+                      const DealsDetailInfoSection(),
+                      SizedBox(height: height * 0.03),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10)),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 3,
+                              blurRadius: 5,
+                              offset: const Offset(
+                                  0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: width * 0.05, vertical: height * 0.01),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              child: const Icon(Icons.arrow_back_ios_new_rounded,
+                                  color: colorBlue, size: 25),
+                              onTap: () => Navigator.of(context).pushReplacementNamed(DealsScreen.id),
+                            ),
+                            GestureDetector(
+                                onTap: () => Navigator.of(context).pushReplacementNamed(
+                                    EditDealScreen.id,
+                                    arguments: currentDeal),
+                                child: const Icon(Icons.edit_note_rounded,
+                                    color: colorBlue, size: 28)),
+                          ],
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               ),
             ),

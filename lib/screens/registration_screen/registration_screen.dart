@@ -14,24 +14,26 @@ class RegistrationScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            LogInRegisterTopBackground(id: id),
-            SizedBox(height: height * 0.06),
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: width * 0.1),
-                child: Column(
-                  children: [
-                    CompletedInputField(hintText: 'Name'),
-                    CompletedInputField(hintText: 'eMail'),
-                    CompletedPasswordField(),
-                    SizedBox(height: height * 0.07),
-                    LogInRegisterBottomSection(id: id),
-                  ],
-                )
-            ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              LogInRegisterTopBackground(id: id),
+              SizedBox(height: height * 0.06),
+              Padding(
+                  padding: EdgeInsets.symmetric(horizontal: width * 0.1),
+                  child: Column(
+                    children: [
+                      CompletedInputField(hintText: 'Name'),
+                      CompletedInputField(hintText: 'eMail'),
+                      CompletedPasswordField(),
+                      SizedBox(height: height * 0.07),
+                      LogInRegisterBottomSection(id: id),
+                    ],
+                  )
+              ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -73,7 +73,8 @@ class LogInRegisterBottomSection extends StatelessWidget {
               : Navigator.of(context).pushReplacementNamed(LogInScreen.id),
             ),
           ],
-        )
+        ),
+        SizedBox(height: height*0.06),
       ],
     );
   }

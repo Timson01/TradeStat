@@ -101,7 +101,7 @@ class _DealsContainerState extends State<DealsContainer> {
                     ),
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).pushNamed(DealsDetailScreen.id, arguments: filteredList[index]);
+                        Navigator.of(context).pushReplacementNamed(DealsDetailScreen.id, arguments: filteredList[index]);
                       },
                       child: Dismissible(
                         key: UniqueKey(),
