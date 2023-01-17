@@ -140,16 +140,16 @@ class _DealsContainerState extends State<DealsContainer> {
                                     .textTheme
                                     .subtitle1
                                     ?.copyWith(
-                                        color: filteredList[index].amount >= 0
+                                        color: filteredList[index].income >= 0
                                             ? Colors.green
                                             : Colors.red),
                                 children: [
                                   TextSpan(
-                                    text: filteredList[index].amount.toString(),
+                                    text: filteredList[index].income.toString(),
                                   ),
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
-                                    child: filteredList[index].amount >= 0
+                                    child: filteredList[index].income >= 0
                                         ? const Icon(
                                             Icons.arrow_upward,
                                             color: Colors.green,

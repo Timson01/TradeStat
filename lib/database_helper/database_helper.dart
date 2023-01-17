@@ -91,7 +91,7 @@ class DatabaseHelper {
 
   Future<List<Deal>> readPositiveDeals(int startDate, int endDate) async {
     final db = await instance.database;
-    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE amount >= 0 AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
+    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE income >= 0 AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
     List<Deal> list =
     res.isNotEmpty ? res.map((c) => Deal.fromMap(c)).toList() : [];
     return list;
@@ -99,7 +99,7 @@ class DatabaseHelper {
 
   Future<List<Deal>> readNegativeDeals(int startDate, int endDate) async {
     final db = await instance.database;
-    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE amount < 0 AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
+    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE income < 0 AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
     List<Deal> list =
     res.isNotEmpty ? res.map((c) => Deal.fromMap(c)).toList() : [];
     return list;

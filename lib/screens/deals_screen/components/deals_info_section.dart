@@ -38,7 +38,7 @@ class _DealsInfoSectionState extends State<DealsInfoSection> {
         income = 0;
         if (state.deals.isNotEmpty) {
           state.deals.forEach((element) {
-            income += element.amount;
+            income += element.income;
           });
           if (!doItOnce) {
             dateTimeRange = DateTimeRange(
