@@ -1,10 +1,9 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/screens/rules_screen/components/add_edit_dialog.dart';
 import 'package:trade_stat/screens/rules_screen/components/delete_dialog.dart';
+import 'package:trade_stat/screens/rules_screen/rules_screen.dart';
 import 'package:trade_stat/styles/app_colors.dart';
 
 import '../../../models/rule.dart';
@@ -17,6 +16,9 @@ class RulesContainer extends StatefulWidget {
 }
 
 class _RulesContainerState extends State<RulesContainer> {
+  bool doItJustOnce = false;
+  List<Rule> filteredList = <Rule>[];
+  List<Rule> list = <Rule>[];
   List<Color> colors = <Color>[
     colorRuleRed,
     colorRuleYellow,
@@ -24,33 +26,51 @@ class _RulesContainerState extends State<RulesContainer> {
     colorRulePurple,
   ];
 
+  void filterList(value) {
+    setState(() {
+      filteredList = list
+          .where((text) => text.ruleName
+          .toLowerCase()
+          .contains(value.toString().toLowerCase()))
+          .toList();
+    });
+  }
+
   @override
   void initState() {
     context.read<RulesBloc>().add(const FetchRules());
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
-
+    ValueNotifier<String> userSearchInput =
+        InheritedRulesScreen.of(context).userSearchInput;
+    userSearchInput.addListener(() => filterList(userSearchInput.value));
     return SizedBox(
       width: width * 0.9,
       height: height * 0.7,
       child: BlocBuilder<RulesBloc, RulesState>(
         builder: (context, state) {
           if (state is RulesLoaded) {
+            if (!doItJustOnce || list != state.rules) {
+              list = state.rules;
+              filteredList = list;
+              doItJustOnce = !doItJustOnce;
+            }
             return state.rules.isNotEmpty
                 ? MasonryGridView.count(
                     mainAxisSpacing: 12,
                     crossAxisSpacing: 12,
                     crossAxisCount: 2,
-                    itemCount: state.rules.length,
+                    itemCount: filteredList.length,
                     itemBuilder: (context, index) {
                       return Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
-                          color: colors[state.rules[index].ruleColor],
+                          color: colors[filteredList[index].ruleColor],
                         ),
                         padding: const EdgeInsets.all(12),
                         child: IntrinsicHeight(
@@ -60,7 +80,7 @@ class _RulesContainerState extends State<RulesContainer> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  state.rules[index].ruleName,
+                                  filteredList[index].ruleName,
                                   style: Theme.of(context)
                                       .textTheme
                                       .headline5
@@ -77,7 +97,7 @@ class _RulesContainerState extends State<RulesContainer> {
                                       showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
-                                          return DeleteDialog(rule: state.rules[index]);
+                                          return DeleteDialog(rule: filteredList[index]);
                                         },
                                       );
                                     },
@@ -89,7 +109,7 @@ class _RulesContainerState extends State<RulesContainer> {
                             ),
                             const SizedBox(height: 10),
                             Text(
-                              state.rules[index].description,
+                              filteredList[index].description,
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -109,7 +129,7 @@ class _RulesContainerState extends State<RulesContainer> {
                                       context: context,
                                       builder: (BuildContext context) {
                                         return AddEditDialog(
-                                            rule: state.rules[index]);
+                                            rule: filteredList[index]);
                                       },
                                     );
                                   },
