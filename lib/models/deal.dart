@@ -16,6 +16,7 @@ class dealFields {
   static const String dateCreated = 'dateCreated';
   static const String hashtag = 'hashtag';
   static const String amount = 'amount';
+  static const String income = 'income';
   static const String numberOfStocks = 'numberOfStocks';
 }
 
@@ -27,6 +28,7 @@ class Deal extends Equatable {
   final int dateCreated;
   String hashtag;
   double amount;
+  double income;
   int numberOfStocks;
 
   Deal({
@@ -36,6 +38,7 @@ class Deal extends Equatable {
     required this.dateCreated,
     this.hashtag = 'You didn\'t put anything here',
     this.amount = 0.0,
+    this.income = 0.0,
     this.numberOfStocks = 0,
   });
 
@@ -43,7 +46,7 @@ class Deal extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    id,tickerName,description,dateCreated,hashtag,amount,numberOfStocks,
+    id,tickerName,description,dateCreated,hashtag,amount,income,numberOfStocks,
   ];
 
   Deal copyWith({
@@ -53,6 +56,7 @@ class Deal extends Equatable {
     int? dateCreated,
     String? hashtag,
     double? amount,
+    double? income,
     int? numberOfStocks,
   }) {
     return Deal(
@@ -62,6 +66,7 @@ class Deal extends Equatable {
       dateCreated: dateCreated ?? this.dateCreated,
       hashtag: hashtag ?? this.hashtag,
       amount: amount ?? this.amount,
+      income: income ?? this.income,
       numberOfStocks: numberOfStocks ?? this.numberOfStocks,
     );
   }
@@ -74,6 +79,7 @@ class Deal extends Equatable {
       'dateCreated': this.dateCreated,
       'hashtag': this.hashtag,
       'amount': this.amount,
+      'income': this.income,
       'numberOfStocks': this.numberOfStocks,
     };
   }
@@ -86,6 +92,7 @@ class Deal extends Equatable {
       dateCreated: map['dateCreated'] as int,
       hashtag: map['hashtag'] as String,
       amount: map['amount'] as double,
+      income: map['income'] as double,
       numberOfStocks: map['numberOfStocks'] as int,
     );
   }
@@ -97,6 +104,7 @@ class Deal extends Equatable {
     dateCreated: json['dateCreated'] as int,
     hashtag: json['hashtag'] as String,
     amount: json['amount'] as double,
+    income: json['income'] as double,
     numberOfStocks: json['numberOfStocks'] as int,
   );
 
@@ -107,6 +115,7 @@ class Deal extends Equatable {
     'dateCreated': this.dateCreated,
     'hashtag': this.hashtag,
     'amount': this.amount,
+    'income': this.income,
     'numberOfStocks': this.numberOfStocks,
   };
 

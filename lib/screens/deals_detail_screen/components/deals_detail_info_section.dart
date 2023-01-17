@@ -104,6 +104,29 @@ class DealsDetailInfoSection extends StatelessWidget {
                 )
               ],
             ),
+            SizedBox(height: height * 0.03),
+            // ----- Amount of Deal Section -----
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Amount of deal',
+                  style: Theme.of(context).textTheme.headline5?.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0
+                  ),
+                ),
+                SizedBox(height: height * 0.01),
+                Text(
+                  currentDeal.amount.toString(),
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                      color: Colors.black,
+                      letterSpacing: 0
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),

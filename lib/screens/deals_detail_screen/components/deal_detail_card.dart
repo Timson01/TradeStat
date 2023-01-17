@@ -51,13 +51,13 @@ class DealDetailCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               RichText(
-                text: currentDeal.amount >= 0 ? TextSpan(
+                text: currentDeal.income >= 0 ? TextSpan(
                   style: Theme.of(context)
                       .textTheme
                       .headline6
                       ?.copyWith(color: Colors.green),
                   children: [
-                    TextSpan(text: '${currentDeal.amount} '),
+                    TextSpan(text: '${currentDeal.income} '),
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(
@@ -73,7 +73,7 @@ class DealDetailCard extends StatelessWidget {
                       .headline6
                       ?.copyWith(color: Colors.red),
                   children: [
-                    TextSpan(text: '${currentDeal.amount} '),
+                    TextSpan(text: '${currentDeal.income} '),
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(

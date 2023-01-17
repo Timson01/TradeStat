@@ -36,6 +36,7 @@ class DatabaseHelper {
     dateCreated BIGINT NOT NULL,
     hashtag TEXT NOT NULL,
     amount DOUBLE NOT NULL,
+    income DOUBLE NOT NULL,
     numberOfStocks INT NOT NULL
     )
     ''');

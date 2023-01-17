@@ -38,6 +38,7 @@ class _EditSectionState extends State<EditSection> {
   final _amountController = TextEditingController();
   final _numberOfStocksController = TextEditingController();
   final _hashtagController = TextEditingController();
+  final _incomeController = TextEditingController();
   bool _tickerNameState = false;
   DateTime _date = DateTime.now();
   bool doItOnce = false;
@@ -78,6 +79,7 @@ class _EditSectionState extends State<EditSection> {
     _amountController.dispose();
     _numberOfStocksController.dispose();
     _hashtagController.dispose();
+    _incomeController.dispose();
     super.dispose();
   }
 
@@ -252,6 +254,7 @@ class _EditSectionState extends State<EditSection> {
         _descriptionController.text = currentDeal.description;
         _numberOfStocksController.text = currentDeal.numberOfStocks.toString();
         _amountController.text = currentDeal.amount.toString();
+        _incomeController.text = currentDeal.income.toString();
         _date = DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated);
         currentSelectedValueHashtag = currentDeal.hashtag.isNotEmpty ? currentDeal.hashtag :"Add a new hashtag";
         doItOnce = !doItOnce;
@@ -394,6 +397,9 @@ class _EditSectionState extends State<EditSection> {
                                 ?.copyWith(color: Colors.black)),
                         SizedBox(height: height * 0.01),
                         TextField(
+                          keyboardType: TextInputType.multiline,
+                          minLines: 1,
+                          maxLines: 5,
                           controller: _descriptionController,
                           style: Theme.of(context)
                               .textTheme
@@ -420,47 +426,6 @@ class _EditSectionState extends State<EditSection> {
                                       fontSize: 12,
                                       color: colorDarkGrey,
                                       letterSpacing: 1)),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: height * 0.02),
-                    // ------- Date -------
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Date',
-                            style: Theme.of(context)
-                                .textTheme
-                                .subtitle1
-                                ?.copyWith(color: Colors.black)),
-                        SizedBox(height: height * 0.01),
-                        Container(
-                          padding: const EdgeInsets.only(
-                              left: 10, top: 4, bottom: 4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(width: 1, color: colorDarkGrey),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(DateFormat("dd.MM.yyyy").format(_date),
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2
-                                      ?.copyWith(
-                                          fontSize: 12,
-                                          color: colorDarkGrey,
-                                          letterSpacing: 1)),
-                              Container(
-                                  margin: const EdgeInsets.only(right: 10),
-                                  child: InkWell(
-                                    onTap: () => _showDatePicker(),
-                                    child: const Icon(Icons.date_range_outlined,
-                                        size: 18, color: colorDarkGrey),
-                                  )),
-                            ],
-                          ),
                         ),
                       ],
                     ),
@@ -624,6 +589,100 @@ class _EditSectionState extends State<EditSection> {
                       ],
                     ),
                     SizedBox(height: height * 0.02),
+                    // ----- Income and Date
+                    Row(
+                      children: [
+                        // ----- Income -----------
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Income',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(color: Colors.black)),
+                              SizedBox(height: height * 0.01),
+                              TextField(
+                                controller: _incomeController,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(
+                                    fontSize: 12,
+                                    color: colorDarkGrey,
+                                    letterSpacing: 1),
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                decoration: InputDecoration(
+                                    isDense: true,
+                                    filled: true,
+                                    fillColor: Colors.white,
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 8),
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                      borderSide: const BorderSide(
+                                          width: 1, color: colorDarkGrey),
+                                    ),
+                                    hintText: '---',
+                                    hintStyle: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        ?.copyWith(
+                                        fontSize: 12,
+                                        color: colorDarkGrey,
+                                        letterSpacing: 1)),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width: width * 0.03),
+                        // ----- Date -----------
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('Date',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      ?.copyWith(color: Colors.black)),
+                              SizedBox(height: height * 0.01),
+                              Container(
+                                padding: const EdgeInsets.only(
+                                    left: 10, top: 4, bottom: 4),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(width: 1, color: colorDarkGrey),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(DateFormat("dd.MM.yyyy").format(_date),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2
+                                            ?.copyWith(
+                                            fontSize: 12,
+                                            color: colorDarkGrey,
+                                            letterSpacing: 1)),
+                                    Container(
+                                        margin: const EdgeInsets.only(right: 10),
+                                        child: InkWell(
+                                          onTap: () => _showDatePicker(),
+                                          child: const Icon(Icons.date_range_outlined,
+                                              size: 18, color: colorDarkGrey),
+                                        )),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: height * 0.02),
                     // ------- Button  --------
                     SizedBox(
                       width: width * 0.5,
@@ -650,6 +709,8 @@ class _EditSectionState extends State<EditSection> {
                                             _date.millisecondsSinceEpoch,
                                         amount: double.parse(
                                             _amountController.value.text),
+                                        income: double.parse(
+                                            _incomeController.value.text),
                                         numberOfStocks: int.parse(
                                             _numberOfStocksController
                                                 .value.text));
@@ -686,6 +747,8 @@ class _EditSectionState extends State<EditSection> {
                                             _date.millisecondsSinceEpoch,
                                         amount: double.parse(
                                             _amountController.value.text),
+                                        income: double.parse(
+                                            _incomeController.value.text),
                                         numberOfStocks: int.parse(
                                             _numberOfStocksController
                                                 .value.text));
