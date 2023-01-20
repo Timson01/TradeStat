@@ -7,6 +7,9 @@ const topBackground = 'assets/images/top_background_image.svg';
 const addEditDealBackground = 'assets/images/add_edit_deal_background.svg';
 const addPhoto = 'assets/images/add_photo.svg';
 const noDataImage = 'assets/images/no_data_image.svg';
+const instagramImage = 'assets/images/instagram_image.jpg';
+const globeWebImage = 'assets/images/globe_web_image.jpg';
+const appLogoImage = 'assets/images/app_logo.jpg';
 
 // --- Icons ---
 

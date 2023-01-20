@@ -71,6 +71,10 @@ flutter:
   uses-material-design: true
 
   assets:
+    - assets/images/profile.jpg
+    - assets/images/app_logo.jpg
+    - assets/images/instagram_image.jpg
+    - assets/images/globe_web_image.jpg
     - assets/images/desc_image.svg
     - assets/images/welcome_screen_image.svg
     - assets/images/bottom_background.svg

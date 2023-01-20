@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         title: 'Flutter Trade Stat',
+        debugShowCheckedModeBanner: false,
         theme: AppThemes.appThemeData[AppTheme.lightTheme],
         initialRoute: DescriptionScreen.id,
         onGenerateRoute: RouteGenerator.generateRoute,

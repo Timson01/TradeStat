@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../models/deal.dart';
 import '../../../styles/style_exports.dart';
 
-typedef void StringCallback(String userSearchInput);
+typedef StringCallback = void Function(String userSearchInput);
 
 class DealsTopSection extends StatefulWidget {
   final StringCallback callback;
+  final GlobalKey<ScaffoldState> scaffoldKey;
 
-  const DealsTopSection({
-    Key? key,
-    required this.callback
-  }) : super(key: key);
+  const DealsTopSection({Key? key, required this.scaffoldKey, required this.callback}) : super(key: key);
 
   @override
   State<DealsTopSection> createState() => _DealsTopSectionState();
 }
 
 class _DealsTopSectionState extends State<DealsTopSection> {
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -34,20 +30,21 @@ class _DealsTopSectionState extends State<DealsTopSection> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SvgPicture.asset(
-                    burgerMenuIcon,
-                    width: 20,
-                    fit: BoxFit.cover,
+                  InkWell(
+                    onTap: () => widget.scaffoldKey.currentState?.openDrawer(),
+                    child: SvgPicture.asset(
+                      burgerMenuIcon,
+                      width: 20,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                   Text(
                     "Deals",
-                    style:
-                    Theme.of(context).textTheme.headline4?.copyWith(
-                      color: Colors.white,
-                    ),
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                          color: Colors.white,
+                        ),
                   ),
-                  SvgPicture.asset(moreMenuIcon,
-                      height: 20, fit: BoxFit.cover),
+                  SvgPicture.asset(moreMenuIcon, height: 20, fit: BoxFit.cover),
                 ],
               ),
               SizedBox(height: height * 0.04),
@@ -60,15 +57,16 @@ class _DealsTopSectionState extends State<DealsTopSection> {
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(25),
                   child: TextField(
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                        color: colorDarkGrey,
-                        letterSpacing: 1),
-                    onChanged: (value){
+                    style: Theme.of(context)
+                        .textTheme
+                        .subtitle2
+                        ?.copyWith(color: colorDarkGrey, letterSpacing: 1),
+                    onChanged: (value) {
                       widget.callback(value);
                     },
                     textAlignVertical: TextAlignVertical.center,
                     decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 15.0),
+                        contentPadding: const EdgeInsets.only(left: 15.0),
                         filled: true,
                         fillColor: Colors.white,
                         prefixIcon: const Icon(
@@ -83,7 +81,7 @@ class _DealsTopSectionState extends State<DealsTopSection> {
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
                             borderSide:
-                            const BorderSide(color: colorDarkGrey))),
+                                const BorderSide(color: colorDarkGrey))),
                   ),
                 ),
               )
