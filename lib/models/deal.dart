@@ -6,7 +6,7 @@ const String dealTable = 'deal_table';
 class dealFields {
   static final List<String> values = [
     /// Add all fields
-    id, tickerName, description, dateCreated, hashtag, amount, numberOfStocks
+    id, tickerName, description, dateCreated, hashtag, position, amount, numberOfStocks
   ];
 
   static const String id = 'id';
@@ -15,6 +15,7 @@ class dealFields {
   static const String title = 'title';
   static const String dateCreated = 'dateCreated';
   static const String hashtag = 'hashtag';
+  static const String position = 'position';
   static const String amount = 'amount';
   static const String income = 'income';
   static const String numberOfStocks = 'numberOfStocks';
@@ -27,6 +28,7 @@ class Deal extends Equatable {
   String description;
   final int dateCreated;
   String hashtag;
+  String position;
   double amount;
   double income;
   int numberOfStocks;
@@ -37,6 +39,7 @@ class Deal extends Equatable {
     this.description = 'You didn\'t put anything here',
     required this.dateCreated,
     this.hashtag = 'You didn\'t put anything here',
+    this.position = 'Long',
     this.amount = 0.0,
     this.income = 0.0,
     this.numberOfStocks = 0,
@@ -46,7 +49,7 @@ class Deal extends Equatable {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    id,tickerName,description,dateCreated,hashtag,amount,income,numberOfStocks,
+    id,tickerName,description,dateCreated,hashtag,position,amount,income,numberOfStocks,
   ];
 
   Deal copyWith({
@@ -55,6 +58,7 @@ class Deal extends Equatable {
     String? description,
     int? dateCreated,
     String? hashtag,
+    String? position,
     double? amount,
     double? income,
     int? numberOfStocks,
@@ -65,6 +69,7 @@ class Deal extends Equatable {
       description: description ?? this.description,
       dateCreated: dateCreated ?? this.dateCreated,
       hashtag: hashtag ?? this.hashtag,
+      position: position ?? this.position,
       amount: amount ?? this.amount,
       income: income ?? this.income,
       numberOfStocks: numberOfStocks ?? this.numberOfStocks,
@@ -78,6 +83,7 @@ class Deal extends Equatable {
       'description': this.description,
       'dateCreated': this.dateCreated,
       'hashtag': this.hashtag,
+      'position': this.position,
       'amount': this.amount,
       'income': this.income,
       'numberOfStocks': this.numberOfStocks,
@@ -91,6 +97,7 @@ class Deal extends Equatable {
       description: map['description'] as String,
       dateCreated: map['dateCreated'] as int,
       hashtag: map['hashtag'] as String,
+      position: map['position'] as String,
       amount: map['amount'] as double,
       income: map['income'] as double,
       numberOfStocks: map['numberOfStocks'] as int,
@@ -103,6 +110,7 @@ class Deal extends Equatable {
     description: json['description'] as String,
     dateCreated: json['dateCreated'] as int,
     hashtag: json['hashtag'] as String,
+    position: json['position'] as String,
     amount: json['amount'] as double,
     income: json['income'] as double,
     numberOfStocks: json['numberOfStocks'] as int,
@@ -114,6 +122,7 @@ class Deal extends Equatable {
     'description': this.description,
     'dateCreated': this.dateCreated,
     'hashtag': this.hashtag,
+    'position': this.position,
     'amount': this.amount,
     'income': this.income,
     'numberOfStocks': this.numberOfStocks,

@@ -31,7 +31,9 @@ class EditSection extends StatefulWidget {
 class _EditSectionState extends State<EditSection> {
   List<String> _imagePaths = [];
   List<String> hashtags = [];
+  List<String> position = <String>['Long', 'Short'];
   var currentSelectedValueHashtag = 'Add a new hashtag';
+  var currentSelectedValuePosition = 'Long';
   late Deal currentDeal;
   final _tickerNameController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -257,6 +259,7 @@ class _EditSectionState extends State<EditSection> {
         _incomeController.text = currentDeal.income.toString();
         _date = DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated);
         currentSelectedValueHashtag = currentDeal.hashtag.isNotEmpty ? currentDeal.hashtag :"Add a new hashtag";
+        currentSelectedValuePosition = currentDeal.position.isNotEmpty ? currentDeal.position : "Long";
         doItOnce = !doItOnce;
       }
     }
@@ -493,6 +496,46 @@ class _EditSectionState extends State<EditSection> {
                       ],
                     ),
                     SizedBox(height: height * 0.02),
+                    // ------- Position -------
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text('Position',
+                            style: Theme.of(context)
+                                .textTheme
+                                .subtitle1
+                                ?.copyWith(color: Colors.black)),
+                        SizedBox(height: height * 0.01),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 7, right: 7),
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            isDense: true,
+                            value: currentSelectedValuePosition,
+                            items: position
+                                .map<DropdownMenuItem<String>>((String value) =>
+                                DropdownMenuItem(
+                                  value: value,
+                                  child: Text(value,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .subtitle2
+                                                ?.copyWith(
+                                                fontSize: 12,
+                                                color: value == "Long" ? Colors.green : Colors.red,
+                                                letterSpacing: 1)),
+                                ))
+                                .toList(),
+                            onChanged: (String? newValue){
+                              setState(() {
+                                currentSelectedValuePosition = newValue!;
+                              });
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: height * 0.02),
                     // ------- Amount of deal and Number of stocks -------
                     Row(
                       children: [
@@ -705,6 +748,7 @@ class _EditSectionState extends State<EditSection> {
                                         description:
                                             _descriptionController.value.text,
                                         hashtag: currentSelectedValueHashtag,
+                                        position: currentSelectedValuePosition,
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
                                         amount: double.parse(
@@ -743,6 +787,7 @@ class _EditSectionState extends State<EditSection> {
                                         description:
                                             _descriptionController.value.text,
                                         hashtag: currentSelectedValueHashtag,
+                                        position: currentSelectedValuePosition,
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
                                         amount: double.parse(

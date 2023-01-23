@@ -35,6 +35,7 @@ class DatabaseHelper {
     description TEXT NOT NULL,
     dateCreated BIGINT NOT NULL,
     hashtag TEXT NOT NULL,
+    position TEXT NOT NULL,
     amount DOUBLE NOT NULL,
     income DOUBLE NOT NULL,
     numberOfStocks INT NOT NULL
@@ -56,7 +57,7 @@ class DatabaseHelper {
     ruleColor INTEGER NOT NULL
     )
     ''');
-    List<dynamic> res = await batch.commit();
+    await batch.commit();
   }
 
   Future _onUpgrade(Database db, int oldVersion, int newVersion) async {

@@ -82,6 +82,29 @@ class DealsDetailInfoSection extends StatelessWidget {
               ],
             ),
             SizedBox(height: height * 0.03),
+            // ----- Position Section -----
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Position',
+                  style: Theme.of(context).textTheme.headline5?.copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0
+                  ),
+                ),
+                SizedBox(height: height * 0.01),
+                Text(
+                  currentDeal.position,
+                  style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                      color: currentDeal.position == 'Long' ? Colors.green : Colors.red,
+                      letterSpacing: 0
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: height * 0.03),
             // ----- Number of stocks Section -----
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
