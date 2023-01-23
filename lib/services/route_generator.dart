@@ -7,6 +7,7 @@ import 'package:trade_stat/screens/description_screen/description_screen.dart';
 import 'package:trade_stat/screens/log_in_screen/log_in_screen.dart';
 import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 import 'package:trade_stat/screens/rules_screen/rules_screen.dart';
+import 'package:trade_stat/screens/statistic_screen/statistic_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import '../models/deal.dart';
 import '../screens/strategy_screen/strategy_screen.dart';
@@ -35,6 +36,8 @@ class RouteGenerator {
         return CustomPageRoute(child: RulesScreen());
       case StrategyScreen.id:
         return CustomPageRoute(child: StrategyScreen());
+      case StatisticScreen.id:
+        return CustomPageRoute(child: StatisticScreen());
       default:
         return _errorRoute();
     }

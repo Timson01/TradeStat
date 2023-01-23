@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trade_stat/styles/app_images.dart';
 
+import '../statistic_screen/statistic_screen.dart';
 import 'components/deals_button_section.dart';
 import 'components/deals_container.dart';
 import 'components/deals_info_section.dart';
@@ -44,16 +45,6 @@ class _DealsScreenState extends State<DealsScreen> {
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
-
-    if (currentPage == DrawerSections.deals) {
-      print('deals');
-    } else if (currentPage == DrawerSections.statistic) {
-      print('statistic');
-    } else if (currentPage == DrawerSections.settings) {
-      print('settings');
-    } else if (currentPage == DrawerSections.help) {
-      print('help');
-    }
 
     return InheritedDealsScreen(
       userSearchInput: userSearchInput,
@@ -135,6 +126,7 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage = DrawerSections.deals;
             } else if (id == 2) {
               currentPage = DrawerSections.statistic;
+              Navigator.of(context).pushReplacementNamed(StatisticScreen.id);
             } else if (id == 3) {
               currentPage = DrawerSections.settings;
             } else if (id == 4) {
