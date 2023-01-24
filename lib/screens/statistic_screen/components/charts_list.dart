@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
+import '../../rules_screen/components/chart_dialog.dart';
+
 class ChartsList extends StatelessWidget {
   const ChartsList({Key? key}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -10,24 +13,15 @@ class ChartsList extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     List<String> chartsList = <String>[
-      'Percentage of positive and negative trades',
+      'Income chart',
+      'Hashtag income chart',
+      'Ticker symbol income chart',
+      'Percentage of positive and negative deals',
       'Percentage of positive and negative deals by hashtag',
       'Percentage of positive and negative deals by ticker symbol',
-      'Period yield chart',
-      'All time yield chart',
-      'Hashtag yield chart',
-      'Ticker symbol yield chart',
-      'Hashtag yield chart for the period',
-      'Ticker symbol yield chart for the period',
+      'Percentage of positive and negative deals by all hashtags',
+      'Percentage of positive and negative deals by all ticker symbols',
       'Trading statistics schedule',
-      'Short trade income chart',
-      'Long trade income chart',
-      'Percentage of positive and negative trades in Short',
-      'Percentage of positive and negative trades in Long',
-      'Percentage of positive and negative trades in Short by hashtag',
-      'Percentage of positive and negative trades in Short by ticker symbol',
-      'Percentage of positive and negative trades in Long by hashtag',
-      'Percentage of positive and negative trades in Long by ticker symbol',
     ];
 
     return SizedBox(
@@ -47,7 +41,7 @@ class ChartsList extends StatelessWidget {
                     bottomRight: Radius.circular(10)),
                 boxShadow: [
                   BoxShadow(
-                    color: colorMidnightBlue.withOpacity(0.2),
+                    color: colorDarkGrey.withOpacity(0.2),
                     spreadRadius: 3,
                     blurRadius: 5,
                     offset: const Offset(0, 3), // changes position of shadow
@@ -69,9 +63,16 @@ class ChartsList extends StatelessWidget {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ChartDialog(index: index);
+                        },
+                      );
+                    },
                     icon: const Icon(Icons.arrow_forward_ios_rounded,
-                        color: colorBlue),
+                        color: colorBlue, size: 22),
                   )
                 ],
               ),

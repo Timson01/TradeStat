@@ -144,7 +144,7 @@ class _EditSectionState extends State<EditSection> {
             'Add a new hashtag to group deals',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5?.copyWith(
-                  letterSpacing: 1,
+                  letterSpacing: 0,
                   fontSize: 18,
                 ),
           ),

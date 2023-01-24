@@ -15,6 +15,7 @@ class AddEditDialog extends StatefulWidget {
 
 class _AddEditDialogState extends State<AddEditDialog> {
   bool doItJustOnce = false;
+  bool ruleTitleState = false;
   int ruleColor = 0;
   bool addRule = false;
   bool isRedButton = false;
@@ -35,6 +36,15 @@ class _AddEditDialogState extends State<AddEditDialog> {
     ruleTitleController.dispose();
     ruleDescriptionController.dispose();
     super.dispose();
+  }
+
+  String? get _errorText {
+    final text = ruleTitleController.value.text;
+    if (text.isEmpty) {
+      return 'Can\'t be empty';
+    }
+    // return null if the text is valid
+    return null;
   }
 
   @override
@@ -83,6 +93,7 @@ class _AddEditDialogState extends State<AddEditDialog> {
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
                     fontSize: 12, color: colorDarkGrey, letterSpacing: 1),
                 decoration: InputDecoration(
+                    errorText: ruleTitleState ? _errorText : null,
                     isDense: true,
                     filled: true,
                     fillColor: Colors.white,
@@ -231,30 +242,38 @@ class _AddEditDialogState extends State<AddEditDialog> {
               style: TextButton.styleFrom(
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
+              onPressed: ruleTitleController.text.isNotEmpty
+                  ? () {
+                      setState(() {
+                        addRule
+                            ? context.read<RulesBloc>().add(AddRule(
+                                rule: Rule(
+                                    ruleName: ruleTitleController.text,
+                                    description:
+                                        ruleDescriptionController.text == ''
+                                            ? 'You didn\'t put anything here'
+                                            : ruleDescriptionController.text,
+                                    ruleColor: ruleColor)))
+                            : context.read<RulesBloc>().add(UpdateRule(
+                                rule: Rule(
+                                    id: widget.rule.id,
+                                    ruleName: ruleTitleController.text,
+                                    description: ruleDescriptionController.text,
+                                    ruleColor: ruleColor)));
+                      });
+                      Navigator.pop(context);
+                    }
+                  : () {
+                      setState(() {
+                        ruleTitleState = true;
+                      });
+                      return null;
+                    },
               child: Text(
                 'Save',
-                style: Theme.of(context)
-                    .textTheme
-                    .subtitle2
-                    ?.copyWith(fontSize: 15, color: colorBlue, letterSpacing: 1),
-              ),
-              onPressed: () {
-                setState(() {
-                  addRule
-                      ? context.read<RulesBloc>().add(AddRule(
-                          rule: Rule(
-                              ruleName: ruleTitleController.text,
-                              description: ruleDescriptionController.text,
-                              ruleColor: ruleColor)))
-                      : context.read<RulesBloc>().add(UpdateRule(
-                          rule: Rule(
-                              id: widget.rule.id,
-                              ruleName: ruleTitleController.text,
-                              description: ruleDescriptionController.text,
-                              ruleColor: ruleColor)));
-                });
-                Navigator.pop(context);
-              }),
+                style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                    fontSize: 15, color: colorBlue, letterSpacing: 1),
+              )),
         ],
       ),
     );

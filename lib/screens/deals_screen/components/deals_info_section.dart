@@ -47,7 +47,6 @@ class _DealsInfoSectionState extends State<DealsInfoSection> {
                 end: DateTime.fromMillisecondsSinceEpoch(
                     state.deals[0].dateCreated));
             doItOnce = !doItOnce;
-            print(dateTimeRange);
           }
         }
         return Column(children: [

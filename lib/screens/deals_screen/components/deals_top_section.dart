@@ -44,7 +44,7 @@ class _DealsTopSectionState extends State<DealsTopSection> {
                           color: Colors.white,
                         ),
                   ),
-                  SvgPicture.asset(moreMenuIcon, height: 20, fit: BoxFit.cover),
+                  const SizedBox(width: 10)
                 ],
               ),
               SizedBox(height: height * 0.04),
