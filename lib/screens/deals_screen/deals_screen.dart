@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/styles/app_images.dart';
 
+import '../../models/deal.dart';
 import '../statistic_screen/statistic_screen.dart';
 import 'components/deals_button_section.dart';
 import 'components/deals_container.dart';
@@ -9,23 +11,23 @@ import 'components/deals_top_section.dart';
 import 'components/header_drawer.dart';
 
 class InheritedDealsScreen extends InheritedWidget {
-  final ValueNotifier<String> userSearchInput;
-  final _DealsScreenState dealsScreenWidgetState;
+  final _DealsScreenState dealsScreen;
+  final List<int> dateTimeRange;
 
   const InheritedDealsScreen({
     super.key,
-    required this.dealsScreenWidgetState,
-    required this.userSearchInput,
+    required this.dealsScreen,
+    required this.dateTimeRange,
     required Widget child,
   }) : super(child: child);
 
   static _DealsScreenState of(BuildContext context) => context
       .dependOnInheritedWidgetOfExactType<InheritedDealsScreen>()!
-      .dealsScreenWidgetState;
+      .dealsScreen;
 
   @override
   bool updateShouldNotify(InheritedDealsScreen oldWidget) {
-    return oldWidget.userSearchInput != userSearchInput;
+    return oldWidget.dateTimeRange != dateTimeRange;
   }
 }
 
@@ -38,44 +40,87 @@ class DealsScreen extends StatefulWidget {
 }
 
 class _DealsScreenState extends State<DealsScreen> {
+
+  ValueNotifier<List<int>> dateTimeRange = ValueNotifier([]);
   ValueNotifier<String> userSearchInput = ValueNotifier<String>('');
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int initCounter = 0;
   var currentPage = DrawerSections.deals;
+  bool doItJustOnce = false;
+  List<Deal> filteredList = <Deal>[];
+  ValueNotifier<List<Deal>> list = ValueNotifier([]);
+
+  void filterList(value) {
+    setState(() {
+      filteredList = list.value
+          .where((text) => text.tickerName
+          .toLowerCase()
+          .contains(value.toString().toLowerCase()))
+          .toList();
+    });
+  }
+
+  @override
+  void initState() {
+    context.read<DealsBloc>().add(const FetchDeals());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+
     double height = MediaQuery.of(context).size.height;
+    userSearchInput.addListener(() => filterList(userSearchInput.value));
+    dateTimeRange.addListener(() => setState(() {}));
+    list.addListener(() => setState(() {
+      filteredList = list.value.where((text) => text.tickerName
+          .toLowerCase()
+          .contains(userSearchInput.value.toString().toLowerCase()))
+          .toList();
+    }));
 
     return InheritedDealsScreen(
-      userSearchInput: userSearchInput,
-      dealsScreenWidgetState: this,
+      dateTimeRange: dateTimeRange.value,
+      dealsScreen: this,
       child: Scaffold(
-          key: _scaffoldKey,
-          drawer: Drawer(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  HeaderDrawer(),
-                  DrawerList(),
-                ],
+            key: _scaffoldKey,
+            drawer: Drawer(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const HeaderDrawer(),
+                    DrawerList(),
+                  ],
+                ),
               ),
             ),
-          ),
-          body: SafeArea(
-            child: SingleChildScrollView(
-              child: Column(children: [
-                DealsTopSection(
-                    scaffoldKey: _scaffoldKey,
-                    callback: (val) =>
-                        setState(() => userSearchInput.value = val)),
-                const DealsInfoSection(),
-                SizedBox(height: height * 0.03),
-                const DealsButtonSection(),
-                SizedBox(height: height * 0.03),
-                const DealsContainer()
-              ]),
-            ),
-          )),
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child: BlocBuilder<DealsBloc, DealsState>(
+                  builder: (context, state) {
+                    if (!doItJustOnce) {
+                      list.value = state.deals;
+                      dateTimeRange.value = [state.deals[state.deals.length - 1].dateCreated, state.deals[0].dateCreated];
+                      doItJustOnce = !doItJustOnce;
+                    }
+                    if(list != state.deals){
+                      list.value = state.deals;
+                    }
+                    return Column(children: [
+                      DealsTopSection(
+                          scaffoldKey: _scaffoldKey,
+                          callback: (val) => userSearchInput.value = val),
+                      DealsInfoSection(dealsList: filteredList),
+                      SizedBox(height: height * 0.03),
+                      const DealsButtonSection(),
+                      SizedBox(height: height * 0.03),
+                      DealsContainer(dealsList: filteredList)
+                    ]);
+                  },
+                ),
+              ),
+            )
+      ),
     );
   }
 
@@ -95,11 +140,11 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage == DrawerSections.settings ? true : false),
           menuItem(4, "Help", Icons.help_outline_rounded,
               currentPage == DrawerSections.help ? true : false),
-          SizedBox(height: 30),
+          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              SizedBox(width: 30),
+              const SizedBox(width: 30),
               IconButton(
                 onPressed: () {},
                 icon: Image.asset(globeWebImage),

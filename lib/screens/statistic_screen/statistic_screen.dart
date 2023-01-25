@@ -16,14 +16,16 @@ class StatisticScreen extends StatelessWidget {
       },
       child: Scaffold(
         body: SafeArea(
-            child: Column(
-              children: [
-                SizedBox(height: height * 0.05),
-                const StatisticTopSection(),
-                SizedBox(height: height * 0.05),
-                const ChartsList(),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: height * 0.05),
+                  const StatisticTopSection(),
+                  SizedBox(height: height * 0.05),
+                  const ChartsList(),
           ],
-        )),
+        ),
+            )),
       ),
     );
   }

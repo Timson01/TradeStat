@@ -2,68 +2,51 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/screens/deals_detail_screen/deals_detail_screen.dart';
-import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
-
 import '../../../models/deal.dart';
 import '../../../styles/style_exports.dart';
 
-class DealsContainer extends StatefulWidget {
+class DealsContainer extends StatelessWidget {
+
+  final List<Deal> dealsList;
+
   const DealsContainer({
     Key? key,
+    required this.dealsList,
   }) : super(key: key);
 
   @override
-  State<DealsContainer> createState() => _DealsContainerState();
-}
-
-class _DealsContainerState extends State<DealsContainer> {
-  bool doItJustOnce = false;
-  List<Deal> list = <Deal>[];
-  List<Deal> filteredList = <Deal>[];
-  var output = DateFormat('yyyy/MM/dd');
-
-  void filterList(value) {
-    setState(() {
-      filteredList = list
-          .where((text) => text.tickerName
-              .toLowerCase()
-              .contains(value.toString().toLowerCase()))
-          .toList();
-    });
-  }
-
-  void showSnackBar(BuildContext context, Deal deal) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      duration: const Duration(milliseconds: 1500),
-      content: Text(
-        '${deal.tickerName} deleted',
-        style: Theme.of(context)
-            .textTheme
-            .headline5
-            ?.copyWith(color: Colors.white, fontSize: 14, letterSpacing: 1),
-      ),
-      action: SnackBarAction(
-        textColor: colorBlue,
-        label: "UNDO DEAL",
-        onPressed: () {
-          undoDelete(deal);
-        },
-      ),
-    ));
-  }
-
-  undoDelete(deal) {
-    context.read<DealsBloc>().add(AddDeal(deal: deal));
-  }
-
-  @override
   Widget build(BuildContext context) {
+
+    var output = DateFormat('yyyy/MM/dd');
+
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
-    ValueNotifier<String> userSearchInput =
-        InheritedDealsScreen.of(context).userSearchInput;
-    userSearchInput.addListener(() => filterList(userSearchInput.value));
+    undoDelete(deal) {
+      context.read<DealsBloc>().add(AddDeal(deal: deal));
+    }
+
+    void showSnackBar(BuildContext context, Deal deal) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: const Duration(milliseconds: 1500),
+        content: Text(
+          '${deal.tickerName} deleted',
+          style: Theme.of(context)
+              .textTheme
+              .headline5
+              ?.copyWith(color: Colors.white, fontSize: 14, letterSpacing: 1),
+        ),
+        action: SnackBarAction(
+          textColor: colorBlue,
+          label: "UNDO DEAL",
+          onPressed: () {
+            undoDelete(deal);
+          },
+        ),
+      ));
+    }
+
+    List<Deal> deals = dealsList;
 
     return Container(
         decoration: BoxDecoration(
@@ -86,22 +69,16 @@ class _DealsContainerState extends State<DealsContainer> {
             vertical: height * 0.01, horizontal: width * 0.05),
         width: width * 0.85,
         height: height * 0.48,
-        child: BlocBuilder<DealsBloc, DealsState>(builder: (context, state) {
-          if (!doItJustOnce || list != state.deals) {
-            list = state.deals;
-            filteredList = list;
-            doItJustOnce = !doItJustOnce;
-          }
-          return state.deals.isNotEmpty
+        child: deals.isNotEmpty
               ? ListView.builder(
-                  itemCount: filteredList.length,
+                  itemCount: deals.length,
                   itemBuilder: (_, index) => Container(
                     decoration: const BoxDecoration(
                       border: Border(bottom: BorderSide()),
                     ),
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).pushReplacementNamed(DealsDetailScreen.id, arguments: filteredList[index]);
+                        Navigator.of(context).pushReplacementNamed(DealsDetailScreen.id, arguments: deals[index]);
                       },
                       child: Dismissible(
                         key: UniqueKey(),
@@ -109,8 +86,8 @@ class _DealsContainerState extends State<DealsContainer> {
                         onDismissed: (direction) {
                           context
                               .read<DealsBloc>()
-                              .add(DeleteDeal(id: filteredList[index].id!));
-                          showSnackBar(context, filteredList[index]);
+                              .add(DeleteDeal(id: deals[index].id!));
+                          showSnackBar(context, deals[index]);
                         },
                         background: Container(
                           alignment: Alignment.centerRight,
@@ -121,7 +98,7 @@ class _DealsContainerState extends State<DealsContainer> {
                         ),
                         child: ListTile(
                             title: Text(
-                                filteredList[index].tickerName.toUpperCase(),
+                                deals[index].tickerName.toUpperCase(),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle1
@@ -129,7 +106,7 @@ class _DealsContainerState extends State<DealsContainer> {
                             subtitle: Text(
                                 output.format(
                                     DateTime.fromMillisecondsSinceEpoch(
-                                        filteredList[index].dateCreated)),
+                                        deals[index].dateCreated)),
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2
@@ -140,16 +117,16 @@ class _DealsContainerState extends State<DealsContainer> {
                                     .textTheme
                                     .subtitle1
                                     ?.copyWith(
-                                        color: filteredList[index].income >= 0
+                                        color: deals[index].income >= 0
                                             ? Colors.green
                                             : Colors.red),
                                 children: [
                                   TextSpan(
-                                    text: filteredList[index].income.toString(),
+                                    text: deals[index].income.toString(),
                                   ),
                                   WidgetSpan(
                                     alignment: PlaceholderAlignment.middle,
-                                    child: filteredList[index].income >= 0
+                                    child: deals[index].income >= 0
                                         ? const Icon(
                                             Icons.arrow_upward,
                                             color: Colors.green,
@@ -168,7 +145,6 @@ class _DealsContainerState extends State<DealsContainer> {
                     ),
                   ),
                 )
-              : const Center(child: Text('No data'));
-        }));
+              : const Center(child: Text('No data')));
   }
 }

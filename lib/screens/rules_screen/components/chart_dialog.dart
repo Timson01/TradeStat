@@ -86,162 +86,167 @@ class _ChartDialogState extends State<ChartDialog> {
               fontSize: 18,
             ),
       ),
-      content: SizedBox(
-        height: height * 0.3,
+      content: Container(
+        constraints: BoxConstraints(
+          minHeight: height * 0.2,
+          maxHeight: height * 0.3,
+        ),
         width: width * 0.8,
-        child: Column(
-            mainAxisAlignment: haveSearch ? MainAxisAlignment.spaceBetween : MainAxisAlignment.spaceEvenly,
-            children: [
+        child: SingleChildScrollView(
+          child: Column(
+              mainAxisAlignment: haveSearch ? MainAxisAlignment.spaceBetween : MainAxisAlignment.spaceEvenly,
+              children: [
 
-              // ------------ Search Section -----------
+                // ------------ Search Section -----------
 
-              haveSearch
-                  ? Column(
-                    children: [
-                      SizedBox(height: height * 0.02),
-                      Text(
-                        hashtag ? 'Hashtag:' : 'Ticker symbol:',
-                        style: Theme.of(context).textTheme.subtitle2
-                            ?.copyWith(
-                            fontSize: 15,
-                            color: colorDarkGrey,
-                            letterSpacing: 1),
-                      ),
-                      SizedBox(height: height * 0.015),
-                      TextField(
-                          controller: _controller,
-                          style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                              fontSize: 12, color: colorDarkGrey, letterSpacing: 1),
-                          decoration: InputDecoration(
-                              isDense: true,
-                              filled: true,
-                              fillColor: Colors.white,
-                              contentPadding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 8),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  borderSide: const BorderSide(
-                                      width: 1, color: colorDarkGrey)),
-                              hintText:
-                                  hashtag ? 'Enter hashtag' : 'Enter ticker symbol',
-                              hintStyle: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontSize: 12,
-                                      color: colorDarkGrey,
-                                      letterSpacing: 1)),
+                haveSearch
+                    ? Column(
+                      children: [
+                        SizedBox(height: height * 0.02),
+                        Text(
+                          hashtag ? 'Hashtag:' : 'Ticker symbol:',
+                          style: Theme.of(context).textTheme.subtitle2
+                              ?.copyWith(
+                              fontSize: 15,
+                              color: colorDarkGrey,
+                              letterSpacing: 1),
                         ),
-                      SizedBox(height: height * 0.02),
-                    ],
-                  )
-                  : const SizedBox(height: 1),
+                        SizedBox(height: height * 0.015),
+                        TextField(
+                            controller: _controller,
+                            style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                fontSize: 12, color: colorDarkGrey, letterSpacing: 1),
+                            decoration: InputDecoration(
+                                isDense: true,
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 8),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: const BorderSide(
+                                        width: 1, color: colorDarkGrey)),
+                                hintText:
+                                    hashtag ? 'Enter hashtag' : 'Enter ticker symbol',
+                                hintStyle: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    ?.copyWith(
+                                        fontSize: 12,
+                                        color: colorDarkGrey,
+                                        letterSpacing: 1)),
+                          ),
+                        SizedBox(height: height * 0.02),
+                      ],
+                    )
+                    : SizedBox(height: height * 0.02),
 
-              // ------------ Date Section -----------
+                // ------------ Date Section -----------
 
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Date: ',
-                    style: Theme.of(context).textTheme.subtitle2
-                        ?.copyWith(
-                        fontSize: 15,
-                        color: colorDarkGrey,
-                        letterSpacing: 1),
-                  ),
-                  SizedBox(height: height * 0.015),
-                  InkWell(
-                    onTap: () async {
-                      DateTimeRange? newDateRange = await showDateRangePicker(
-                          context: context,
-                          initialDateRange: dateTimeRange,
-                          firstDate: DateTime(2010),
-                          lastDate: DateTime(2030),
-                          builder: (BuildContext? context, Widget? child) {
-                            return FittedBox(
-                              child: Theme(
-                                data: ThemeData(
-                                  primaryColor: colorBlue,
-                                ),
-                                child: child!,
-                              ),
-                            );
-                          });
-
-                      if (newDateRange != null) {
-                        setState(() {
-                          dateTimeRange = newDateRange;
-                          context.read<DealsBloc>().add(FetchDealsWithDate(
-                              startDate:
-                                  newDateRange.start.millisecondsSinceEpoch,
-                              endDate: newDateRange.end.millisecondsSinceEpoch +
-                                  86400000));
-                        });
-                      }
-                    },
-                    child: Text(
-                      '${DateFormat('yyyy/MM/dd').format(dateTimeRange.start)} - '
-                      '${DateFormat('yyyy/MM/dd').format(dateTimeRange.end)}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .subtitle2
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Date: ',
+                      style: Theme.of(context).textTheme.subtitle2
                           ?.copyWith(
-                          fontSize: 14,
-                          color: colorMidnightBlue,
+                          fontSize: 15,
+                          color: colorDarkGrey,
                           letterSpacing: 1),
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: height * 0.02),
+                    SizedBox(height: height * 0.015),
+                    InkWell(
+                      onTap: () async {
+                        DateTimeRange? newDateRange = await showDateRangePicker(
+                            context: context,
+                            initialDateRange: dateTimeRange,
+                            firstDate: DateTime(2010),
+                            lastDate: DateTime(2030),
+                            builder: (BuildContext? context, Widget? child) {
+                              return FittedBox(
+                                child: Theme(
+                                  data: ThemeData(
+                                    primaryColor: colorBlue,
+                                  ),
+                                  child: child!,
+                                ),
+                              );
+                            });
 
-              // ------------ Position Section -----------
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Position: ',
-                    style: Theme.of(context).textTheme.subtitle2
-                        ?.copyWith(
-                        fontSize: 15,
-                        color: colorDarkGrey,
-                        letterSpacing: 1),
-                  ),
-                  SizedBox(height: height * 0.015),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 7, right: 7),
-                    child: DropdownButton<String>(
-                      isExpanded: true,
-                      isDense: true,
-                      value: currentSelectedValuePosition,
-                      items: position
-                          .map<DropdownMenuItem<String>>(
-                              (String value) => DropdownMenuItem(
-                                    value: value,
-                                    child: Text(value,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2
-                                            ?.copyWith(
-                                                fontSize: 14,
-                                                color: colorMidnightBlue,
-                                                letterSpacing: 1)),
-                                  ))
-                          .toList(),
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          currentSelectedValuePosition = newValue!;
-                        });
+                        if (newDateRange != null) {
+                          setState(() {
+                            dateTimeRange = newDateRange;
+                            context.read<DealsBloc>().add(FetchDealsWithDate(
+                                startDate:
+                                    newDateRange.start.millisecondsSinceEpoch,
+                                endDate: newDateRange.end.millisecondsSinceEpoch +
+                                    86400000));
+                          });
+                        }
                       },
+                      child: Text(
+                        '${DateFormat('yyyy/MM/dd').format(dateTimeRange.start)} - '
+                        '${DateFormat('yyyy/MM/dd').format(dateTimeRange.end)}',
+                        style: Theme.of(context)
+                            .textTheme
+                            .subtitle2
+                            ?.copyWith(
+                            fontSize: 14,
+                            color: colorMidnightBlue,
+                            letterSpacing: 1),
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: height * 0.02),
+
+                // ------------ Position Section -----------
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Position: ',
+                      style: Theme.of(context).textTheme.subtitle2
+                          ?.copyWith(
+                          fontSize: 15,
+                          color: colorDarkGrey,
+                          letterSpacing: 1),
                     ),
-                  )
-                ],
-              ),
-            ],
-          ),
+                    SizedBox(height: height * 0.015),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 7, right: 7),
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        isDense: true,
+                        value: currentSelectedValuePosition,
+                        items: position
+                            .map<DropdownMenuItem<String>>(
+                                (String value) => DropdownMenuItem(
+                                      value: value,
+                                      child: Text(value,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2
+                                              ?.copyWith(
+                                                  fontSize: 14,
+                                                  color: colorMidnightBlue,
+                                                  letterSpacing: 1)),
+                                    ))
+                            .toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            currentSelectedValuePosition = newValue!;
+                          });
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+        ),
       ),
 
       // ------------ Buttons Section -----------
