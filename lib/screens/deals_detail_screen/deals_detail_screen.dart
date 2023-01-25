@@ -96,7 +96,7 @@ class _DealsDetailScreenState extends State<DealsDetailScreen> {
                             GestureDetector(
                               child: const Icon(Icons.arrow_back_ios_new_rounded,
                                   color: colorBlue, size: 25),
-                              onTap: () => Navigator.of(context).pushReplacementNamed(DealsScreen.id),
+                              onTap: () => Navigator.of(context).pop(),
                             ),
                             GestureDetector(
                                 onTap: () => Navigator.of(context).pushReplacementNamed(

@@ -41,7 +41,7 @@ class DealsScreen extends StatefulWidget {
 
 class _DealsScreenState extends State<DealsScreen> {
 
-  ValueNotifier<List<int>> dateTimeRange = ValueNotifier([]);
+  ValueNotifier<List<int>> dateTimeRange = ValueNotifier([DateTime.now().millisecondsSinceEpoch, DateTime.now().millisecondsSinceEpoch]);
   ValueNotifier<String> userSearchInput = ValueNotifier<String>('');
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int initCounter = 0;
@@ -98,13 +98,15 @@ class _DealsScreenState extends State<DealsScreen> {
               child: SingleChildScrollView(
                 child: BlocBuilder<DealsBloc, DealsState>(
                   builder: (context, state) {
-                    if (!doItJustOnce) {
-                      list.value = state.deals;
-                      dateTimeRange.value = [state.deals[state.deals.length - 1].dateCreated, state.deals[0].dateCreated];
-                      doItJustOnce = !doItJustOnce;
-                    }
-                    if(list != state.deals){
-                      list.value = state.deals;
+                    if(state.deals.isNotEmpty){
+                      if (!doItJustOnce) {
+                        list.value = state.deals;
+                        dateTimeRange.value = [state.deals[state.deals.length - 1].dateCreated, state.deals[0].dateCreated];
+                        doItJustOnce = !doItJustOnce;
+                      }
+                      if(list != state.deals){
+                        list.value = state.deals;
+                      }
                     }
                     return Column(children: [
                       DealsTopSection(
@@ -136,9 +138,11 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage == DrawerSections.deals ? true : false),
           menuItem(2, "Statistic", Icons.insert_chart_outlined_rounded,
               currentPage == DrawerSections.statistic ? true : false),
-          menuItem(3, "Settings", Icons.settings_outlined,
+          menuItem(3, "Hashtags", Icons.grid_3x3_rounded,
+              currentPage == DrawerSections.hashtags ? true : false),
+          menuItem(4, "Settings", Icons.settings_outlined,
               currentPage == DrawerSections.settings ? true : false),
-          menuItem(4, "Help", Icons.help_outline_rounded,
+          menuItem(5, "Help", Icons.help_outline_rounded,
               currentPage == DrawerSections.help ? true : false),
           const SizedBox(height: 30),
           Row(
@@ -173,8 +177,10 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage = DrawerSections.statistic;
               Navigator.of(context).pushReplacementNamed(StatisticScreen.id);
             } else if (id == 3) {
-              currentPage = DrawerSections.settings;
+              currentPage = DrawerSections.hashtags;
             } else if (id == 4) {
+              currentPage = DrawerSections.settings;
+            } else if (id == 5) {
               currentPage = DrawerSections.help;
             }
           });
@@ -211,6 +217,7 @@ class _DealsScreenState extends State<DealsScreen> {
 enum DrawerSections {
   deals,
   statistic,
+  hashtags,
   settings,
   help,
 }

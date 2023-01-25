@@ -23,7 +23,7 @@ class _AddEditTopSectionState extends State<AddEditTopSection> {
           child: const Icon(Icons.arrow_back_ios_new_rounded,
               size: 22, color: Colors.white),
           onTap: () =>
-              Navigator.of(context).pushReplacementNamed(DealsScreen.id),
+              Navigator.of(context).pop(),
         ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,

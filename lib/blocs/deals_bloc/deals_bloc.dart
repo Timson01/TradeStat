@@ -40,7 +40,8 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
 
   FutureOr<void> _onUpdateDeal(
       UpdateDeal event, Emitter<DealsState> emit) async {
-    int res = await dealsRepository.updateDeal(event.deal);
+    await dealsRepository.updateDeal(event.deal);
+    add(FetchDeals());
   }
 
   FutureOr<void> _onFetchDeals(

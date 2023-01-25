@@ -78,7 +78,7 @@ class DealsContainer extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () {
-                        Navigator.of(context).pushReplacementNamed(DealsDetailScreen.id, arguments: deals[index]);
+                        Navigator.of(context).pushNamed(DealsDetailScreen.id, arguments: deals[index]);
                       },
                       child: Dismissible(
                         key: UniqueKey(),

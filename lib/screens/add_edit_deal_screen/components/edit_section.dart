@@ -13,7 +13,6 @@ import 'package:trade_stat/models/deal.dart';
 import 'package:trade_stat/models/image_path.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/add_deal_screen.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/edit_deal_screen.dart';
-import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 
 import '../../../repository/deals_repository.dart';
 import '../../../styles/style_exports.dart';
@@ -210,8 +209,7 @@ class _EditSectionState extends State<EditSection> {
             ..addAll(selectedImagesPaths));
         }
       }
-    } on PlatformException catch (e) {
-      print(e);
+    } on PlatformException catch (_) {
       Navigator.of(context).pop();
     }
   }
@@ -258,7 +256,7 @@ class _EditSectionState extends State<EditSection> {
         _amountController.text = currentDeal.amount.toString();
         _incomeController.text = currentDeal.income.toString();
         _date = DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated);
-        currentSelectedValueHashtag = currentDeal.hashtag.isNotEmpty ? currentDeal.hashtag :"Add a new hashtag";
+        currentSelectedValueHashtag = currentDeal.hashtag.isNotEmpty ? currentDeal.hashtag : "Add a new hashtag";
         currentSelectedValuePosition = currentDeal.position.isNotEmpty ? currentDeal.position : "Long";
         doItOnce = !doItOnce;
       }
@@ -472,7 +470,7 @@ class _EditSectionState extends State<EditSection> {
                                                 : IconButton(
                                                     padding: EdgeInsets.zero,
                                                     constraints:
-                                                        BoxConstraints(),
+                                                        const BoxConstraints(),
                                                     onPressed: () {
                                                       hashtags.remove(value);
                                                       setHashtag(hashtags);
@@ -559,7 +557,7 @@ class _EditSectionState extends State<EditSection> {
                                         fontSize: 12,
                                         color: colorDarkGrey,
                                         letterSpacing: 1),
-                                keyboardType: TextInputType.numberWithOptions(
+                                keyboardType: const TextInputType.numberWithOptions(
                                     decimal: true),
                                 decoration: InputDecoration(
                                     isDense: true,
@@ -655,7 +653,7 @@ class _EditSectionState extends State<EditSection> {
                                     fontSize: 12,
                                     color: colorDarkGrey,
                                     letterSpacing: 1),
-                                keyboardType: TextInputType.numberWithOptions(
+                                keyboardType: const TextInputType.numberWithOptions(
                                     decimal: true),
                                 decoration: InputDecoration(
                                     isDense: true,
@@ -762,9 +760,7 @@ class _EditSectionState extends State<EditSection> {
                                         .read<DealsBloc>()
                                         .add(AddDeal(deal: deal));
                                     _imagePaths.isEmpty
-                                        ? Navigator.of(context)
-                                            .pushReplacementNamed(
-                                                DealsScreen.id)
+                                        ? Navigator.of(context).pop()
                                         : {
                                             _imagePaths.forEach((element) {
                                               context.read<DealsBloc>().add(
@@ -773,9 +769,7 @@ class _EditSectionState extends State<EditSection> {
                                                           imagePath: element,
                                                           deal_id: state
                                                               .deals.length + 1)));
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      DealsScreen.id);
+                                              Navigator.of(context).pop();
                                             })
                                           };
                                   }
@@ -805,9 +799,7 @@ class _EditSectionState extends State<EditSection> {
                                           DeleteDealImage(id: element.id!));
                                     });
                                     _imagePaths.isEmpty
-                                        ? Navigator.of(context)
-                                            .pushReplacementNamed(
-                                                DealsScreen.id)
+                                        ? Navigator.of(context).pop()
                                         : {
                                             _imagePaths.forEach((element) {
                                               context.read<DealsBloc>().add(
@@ -816,9 +808,7 @@ class _EditSectionState extends State<EditSection> {
                                                           imagePath: element,
                                                           deal_id:
                                                               currentDeal.id)));
-                                              Navigator.of(context)
-                                                  .pushReplacementNamed(
-                                                      DealsScreen.id);
+                                              Navigator.of(context).pop();
                                             })
                                           };
                                   }
@@ -827,7 +817,7 @@ class _EditSectionState extends State<EditSection> {
                                   setState(() {
                                     _tickerNameState = true;
                                   });
-                                  return null;
+                                  return;
                                 },
                           child: Text(widget.id == AddDealScreen.id ? 'Create': 'Edit',
                               style: Theme.of(context)
