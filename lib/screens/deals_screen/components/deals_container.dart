@@ -78,6 +78,7 @@ class DealsContainer extends StatelessWidget {
                     ),
                     child: InkWell(
                       onTap: () {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
                         Navigator.of(context).pushReplacementNamed(DealsDetailScreen.id, arguments: deals[index]);
                       },
                       child: Dismissible(

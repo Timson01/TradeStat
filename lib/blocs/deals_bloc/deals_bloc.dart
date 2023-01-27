@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:equatable/equatable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/image_path.dart';
 import 'package:trade_stat/repository/deals_repository.dart';
@@ -32,6 +33,8 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
 
   FutureOr<void> _onAddDeal(AddDeal event, Emitter<DealsState> emit) async {
     var deal = await dealsRepository.addDeal(event.deal);
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt("lastId", deal.id!);
     emit(DealsState(
         hashtags: List.from(state.hashtags),
       deals: state.deals,

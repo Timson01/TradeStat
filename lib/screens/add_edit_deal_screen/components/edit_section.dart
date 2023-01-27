@@ -1,23 +1,18 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/deal.dart';
 import 'package:trade_stat/models/image_path.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/add_deal_screen.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/edit_deal_screen.dart';
 
-import '../../../repository/deals_repository.dart';
 import '../../../styles/style_exports.dart';
 import '../../deals_screen/deals_screen.dart';
-import 'select_photo_options_screen.dart';
+import 'add_edit_deal_methods.dart';
 
 class EditSection extends StatefulWidget {
   final String id;
@@ -28,9 +23,7 @@ class EditSection extends StatefulWidget {
   State<EditSection> createState() => _EditSectionState();
 }
 
-class _EditSectionState extends State<EditSection> {
-  List<String> _imagePaths = [];
-  List<String> hashtags = [];
+class _EditSectionState extends State<EditSection> with AddEditDealMethods {
   List<String> position = <String>['Long', 'Short'];
   var currentSelectedValueHashtag = 'Add a new hashtag';
   var currentSelectedValuePosition = 'Long';
@@ -39,41 +32,11 @@ class _EditSectionState extends State<EditSection> {
   final _descriptionController = TextEditingController();
   final _amountController = TextEditingController();
   final _numberOfStocksController = TextEditingController();
-  final _hashtagController = TextEditingController();
   final _incomeController = TextEditingController();
   bool _tickerNameState = false;
   DateTime _date = DateTime.now();
   bool doItOnce = false;
-  final DealsRepository dealsRepository = DealsRepository();
-  List<DealImage> imagePaths = <DealImage>[];
   late GlobalKey dropdownKey;
-
-  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
-
-  Future setHashtag(List<String> hashtags) async {
-    final SharedPreferences prefs = await _prefs;
-    prefs.setStringList("Hashtags", hashtags);
-    hashtags = prefs.getStringList("Hashtags") ?? <String>['Add a new hashtag'];
-  }
-
-  Future<List<String>> getHashtags() async {
-    final SharedPreferences prefs = await _prefs;
-    hashtags = prefs.getStringList("Hashtags") as List<String>;
-    for (var element in hashtags) {
-      context.read<DealsBloc>().add(AddHashtag(hashtag: element));
-    }
-    return hashtags;
-  }
-
-  FutureOr<void> _onFetchImagePaths(int dealId) async {
-    List<DealImage> imagePath = await dealsRepository.getImagePath(dealId);
-    setState(() {
-      imagePaths = imagePath;
-      for (var element in imagePath) {
-        _imagePaths.add(element.imagePath!);
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -87,7 +50,6 @@ class _EditSectionState extends State<EditSection> {
     _descriptionController.dispose();
     _amountController.dispose();
     _numberOfStocksController.dispose();
-    _hashtagController.dispose();
     _incomeController.dispose();
     super.dispose();
   }
@@ -138,175 +100,8 @@ class _EditSectionState extends State<EditSection> {
       currentSelectedValueHashtag = value;
     });
     if (value == 'Add a new hashtag') {
-      _showHashtagDialog();
+      showHashtagDialog();
     }
-  }
-
-  FutureOr<void> _showHashtagDialog() async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'Add a new hashtag to group deals',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline5?.copyWith(
-                  letterSpacing: 0,
-                  fontSize: 18,
-                ),
-          ),
-          content: TextField(
-            controller: _hashtagController,
-            style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                fontSize: 12, color: colorDarkGrey, letterSpacing: 1),
-              inputFormatters: [
-                LengthLimitingTextInputFormatter(20),
-              ],
-            decoration: InputDecoration(
-                isDense: true,
-                filled: true,
-                fillColor: Colors.white,
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(width: 1, color: colorDarkGrey),
-                ),
-                hintText: 'Add a new hashtag',
-                hintStyle: Theme.of(context).textTheme.subtitle2?.copyWith(
-                    fontSize: 12, color: colorDarkGrey, letterSpacing: 1)),
-          ),
-          actions: <Widget>[
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: Text(
-                'Save',
-                style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                    fontSize: 15, color: colorBlue, letterSpacing: 1),
-              ),
-              onPressed: () async {
-                if (_hashtagController.value.text.isNotEmpty) {
-                  var hashtag = _hashtagController.value.text;
-                  hashtags.add(hashtag);
-                  setHashtag(hashtags);
-                  context.read<DealsBloc>().add(AddHashtag(hashtag: hashtag));
-                  Navigator.of(context).pop();
-                }
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  FutureOr<void> _showHashtagDeleteDialog(String value) async {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(
-            'If you delete a hashtag #$value, all deals with that hashtag will be deleted',
-            textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline5?.copyWith(
-              color: Colors.red,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w500,
-              fontSize: 18,
-            ),
-          ),
-          actions: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  child: Text(
-                    'Cancel',
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                        fontSize: 15, color: colorBlue, letterSpacing: 1),
-                  ),
-                  onPressed: (){},
-                ),
-                TextButton(
-                  style: TextButton.styleFrom(
-                    textStyle: Theme.of(context).textTheme.labelLarge,
-                  ),
-                  child: Text(
-                    'Delete',
-                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                        fontSize: 15, color: Colors.red, letterSpacing: 1, fontWeight: FontWeight.w500),
-                  ),
-                  onPressed: (){
-                      hashtags.remove(value);
-                      setHashtag(hashtags);
-                      context.read<DealsBloc>()
-                          .add(DeleteDealByHashtag(
-                          hashtag: value));
-                      context.read<DealsBloc>()
-                          .add(DeleteHashtag(
-                          hashtag: value));
-                      Navigator.pop(context);
-                      Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future pickImage(ImageSource source) async {
-    try {
-      if (source == ImageSource.camera) {
-        final image = await ImagePicker().pickImage(source: source);
-        if (image == null) return;
-        setState(() => _imagePaths = List.from(_imagePaths)..add(image.path));
-      } else {
-        final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
-        if (selectedImages.isNotEmpty) {
-          final List<String> selectedImagesPaths = [];
-          for (var element in selectedImages) {
-            selectedImagesPaths.add(element.path);
-          }
-          setState(() => _imagePaths = List.from(_imagePaths)
-            ..addAll(selectedImagesPaths));
-        }
-      }
-    } on PlatformException catch (_) {
-      Navigator.of(context).pop();
-    }
-  }
-
-  void showSelectPhotoOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(25.0),
-        ),
-      ),
-      builder: (context) => DraggableScrollableSheet(
-          initialChildSize: 0.28,
-          maxChildSize: 0.4,
-          minChildSize: 0.28,
-          expand: false,
-          builder: (context, scrollController) {
-            return SingleChildScrollView(
-              controller: scrollController,
-              child: SelectPhotoOptionsScreen(
-                onTap: pickImage,
-              ),
-            );
-          }),
-    );
   }
 
   // WIDGET BUILD ------------
@@ -318,7 +113,7 @@ class _EditSectionState extends State<EditSection> {
     if (widget.id == EditDealScreen.id) {
       currentDeal = InheritedEditDealScreen.of(context).currentDeal;
       if (!doItOnce) {
-        _onFetchImagePaths(currentDeal.id!);
+        onFetchImagePaths(currentDeal.id!);
         getHashtags();
         _tickerNameController.text = currentDeal.tickerName;
         _descriptionController.text = currentDeal.description;
@@ -326,12 +121,13 @@ class _EditSectionState extends State<EditSection> {
         _amountController.text = currentDeal.amount.toString();
         _incomeController.text = currentDeal.income.toString();
         _date = DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated);
-        if(currentDeal.hashtag == '' || currentDeal.hashtag.isEmpty){
+        if (currentDeal.hashtag == '' || currentDeal.hashtag.isEmpty) {
           currentSelectedValueHashtag = "Add a new hashtag";
-        }else{
+        } else {
           currentSelectedValueHashtag = currentDeal.hashtag;
         }
-        currentSelectedValuePosition = currentDeal.position.isNotEmpty ? currentDeal.position : "Long";
+        currentSelectedValuePosition =
+            currentDeal.position.isNotEmpty ? currentDeal.position : "Long";
         doItOnce = !doItOnce;
       }
     }
@@ -344,12 +140,12 @@ class _EditSectionState extends State<EditSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // ------ Image Section - start -----------
-            _imagePaths.isNotEmpty
+            imagePaths.isNotEmpty
                 ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CarouselSlider.builder(
-                          itemCount: _imagePaths.length,
+                          itemCount: imagePaths.length,
                           itemBuilder: (BuildContext context, int itemIndex,
                                   int pageViewIndex) =>
                               Stack(
@@ -361,7 +157,7 @@ class _EditSectionState extends State<EditSection> {
                                     child: ClipRRect(
                                         borderRadius: BorderRadius.circular(5),
                                         child: Image.file(
-                                            File(_imagePaths[itemIndex]),
+                                            File(imagePaths[itemIndex]),
                                             width: width * 0.85,
                                             fit: BoxFit.cover)),
                                   ),
@@ -374,8 +170,8 @@ class _EditSectionState extends State<EditSection> {
                                         child: FloatingActionButton(
                                           backgroundColor: colorBlue,
                                           onPressed: () => setState(() {
-                                            _imagePaths
-                                                .remove(_imagePaths[itemIndex]);
+                                            imagePaths
+                                                .remove(imagePaths[itemIndex]);
                                           }),
                                           child: const Icon(
                                               size: 18,
@@ -394,7 +190,7 @@ class _EditSectionState extends State<EditSection> {
                       Container(
                         margin: EdgeInsets.only(left: width * 0.03, top: 5),
                         child: InkWell(
-                          onTap: () => showSelectPhotoOptions(context),
+                          onTap: () => showSelectPhotoOptions(),
                           child: Text(
                             'Add Photo',
                             style:
@@ -409,7 +205,7 @@ class _EditSectionState extends State<EditSection> {
                   )
                 : InkWell(
                     onTap: () {
-                      showSelectPhotoOptions(context);
+                      showSelectPhotoOptions();
                     },
                     child: SvgPicture.asset(addPhoto,
                         fit: BoxFit.fitWidth, width: width * 0.85)),
@@ -548,7 +344,11 @@ class _EditSectionState extends State<EditSection> {
                                                     constraints:
                                                         const BoxConstraints(),
                                                     onPressed: () {
-                                                      widget.id == EditDealScreen.id ? null : _showHashtagDeleteDialog(value);
+                                                      widget.id ==
+                                                              EditDealScreen.id
+                                                          ? null
+                                                          : showHashtagDeleteDialog(
+                                                              value);
                                                       /*hashtags.remove(value);
                                                       setHashtag(hashtags);
                                                       context.read<DealsBloc>()
@@ -557,9 +357,13 @@ class _EditSectionState extends State<EditSection> {
                                                       Navigator.pop(context);*/
                                                     },
                                                     icon: Icon(
-                                                      widget.id == EditDealScreen.id ?
-                                                        Icons.grid_3x3_rounded :
-                                                      Icons.delete_forever_rounded,
+                                                        widget.id ==
+                                                                EditDealScreen
+                                                                    .id
+                                                            ? Icons
+                                                                .grid_3x3_rounded
+                                                            : Icons
+                                                                .delete_forever_rounded,
                                                         color: colorDarkGrey,
                                                         size: 18),
                                                   )
@@ -589,20 +393,22 @@ class _EditSectionState extends State<EditSection> {
                             isDense: true,
                             value: currentSelectedValuePosition,
                             items: position
-                                .map<DropdownMenuItem<String>>((String value) =>
-                                DropdownMenuItem(
-                                  value: value,
-                                  child: Text(value,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .subtitle2
-                                                ?.copyWith(
-                                                fontSize: 12,
-                                                color: value == "Long" ? Colors.green : Colors.red,
-                                                letterSpacing: 1)),
-                                ))
+                                .map<DropdownMenuItem<String>>(
+                                    (String value) => DropdownMenuItem(
+                                          value: value,
+                                          child: Text(value,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .subtitle2
+                                                  ?.copyWith(
+                                                      fontSize: 12,
+                                                      color: value == "Long"
+                                                          ? Colors.green
+                                                          : Colors.red,
+                                                      letterSpacing: 1)),
+                                        ))
                                 .toList(),
-                            onChanged: (String? newValue){
+                            onChanged: (String? newValue) {
                               setState(() {
                                 currentSelectedValuePosition = newValue!;
                               });
@@ -635,8 +441,9 @@ class _EditSectionState extends State<EditSection> {
                                         fontSize: 12,
                                         color: colorDarkGrey,
                                         letterSpacing: 1),
-                                keyboardType: const TextInputType.numberWithOptions(
-                                    decimal: true),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 decoration: InputDecoration(
                                     isDense: true,
                                     filled: true,
@@ -728,11 +535,12 @@ class _EditSectionState extends State<EditSection> {
                                     .textTheme
                                     .subtitle2
                                     ?.copyWith(
-                                    fontSize: 12,
-                                    color: colorDarkGrey,
-                                    letterSpacing: 1),
-                                keyboardType: const TextInputType.numberWithOptions(
-                                    decimal: true),
+                                        fontSize: 12,
+                                        color: colorDarkGrey,
+                                        letterSpacing: 1),
+                                keyboardType:
+                                    const TextInputType.numberWithOptions(
+                                        decimal: true),
                                 decoration: InputDecoration(
                                     isDense: true,
                                     filled: true,
@@ -749,9 +557,9 @@ class _EditSectionState extends State<EditSection> {
                                         .textTheme
                                         .subtitle2
                                         ?.copyWith(
-                                        fontSize: 12,
-                                        color: colorDarkGrey,
-                                        letterSpacing: 1)),
+                                            fontSize: 12,
+                                            color: colorDarkGrey,
+                                            letterSpacing: 1)),
                               ),
                             ],
                           ),
@@ -773,25 +581,30 @@ class _EditSectionState extends State<EditSection> {
                                     left: 10, top: 4, bottom: 4),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(width: 1, color: colorDarkGrey),
+                                  border: Border.all(
+                                      width: 1, color: colorDarkGrey),
                                 ),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(DateFormat("dd.MM.yyyy").format(_date),
                                         style: Theme.of(context)
                                             .textTheme
                                             .subtitle2
                                             ?.copyWith(
-                                            fontSize: 12,
-                                            color: colorDarkGrey,
-                                            letterSpacing: 1)),
+                                                fontSize: 12,
+                                                color: colorDarkGrey,
+                                                letterSpacing: 1)),
                                     Container(
-                                        margin: const EdgeInsets.only(right: 10),
+                                        margin:
+                                            const EdgeInsets.only(right: 10),
                                         child: InkWell(
                                           onTap: () => _showDatePicker(),
-                                          child: const Icon(Icons.date_range_outlined,
-                                              size: 18, color: colorDarkGrey),
+                                          child: const Icon(
+                                              Icons.date_range_outlined,
+                                              size: 18,
+                                              color: colorDarkGrey),
                                         )),
                                   ],
                                 ),
@@ -816,15 +629,18 @@ class _EditSectionState extends State<EditSection> {
                                 ),
                               )),
                           onPressed: _tickerNameController.value.text.isNotEmpty
-                              ? () {
+                              ? () async {
+                                  int lastId = await getLastId();
                                   if (widget.id == AddDealScreen.id) {
                                     Deal deal = Deal(
                                         tickerName:
                                             _tickerNameController.value.text,
                                         description:
                                             _descriptionController.value.text,
-                                        hashtag: currentSelectedValueHashtag == 'Add a new hashtag' ?
-                                        '' : currentSelectedValueHashtag,
+                                        hashtag: currentSelectedValueHashtag ==
+                                                'Add a new hashtag'
+                                            ? ''
+                                            : currentSelectedValueHashtag,
                                         position: currentSelectedValuePosition,
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
@@ -838,19 +654,22 @@ class _EditSectionState extends State<EditSection> {
                                     context
                                         .read<DealsBloc>()
                                         .add(AddDeal(deal: deal));
-                                    _imagePaths.isEmpty
-                                        ? Navigator.of(context).pushReplacementNamed(DealsScreen.id)
+                                    imagePaths.isEmpty
+                                        ? Navigator.of(context)
+                                            .pushReplacementNamed(
+                                                DealsScreen.id)
                                         : {
-                                            _imagePaths.forEach((element) {
+                                            imagePaths.forEach((element) {
                                               context.read<DealsBloc>().add(
                                                   AddDealImage(
                                                       imagePath: DealImage(
                                                           imagePath: element,
-                                                          deal_id: state
-                                                              .deals.length + 1)));
-                                              Navigator.of(context).pushReplacementNamed(DealsScreen.id);
+                                                          deal_id:
+                                                              lastId + 1)));
                                             })
                                           };
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(DealsScreen.id);
                                   }
                                   if (widget.id == EditDealScreen.id) {
                                     Deal deal = Deal(
@@ -859,8 +678,10 @@ class _EditSectionState extends State<EditSection> {
                                             _tickerNameController.value.text,
                                         description:
                                             _descriptionController.value.text,
-                                        hashtag: currentSelectedValueHashtag == 'Add a new hashtag' ?
-                                        '' :currentSelectedValueHashtag,
+                                        hashtag: currentSelectedValueHashtag ==
+                                                'Add a new hashtag'
+                                            ? ''
+                                            : currentSelectedValueHashtag,
                                         position: currentSelectedValuePosition,
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
@@ -874,23 +695,26 @@ class _EditSectionState extends State<EditSection> {
                                     context
                                         .read<DealsBloc>()
                                         .add(UpdateDeal(deal: deal));
-                                    for (var element in imagePaths) {
+                                    for (var element in dealImages) {
                                       context.read<DealsBloc>().add(
                                           DeleteDealImage(id: element.id!));
                                     }
-                                    _imagePaths.isEmpty
-                                        ? Navigator.of(context).pushReplacementNamed(DealsScreen.id)
+                                    imagePaths.isEmpty
+                                        ? Navigator.of(context)
+                                            .pushReplacementNamed(
+                                                DealsScreen.id)
                                         : {
-                                            _imagePaths.forEach((element) {
+                                            imagePaths.forEach((element) {
                                               context.read<DealsBloc>().add(
                                                   AddDealImage(
                                                       imagePath: DealImage(
                                                           imagePath: element,
                                                           deal_id:
                                                               currentDeal.id)));
-                                              Navigator.of(context).pushReplacementNamed(DealsScreen.id);
                                             })
                                           };
+                                    Navigator.of(context)
+                                        .pushReplacementNamed(DealsScreen.id);
                                   }
                                 }
                               : () {
@@ -899,7 +723,8 @@ class _EditSectionState extends State<EditSection> {
                                   });
                                   return;
                                 },
-                          child: Text(widget.id == AddDealScreen.id ? 'Create': 'Edit',
+                          child: Text(
+                              widget.id == AddDealScreen.id ? 'Create' : 'Edit',
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle1

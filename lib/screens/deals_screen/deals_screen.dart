@@ -104,9 +104,9 @@ class _DealsScreenState extends State<DealsScreen> {
                         dateTimeRange.value = [state.deals[state.deals.length - 1].dateCreated, state.deals[0].dateCreated];
                         doItJustOnce = !doItJustOnce;
                       }
-                      if(list != state.deals){
-                        list.value = state.deals;
-                      }
+                    }
+                    if(list != state.deals){
+                      list.value = state.deals;
                     }
                     return Column(children: [
                       DealsTopSection(
@@ -138,8 +138,6 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage == DrawerSections.deals ? true : false),
           menuItem(2, "Statistic", Icons.insert_chart_outlined_rounded,
               currentPage == DrawerSections.statistic ? true : false),
-          menuItem(3, "Hashtags", Icons.grid_3x3_rounded,
-              currentPage == DrawerSections.hashtags ? true : false),
           menuItem(4, "Settings", Icons.settings_outlined,
               currentPage == DrawerSections.settings ? true : false),
           menuItem(5, "Help", Icons.help_outline_rounded,
