@@ -38,7 +38,7 @@ class Deal extends Equatable {
     required this.tickerName,
     this.description = 'You didn\'t put anything here',
     required this.dateCreated,
-    this.hashtag = 'You didn\'t put anything here',
+    this.hashtag = '',
     this.position = 'Long',
     this.amount = 0.0,
     this.income = 0.0,

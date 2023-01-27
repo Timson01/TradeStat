@@ -50,7 +50,7 @@ class DealsDetailInfoSection extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.01),
                 Text(
-                  currentDeal.description,
+                  currentDeal.description == '' ? 'You didn\'t put anything here' : currentDeal.description,
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: Colors.black,
                       letterSpacing: 0
@@ -73,7 +73,7 @@ class DealsDetailInfoSection extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.01),
                 Text(
-                  '# ${currentDeal.hashtag}',
+                  currentDeal.hashtag == '' ? 'You didn\'t put anything here' : '#${currentDeal.hashtag}',
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: Colors.black,
                       letterSpacing: 0

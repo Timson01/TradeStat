@@ -54,7 +54,7 @@ class _DealsButtonSectionState extends State<DealsButtonSection> {
             child: SvgPicture.asset(addDealIcon, width: 20, fit: BoxFit.cover),
             onTap: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              Navigator.of(context).pushNamed(AddDealScreen.id);
+              Navigator.of(context).pushReplacementNamed(AddDealScreen.id);
             },
           ),
           InkWell(

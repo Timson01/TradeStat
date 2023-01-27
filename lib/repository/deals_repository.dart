@@ -41,6 +41,11 @@ class DealsRepository {
     return response;
   }
 
+  Future<int> deleteDealByHashtag({required String hashtag}) async{
+    int response = await _databaseHelper.deleteByHashtag(hashtag: hashtag);
+    return response;
+  }
+
   Future<DealImage> addDealImage(DealImage imagePath) async{
     DealImage response = await _databaseHelper.addImage(imagePath);
     return response;

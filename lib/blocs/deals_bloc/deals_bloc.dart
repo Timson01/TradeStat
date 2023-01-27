@@ -21,6 +21,7 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     on<FetchDeals>(_onFetchDeals);
     on<FetchDealsWithDate>(_onFetchDealsWithDate);
     on<DeleteDeal>(_onDeleteDeal);
+    on<DeleteDealByHashtag>(_DeleteDealByHashtag);
     on<AddHashtag>(_onAddHashtag);
     on<DeleteHashtag>(_onDeleteHashtag);
     on<AddDealImage>(_onAddDealImage);
@@ -85,6 +86,10 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     add(FetchDeals());
   }
 
+  FutureOr<void> _DeleteDealByHashtag(DeleteDealByHashtag event, Emitter<DealsState> emit) async {
+    await dealsRepository.deleteDealByHashtag(hashtag: event.hashtag);
+    add(FetchDeals());
+  }
 
   void _onAddHashtag(AddHashtag event, Emitter<DealsState> emit) {
     final state = this.state;

@@ -135,6 +135,16 @@ class DatabaseHelper {
     );
   }
 
+  Future<int> deleteByHashtag({required String hashtag}) async {
+    final db = await instance.database;
+
+    return await db.delete(
+      dealTable,
+      where: '${dealFields.hashtag} = ?',
+      whereArgs: [hashtag],
+    );
+  }
+
   // ------- DEAL IMAGE SECTION ----------
 
   Future<DealImage> addImage(DealImage imagePath) async {

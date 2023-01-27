@@ -16,6 +16,7 @@ import 'package:trade_stat/screens/add_edit_deal_screen/edit_deal_screen.dart';
 
 import '../../../repository/deals_repository.dart';
 import '../../../styles/style_exports.dart';
+import '../../deals_screen/deals_screen.dart';
 import 'select_photo_options_screen.dart';
 
 class EditSection extends StatefulWidget {
@@ -45,6 +46,7 @@ class _EditSectionState extends State<EditSection> {
   bool doItOnce = false;
   final DealsRepository dealsRepository = DealsRepository();
   List<DealImage> imagePaths = <DealImage>[];
+  late GlobalKey dropdownKey;
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
@@ -57,9 +59,9 @@ class _EditSectionState extends State<EditSection> {
   Future<List<String>> getHashtags() async {
     final SharedPreferences prefs = await _prefs;
     hashtags = prefs.getStringList("Hashtags") as List<String>;
-    hashtags.forEach((element) {
+    for (var element in hashtags) {
       context.read<DealsBloc>().add(AddHashtag(hashtag: element));
-    });
+    }
     return hashtags;
   }
 
@@ -67,10 +69,16 @@ class _EditSectionState extends State<EditSection> {
     List<DealImage> imagePath = await dealsRepository.getImagePath(dealId);
     setState(() {
       imagePaths = imagePath;
-      imagePath.forEach((element) {
+      for (var element in imagePath) {
         _imagePaths.add(element.imagePath!);
-      });
+      }
     });
+  }
+
+  @override
+  void initState() {
+    dropdownKey = GlobalKey();
+    super.initState();
   }
 
   @override
@@ -151,6 +159,9 @@ class _EditSectionState extends State<EditSection> {
             controller: _hashtagController,
             style: Theme.of(context).textTheme.subtitle2?.copyWith(
                 fontSize: 12, color: colorDarkGrey, letterSpacing: 1),
+              inputFormatters: [
+                LengthLimitingTextInputFormatter(20),
+              ],
             decoration: InputDecoration(
                 isDense: true,
                 filled: true,
@@ -191,6 +202,66 @@ class _EditSectionState extends State<EditSection> {
     );
   }
 
+  FutureOr<void> _showHashtagDeleteDialog(String value) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            'If you delete a hashtag #$value, all deals with that hashtag will be deleted',
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline5?.copyWith(
+              color: Colors.red,
+              letterSpacing: 0,
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  child: Text(
+                    'Cancel',
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontSize: 15, color: colorBlue, letterSpacing: 1),
+                  ),
+                  onPressed: (){},
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  child: Text(
+                    'Delete',
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontSize: 15, color: Colors.red, letterSpacing: 1, fontWeight: FontWeight.w500),
+                  ),
+                  onPressed: (){
+                      hashtags.remove(value);
+                      setHashtag(hashtags);
+                      context.read<DealsBloc>()
+                          .add(DeleteDealByHashtag(
+                          hashtag: value));
+                      context.read<DealsBloc>()
+                          .add(DeleteHashtag(
+                          hashtag: value));
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future pickImage(ImageSource source) async {
     try {
       if (source == ImageSource.camera) {
@@ -199,7 +270,6 @@ class _EditSectionState extends State<EditSection> {
         setState(() => _imagePaths = List.from(_imagePaths)..add(image.path));
       } else {
         final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
-        if (selectedImages == null) return;
         if (selectedImages.isNotEmpty) {
           final List<String> selectedImagesPaths = [];
           for (var element in selectedImages) {
@@ -256,7 +326,11 @@ class _EditSectionState extends State<EditSection> {
         _amountController.text = currentDeal.amount.toString();
         _incomeController.text = currentDeal.income.toString();
         _date = DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated);
-        currentSelectedValueHashtag = currentDeal.hashtag.isNotEmpty ? currentDeal.hashtag : "Add a new hashtag";
+        if(currentDeal.hashtag == '' || currentDeal.hashtag.isEmpty){
+          currentSelectedValueHashtag = "Add a new hashtag";
+        }else{
+          currentSelectedValueHashtag = currentDeal.hashtag;
+        }
         currentSelectedValuePosition = currentDeal.position.isNotEmpty ? currentDeal.position : "Long";
         doItOnce = !doItOnce;
       }
@@ -444,6 +518,8 @@ class _EditSectionState extends State<EditSection> {
                         Padding(
                           padding: const EdgeInsets.only(left: 7, right: 7),
                           child: DropdownButton<String>(
+                            menuMaxHeight: height * 0.2,
+                            key: dropdownKey,
                             isExpanded: true,
                             isDense: true,
                             value: currentSelectedValueHashtag,
@@ -472,16 +548,18 @@ class _EditSectionState extends State<EditSection> {
                                                     constraints:
                                                         const BoxConstraints(),
                                                     onPressed: () {
-                                                      hashtags.remove(value);
+                                                      widget.id == EditDealScreen.id ? null : _showHashtagDeleteDialog(value);
+                                                      /*hashtags.remove(value);
                                                       setHashtag(hashtags);
                                                       context.read<DealsBloc>()
-                                                        ..add(DeleteHashtag(
+                                                        .add(DeleteHashtag(
                                                             hashtag: value));
-                                                      Navigator.pop(context);
+                                                      Navigator.pop(context);*/
                                                     },
-                                                    icon: const Icon(
-                                                        Icons
-                                                            .delete_forever_rounded,
+                                                    icon: Icon(
+                                                      widget.id == EditDealScreen.id ?
+                                                        Icons.grid_3x3_rounded :
+                                                      Icons.delete_forever_rounded,
                                                         color: colorDarkGrey,
                                                         size: 18),
                                                   )
@@ -745,7 +823,8 @@ class _EditSectionState extends State<EditSection> {
                                             _tickerNameController.value.text,
                                         description:
                                             _descriptionController.value.text,
-                                        hashtag: currentSelectedValueHashtag,
+                                        hashtag: currentSelectedValueHashtag == 'Add a new hashtag' ?
+                                        '' : currentSelectedValueHashtag,
                                         position: currentSelectedValuePosition,
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
@@ -760,7 +839,7 @@ class _EditSectionState extends State<EditSection> {
                                         .read<DealsBloc>()
                                         .add(AddDeal(deal: deal));
                                     _imagePaths.isEmpty
-                                        ? Navigator.of(context).pop()
+                                        ? Navigator.of(context).pushReplacementNamed(DealsScreen.id)
                                         : {
                                             _imagePaths.forEach((element) {
                                               context.read<DealsBloc>().add(
@@ -769,7 +848,7 @@ class _EditSectionState extends State<EditSection> {
                                                           imagePath: element,
                                                           deal_id: state
                                                               .deals.length + 1)));
-                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pushReplacementNamed(DealsScreen.id);
                                             })
                                           };
                                   }
@@ -780,7 +859,8 @@ class _EditSectionState extends State<EditSection> {
                                             _tickerNameController.value.text,
                                         description:
                                             _descriptionController.value.text,
-                                        hashtag: currentSelectedValueHashtag,
+                                        hashtag: currentSelectedValueHashtag == 'Add a new hashtag' ?
+                                        '' :currentSelectedValueHashtag,
                                         position: currentSelectedValuePosition,
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
@@ -794,12 +874,12 @@ class _EditSectionState extends State<EditSection> {
                                     context
                                         .read<DealsBloc>()
                                         .add(UpdateDeal(deal: deal));
-                                    imagePaths.forEach((element) {
+                                    for (var element in imagePaths) {
                                       context.read<DealsBloc>().add(
                                           DeleteDealImage(id: element.id!));
-                                    });
+                                    }
                                     _imagePaths.isEmpty
-                                        ? Navigator.of(context).pop()
+                                        ? Navigator.of(context).pushReplacementNamed(DealsScreen.id)
                                         : {
                                             _imagePaths.forEach((element) {
                                               context.read<DealsBloc>().add(
@@ -808,7 +888,7 @@ class _EditSectionState extends State<EditSection> {
                                                           imagePath: element,
                                                           deal_id:
                                                               currentDeal.id)));
-                                              Navigator.of(context).pop();
+                                              Navigator.of(context).pushReplacementNamed(DealsScreen.id);
                                             })
                                           };
                                   }

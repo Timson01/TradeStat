@@ -88,6 +88,17 @@ class DeleteDeal extends DealsEvent {
   List<Object> get props => [id];
 }
 
+// ------ DeleteDeal by Hashtag event --------
+
+class DeleteDealByHashtag extends DealsEvent {
+  final String hashtag;
+
+  const DeleteDealByHashtag({required this.hashtag});
+
+  @override
+  List<Object> get props => [hashtag];
+}
+
 // ------ AddHashtag event ----------
 
 class AddHashtag extends DealsEvent {
