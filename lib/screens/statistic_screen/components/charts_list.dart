@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
-import '../../rules_screen/components/chart_dialog.dart';
+import 'chart_dialog.dart';
 
 class ChartsList extends StatelessWidget {
   const ChartsList({Key? key}) : super(key: key);

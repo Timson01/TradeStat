@@ -38,7 +38,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
 
   Future<int> getLastId() async {
     final SharedPreferences prefs = await _prefs;
-    return prefs.getInt("lastId") ?? 1;
+    return prefs.getInt("lastId") ?? 0;
   }
 
   Future setHashtag(List<String> setHashtags) async {

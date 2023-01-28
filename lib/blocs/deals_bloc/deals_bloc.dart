@@ -15,14 +15,14 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
   final DealsRepository dealsRepository;
 
   DealsBloc({required this.dealsRepository}) : super(DealsState(
-      hashtags: <String>['Add a new hashtag'],
+      hashtags: const <String>['Add a new hashtag'],
   )) {
     on<AddDeal>(_onAddDeal);
     on<UpdateDeal>(_onUpdateDeal);
     on<FetchDeals>(_onFetchDeals);
     on<FetchDealsWithDate>(_onFetchDealsWithDate);
     on<DeleteDeal>(_onDeleteDeal);
-    on<DeleteDealByHashtag>(_DeleteDealByHashtag);
+    on<DeleteDealByHashtag>(_deleteDealByHashtag);
     on<AddHashtag>(_onAddHashtag);
     on<DeleteHashtag>(_onDeleteHashtag);
     on<AddDealImage>(_onAddDealImage);
@@ -39,13 +39,13 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
         hashtags: List.from(state.hashtags),
       deals: state.deals,
     ));
-    add(FetchDeals());
+    add(const FetchDeals());
   }
 
   FutureOr<void> _onUpdateDeal(
       UpdateDeal event, Emitter<DealsState> emit) async {
     await dealsRepository.updateDeal(event.deal);
-    add(FetchDeals());
+    add(const FetchDeals());
   }
 
   FutureOr<void> _onFetchDeals(
@@ -86,12 +86,12 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
 
   FutureOr<void> _onDeleteDeal(DeleteDeal event, Emitter<DealsState> emit) async {
     await dealsRepository.deleteDeal(id: event.id);
-    add(FetchDeals());
+    add(const FetchDeals());
   }
 
-  FutureOr<void> _DeleteDealByHashtag(DeleteDealByHashtag event, Emitter<DealsState> emit) async {
+  FutureOr<void> _deleteDealByHashtag(DeleteDealByHashtag event, Emitter<DealsState> emit) async {
     await dealsRepository.deleteDealByHashtag(hashtag: event.hashtag);
-    add(FetchDeals());
+    add(const FetchDeals());
   }
 
   void _onAddHashtag(AddHashtag event, Emitter<DealsState> emit) {
@@ -119,8 +119,7 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
   }
 
   FutureOr<void> _onAddDealImage(AddDealImage event, Emitter<DealsState> emit) async {
-    DealImage imagePath = await dealsRepository.addDealImage(event.imagePath);
-    print('addImagePath $imagePath');
+    await dealsRepository.addDealImage(event.imagePath);
   }
 
   FutureOr<void> _onDeleteDealImage(DeleteDealImage event, Emitter<DealsState> emit) async {

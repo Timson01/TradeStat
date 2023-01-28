@@ -344,11 +344,11 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                                     constraints:
                                                         const BoxConstraints(),
                                                     onPressed: () {
+                                                      currentSelectedValueHashtag = 'Add a new hashtag';
                                                       widget.id ==
                                                               EditDealScreen.id
                                                           ? null
-                                                          : showHashtagDeleteDialog(
-                                                              value);
+                                                          : showHashtagDeleteDialog(value);
                                                       /*hashtags.remove(value);
                                                       setHashtag(hashtags);
                                                       context.read<DealsBloc>()
@@ -664,8 +664,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                                   AddDealImage(
                                                       imagePath: DealImage(
                                                           imagePath: element,
-                                                          deal_id:
-                                                              lastId + 1)));
+                                                          deal_id: lastId + 1)));
                                             })
                                           };
                                     Navigator.of(context)
