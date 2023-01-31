@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/charts_model.dart';
 import 'package:trade_stat/screens/charts/income_chart_screen.dart';
+import 'package:trade_stat/screens/charts/named_income_chart_screen.dart';
 
 import '../../../styles/style_exports.dart';
 
@@ -16,6 +17,7 @@ class ChartDialog extends StatefulWidget {
 }
 
 class _ChartDialogState extends State<ChartDialog> {
+  var currentSelectedValueHashtag = '';
   bool haveSearch = false;
   bool hashtag = false;
   bool doItOnce = false;
@@ -26,6 +28,7 @@ class _ChartDialogState extends State<ChartDialog> {
   final _controller = TextEditingController();
   DateTimeRange dateTimeRange =
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
+  List<String> hashtags = [];
 
   @override
   void dispose() {
@@ -44,11 +47,13 @@ class _ChartDialogState extends State<ChartDialog> {
         title = 'Income chart';
         break;
       case 1:
+        id = NamedIncomeChartScreen.id;
         hashtag = true;
         haveSearch = true;
         title = 'Hashtag income chart';
         break;
       case 2:
+        id = NamedIncomeChartScreen.id;
         haveSearch = true;
         title = 'Ticker symbol income chart';
         break;
@@ -91,12 +96,16 @@ class _ChartDialogState extends State<ChartDialog> {
         child: SingleChildScrollView(
           child: BlocBuilder<DealsBloc, DealsState>(
             builder: (context, state) {
-              if(state.deals.isNotEmpty){
-                if(!doItOnce){
+              if (state.deals.isNotEmpty) {
+                if (!doItOnce) {
+                  hashtags.addAll(state.hashtags);
+                  hashtags.removeAt(0);
+                  hashtags.isNotEmpty ? currentSelectedValueHashtag = hashtags[1] : '';
                   dateTimeRange = DateTimeRange(
-                      start: DateTime.fromMillisecondsSinceEpoch(state.deals[state.deals.length - 1].dateCreated),
-                      end: DateTime.fromMillisecondsSinceEpoch(state.deals[0].dateCreated)
-                  );
+                      start: DateTime.fromMillisecondsSinceEpoch(
+                          state.deals[state.deals.length - 1].dateCreated),
+                      end: DateTime.fromMillisecondsSinceEpoch(
+                          state.deals[0].dateCreated));
                   doItOnce = !doItOnce;
                 }
               }
@@ -122,36 +131,87 @@ class _ChartDialogState extends State<ChartDialog> {
                                       letterSpacing: 1),
                             ),
                             SizedBox(height: height * 0.015),
-                            TextField(
-                              controller: _controller,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .subtitle2
-                                  ?.copyWith(
-                                      fontSize: 12,
-                                      color: colorDarkGrey,
-                                      letterSpacing: 1),
-                              decoration: InputDecoration(
-                                  isDense: true,
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 8),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10),
-                                      borderSide: const BorderSide(
-                                          width: 1, color: colorDarkGrey)),
-                                  hintText: hashtag
-                                      ? 'Enter hashtag'
-                                      : 'Enter ticker symbol',
-                                  hintStyle: Theme.of(context)
-                                      .textTheme
-                                      .subtitle2
-                                      ?.copyWith(
-                                          fontSize: 12,
-                                          color: colorDarkGrey,
-                                          letterSpacing: 1)),
-                            ),
+                            hashtag
+                                ? Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 7, right: 7),
+                                        child: DropdownButton<String>(
+                                          menuMaxHeight: height * 0.2,
+                                          isExpanded: true,
+                                          isDense: true,
+                                          value: hashtags.isNotEmpty ? currentSelectedValueHashtag : null,
+                                          items: hashtags
+                                              .map<DropdownMenuItem<String>>(
+                                                  (String value) =>
+                                                      DropdownMenuItem(
+                                                        value: value,
+                                                        child: Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Text(value,
+                                                                  style: Theme
+                                                                          .of(
+                                                                              context)
+                                                                      .textTheme
+                                                                      .subtitle2
+                                                                      ?.copyWith(
+                                                                          fontSize:
+                                                                              12,
+                                                                          color:
+                                                                              colorDarkGrey,
+                                                                          letterSpacing:
+                                                                              1)),
+                                                              const Icon(
+                                                                  Icons
+                                                                      .grid_3x3_rounded,
+                                                                  color:
+                                                                      colorDarkGrey,
+                                                                  size: 16)
+                                                            ]),
+                                                      ))
+                                              .toList(),
+                                          onChanged: (value) {
+                                            setState((){
+                                              currentSelectedValueHashtag = value!;
+                                            });
+                                          },
+                                        ),
+                                      )
+                                : TextField(
+                                    controller: _controller,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .subtitle2
+                                        ?.copyWith(
+                                            fontSize: 12,
+                                            color: colorDarkGrey,
+                                            letterSpacing: 1),
+                                    decoration: InputDecoration(
+                                        isDense: true,
+                                        filled: true,
+                                        fillColor: Colors.white,
+                                        contentPadding:
+                                            const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 8),
+                                        border: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            borderSide: const BorderSide(
+                                                width: 1,
+                                                color: colorDarkGrey)),
+                                        hintText: hashtag
+                                            ? 'Enter hashtag'
+                                            : 'Enter ticker symbol',
+                                        hintStyle: Theme.of(context)
+                                            .textTheme
+                                            .subtitle2
+                                            ?.copyWith(
+                                                fontSize: 12,
+                                                color: colorDarkGrey,
+                                                letterSpacing: 1)),
+                                  ),
                             SizedBox(height: height * 0.02),
                           ],
                         )
@@ -291,10 +351,12 @@ class _ChartDialogState extends State<ChartDialog> {
                     fontSize: 15, color: colorMidnightBlue, letterSpacing: 1),
               ),
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(id, arguments: ChartsModel(
-                    position: currentSelectedValuePosition,
-                    dateTimeRange: dateTimeRange
-                ));
+                Navigator.of(context).pushReplacementNamed(id,
+                    arguments: ChartsModel(
+                        name: hashtag ? currentSelectedValueHashtag : _controller.text,
+                        hashtag: hashtag,
+                        position: currentSelectedValuePosition,
+                        dateTimeRange: dateTimeRange));
               },
             ),
           ],

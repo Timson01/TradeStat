@@ -64,7 +64,7 @@ class _IncomeChartScreenState extends State<IncomeChartScreen> {
                   palette: const <Color>[
                     colorBlue,
                   ],
-                  title: ChartTitle(text: 'Income Chart', textStyle: Theme.of(context).textTheme.headline6?.copyWith(
+                  title: ChartTitle(text: 'Income Chart - ${widget.chartModel.position}', textStyle: Theme.of(context).textTheme.headline6?.copyWith(
                     color: colorBlue,
                     letterSpacing: 0
                   )),
@@ -76,6 +76,9 @@ class _IncomeChartScreenState extends State<IncomeChartScreen> {
                         xValueMapper: (Deal deal, _) => DateFormat('yyyy/MM/dd').format(DateTime.fromMillisecondsSinceEpoch(deal.dateCreated)).toString(),
                         yValueMapper: (Deal deal, _) => deal.income,
                       dataLabelSettings: const DataLabelSettings(isVisible: true),
+                      markerSettings: const MarkerSettings(
+                          isVisible: true
+                      ),
                       enableTooltip: true
                     )
                   ],
