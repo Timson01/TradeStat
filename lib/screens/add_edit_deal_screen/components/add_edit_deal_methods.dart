@@ -122,7 +122,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'If you delete a hashtag #$value, all deals with that hashtag will be deleted',
+            'If you delete a hashtag #$value, it will be deleted in all deals.\nDo you really want to delete #$value hashtag?',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5?.copyWith(
               color: Colors.red,
@@ -161,7 +161,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                     hashtags.remove(value);
                     setHashtag(hashtags);
                     context.read<DealsBloc>()
-                        .add(DeleteDealByHashtag(
+                        .add(UpdateDealDeletedHashtag(
                         hashtag: value));
                     context.read<DealsBloc>()
                         .add(DeleteHashtag(

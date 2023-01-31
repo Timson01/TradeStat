@@ -77,6 +77,18 @@ class FetchNegativeDeals extends DealsEvent {
   List<Object> get props => [startDate, endDate];
 }
 
+// ------ FetchDealsByPosition event --------
+
+class FetchDealsByPosition extends DealsEvent {
+  final int startDate;
+  final int endDate;
+  final String position;
+  const FetchDealsByPosition({required this.startDate, required this.endDate, required this.position});
+
+  @override
+  List<Object> get props => [startDate, endDate, position];
+}
+
 // ------ DeleteDeal event --------
 
 class DeleteDeal extends DealsEvent {
@@ -90,10 +102,10 @@ class DeleteDeal extends DealsEvent {
 
 // ------ DeleteDeal by Hashtag event --------
 
-class DeleteDealByHashtag extends DealsEvent {
+class UpdateDealDeletedHashtag extends DealsEvent {
   final String hashtag;
 
-  const DeleteDealByHashtag({required this.hashtag});
+  const UpdateDealDeletedHashtag({required this.hashtag});
 
   @override
   List<Object> get props => [hashtag];

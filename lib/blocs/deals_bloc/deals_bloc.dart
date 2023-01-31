@@ -15,20 +15,21 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
   final DealsRepository dealsRepository;
 
   DealsBloc({required this.dealsRepository}) : super(DealsState(
-      hashtags: const <String>['Add a new hashtag'],
+      hashtags: <String>['Add a new hashtag'],
   )) {
     on<AddDeal>(_onAddDeal);
     on<UpdateDeal>(_onUpdateDeal);
     on<FetchDeals>(_onFetchDeals);
     on<FetchDealsWithDate>(_onFetchDealsWithDate);
     on<DeleteDeal>(_onDeleteDeal);
-    on<DeleteDealByHashtag>(_deleteDealByHashtag);
+    on<UpdateDealDeletedHashtag>(_updateDealDeletedHashtag);
     on<AddHashtag>(_onAddHashtag);
     on<DeleteHashtag>(_onDeleteHashtag);
     on<AddDealImage>(_onAddDealImage);
     on<DeleteDealImage>(_onDeleteDealImage);
     on<FetchPositiveDeals>(_onFetchPositiveDeals);
     on<FetchNegativeDeals>(_onFetchNegativeDeals);
+    on<FetchDealsByPosition>(_onFetchDealsByPosition);
   }
 
   FutureOr<void> _onAddDeal(AddDeal event, Emitter<DealsState> emit) async {
@@ -39,13 +40,13 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
         hashtags: List.from(state.hashtags),
       deals: state.deals,
     ));
-    add(const FetchDeals());
+    add(FetchDeals());
   }
 
   FutureOr<void> _onUpdateDeal(
       UpdateDeal event, Emitter<DealsState> emit) async {
     await dealsRepository.updateDeal(event.deal);
-    add(const FetchDeals());
+    add(FetchDeals());
   }
 
   FutureOr<void> _onFetchDeals(
@@ -84,14 +85,23 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     ));
   }
 
-  FutureOr<void> _onDeleteDeal(DeleteDeal event, Emitter<DealsState> emit) async {
-    await dealsRepository.deleteDeal(id: event.id);
-    add(const FetchDeals());
+  FutureOr<void> _onFetchDealsByPosition(
+      FetchDealsByPosition event, Emitter<DealsState> emit) async {
+    List<Deal> deals = await dealsRepository.getDealsByPosition(event.startDate, event.endDate, event.position);
+    emit(DealsState(
+        hashtags: List.from(state.hashtags),
+        deals: deals
+    ));
   }
 
-  FutureOr<void> _deleteDealByHashtag(DeleteDealByHashtag event, Emitter<DealsState> emit) async {
-    await dealsRepository.deleteDealByHashtag(hashtag: event.hashtag);
-    add(const FetchDeals());
+  FutureOr<void> _onDeleteDeal(DeleteDeal event, Emitter<DealsState> emit) async {
+    await dealsRepository.deleteDeal(id: event.id);
+    add(FetchDeals());
+  }
+
+  FutureOr<void> _updateDealDeletedHashtag(UpdateDealDeletedHashtag event, Emitter<DealsState> emit) async {
+    await dealsRepository.updateDealDeletedHashtag(hashtag: event.hashtag);
+    add(FetchDeals());
   }
 
   void _onAddHashtag(AddHashtag event, Emitter<DealsState> emit) {

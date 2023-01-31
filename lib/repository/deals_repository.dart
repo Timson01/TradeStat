@@ -31,6 +31,11 @@ class DealsRepository {
     return deals;
   }
 
+  Future<List<Deal>> getDealsByPosition(int startDate, int endDate, String position) async{
+    List<Deal> deals = await _databaseHelper.readDealsByPosition(startDate, endDate, position);
+    return deals;
+  }
+
   Future<int> updateDeal(Deal deal) async{
     int response = await _databaseHelper.update(deal: deal);
     return response;
@@ -41,8 +46,8 @@ class DealsRepository {
     return response;
   }
 
-  Future<int> deleteDealByHashtag({required String hashtag}) async{
-    int response = await _databaseHelper.deleteByHashtag(hashtag: hashtag);
+  Future<int> updateDealDeletedHashtag({required String hashtag}) async{
+    int response = await _databaseHelper.updateDealDeletedHashtag(hashtag: hashtag);
     return response;
   }
 

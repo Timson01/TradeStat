@@ -98,6 +98,14 @@ class DatabaseHelper {
     return list;
   }
 
+  Future<List<Deal>> readDealsByPosition(int startDate, int endDate, String position) async {
+    final db = await instance.database;
+    final res = await db.rawQuery('''SELECT * FROM deal_table WHERE position LIKE '%$position%' AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
+    List<Deal> list =
+    res.isNotEmpty ? res.map((c) => Deal.fromMap(c)).toList() : [];
+    return list;
+  }
+
   Future<List<Deal>> readNegativeDeals(int startDate, int endDate) async {
     final db = await instance.database;
     final res = await db.rawQuery('''SELECT * FROM deal_table WHERE income < 0 AND dateCreated BETWEEN $startDate AND $endDate ORDER BY dateCreated DESC''');
@@ -135,13 +143,11 @@ class DatabaseHelper {
     );
   }
 
-  Future<int> deleteByHashtag({required String hashtag}) async {
+  Future<int> updateDealDeletedHashtag({required String hashtag}) async {
     final db = await instance.database;
 
-    return await db.delete(
-      dealTable,
-      where: '${dealFields.hashtag} = ?',
-      whereArgs: [hashtag],
+    return await db.rawUpdate(
+      ''' UPDATE deal_table SET hashtag = '' WHERE hashtag LIKE '%$hashtag%' '''
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
 import 'chart_dialog.dart';
@@ -64,6 +65,7 @@ class ChartsList extends StatelessWidget {
                   ),
                   IconButton(
                     onPressed: () {
+                      context.read<DealsBloc>().add(const FetchDeals());
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
