@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/charts_model.dart';
-import 'package:trade_stat/screens/charts/income_chart_screen.dart';
 import 'package:trade_stat/screens/charts/named_income_chart_screen.dart';
 
 import '../../../styles/style_exports.dart';
@@ -21,7 +20,7 @@ class _ChartDialogState extends State<ChartDialog> {
   bool haveSearch = false;
   bool hashtag = false;
   bool doItOnce = false;
-  var currentSelectedValuePosition = 'Long';
+  var currentSelectedValuePosition = 'All';
   List<String> position = <String>['Long', 'All', 'Short'];
   String id = '';
   String title = '';
@@ -43,7 +42,7 @@ class _ChartDialogState extends State<ChartDialog> {
 
     switch (widget.index) {
       case 0:
-        id = IncomeChartScreen.id;
+        id = NamedIncomeChartScreen.id;
         title = 'Income chart';
         break;
       case 1:
@@ -253,6 +252,10 @@ class _ChartDialogState extends State<ChartDialog> {
                           if (newDateRange != null) {
                             setState(() {
                               dateTimeRange = newDateRange;
+                              context.read<DealsBloc>().add(FetchDealsWithDate(
+                                startDate: dateTimeRange.start.millisecondsSinceEpoch,
+                                endDate: dateTimeRange.end.millisecondsSinceEpoch,
+                              ));
                             });
                           }
                         },
@@ -309,6 +312,13 @@ class _ChartDialogState extends State<ChartDialog> {
                           onChanged: (String? newValue) {
                             setState(() {
                               currentSelectedValuePosition = newValue!;
+                              if(currentSelectedValuePosition != "All"){
+                                context.read<DealsBloc>().add(FetchDealsByPosition(
+                                    startDate: dateTimeRange.start.millisecondsSinceEpoch,
+                                    endDate: dateTimeRange.end.millisecondsSinceEpoch,
+                                    position: currentSelectedValuePosition
+                                ));
+                              }
                             });
                           },
                         ),

@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/charts_model.dart';
+import 'package:trade_stat/screens/statistic_screen/statistic_screen.dart';
 import 'package:trade_stat/styles/app_colors.dart';
 
 import '../../models/deal.dart';
@@ -26,45 +27,33 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
   String title = '';
 
   @override
-  void initState() {
-    if(widget.chartModel.position == 'All'){
-      context.read<DealsBloc>().add(FetchDealsWithDate(
-        startDate: widget.chartModel.dateTimeRange.start.millisecondsSinceEpoch,
-        endDate: widget.chartModel.dateTimeRange.end.millisecondsSinceEpoch,
-      ));
-    }else{
-      context.read<DealsBloc>().add(FetchDealsByPosition(
-          startDate: widget.chartModel.dateTimeRange.start.millisecondsSinceEpoch,
-          endDate: widget.chartModel.dateTimeRange.end.millisecondsSinceEpoch,
-          position: widget.chartModel.position
-      ));
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
           body: WillPopScope(
             onWillPop: () async {
-              Navigator.of(context).pop;
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  StatisticScreen.id, (Route<dynamic> route)=>false);
               return true;
             },
             child: BlocBuilder<DealsBloc, DealsState>(
               builder: (context, state) {
                 if(state.deals.isNotEmpty){
-                  filteredList = widget.chartModel.hashtag ? state.deals.where((deal) =>  deal.hashtag
-                      .toLowerCase()
-                      .contains(widget.chartModel.name.toLowerCase()))
-                      .toList() :
-                  state.deals.where((deal) =>  deal.tickerName
-                      .toLowerCase()
-                      .contains(widget.chartModel.name.toLowerCase()))
-                      .toList();
-                  title = widget.chartModel.hashtag ?
-                  'Income Chart. Position - ${widget.chartModel.position}.\nHashtag: ${widget.chartModel.name}'
-                      : 'Income Chart. Position - ${widget.chartModel.position}.\nTickerSymbol: ${widget.chartModel.name}';
+                  if(widget.chartModel.name != ''){
+                    filteredList = widget.chartModel.hashtag ? state.deals.where((deal) =>  deal.hashtag
+                        .toLowerCase()
+                        .contains(widget.chartModel.name.toLowerCase()))
+                        .toList() :
+                    state.deals.where((deal) =>  deal.tickerName
+                        .toLowerCase()
+                        .contains(widget.chartModel.name.toLowerCase()))
+                        .toList();
+                    title = widget.chartModel.hashtag ?
+                    'Income Chart. Position - ${widget.chartModel.position}.\nHashtag: ${widget.chartModel.name}'
+                        : 'Income Chart. Position - ${widget.chartModel.position}.\nTickerSymbol: ${widget.chartModel.name}';
+                  }else{
+                    filteredList = state.deals;
+                  }
                 }
                 return SfCartesianChart(
                   primaryXAxis: CategoryAxis(),
@@ -97,7 +86,7 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
                         yValueMapper: (Deal deal, _) => deal.income,
                         dataLabelMapper: (Deal deal, _) => '${deal.tickerName.toUpperCase()}\nIncome: ${deal.income}',
                         dataLabelSettings: const DataLabelSettings(isVisible: true),
-                        markerSettings: MarkerSettings(
+                        markerSettings: const MarkerSettings(
                             isVisible: true
                         ),
                         enableTooltip: true

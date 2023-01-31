@@ -63,7 +63,7 @@ class DealsInfoSection extends StatelessWidget {
                     context.read<DealsBloc>().add(FetchDealsWithDate(
                         startDate: newDateRange.start.millisecondsSinceEpoch,
                         endDate: newDateRange.end.millisecondsSinceEpoch +
-                            86400000));
+                            43200000));
                 }
               },
               child: Text(
