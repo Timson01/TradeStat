@@ -11,22 +11,24 @@ class StatisticScreen extends StatelessWidget {
     double height = MediaQuery.of(context).size.height;
 
     return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
-        body: SafeArea(
+        onWillPop: () async {
+          return false;
+        },
+        child: Scaffold(
+          body: SafeArea(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(height: height * 0.05),
-                  const StatisticTopSection(),
-                  SizedBox(height: height * 0.05),
-                  const ChartsList(),
-          ],
-        ),
-            )),
-      ),
-    );
+              child: SizedBox(
+                height: height,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    const StatisticTopSection(),
+                    const ChartsList(),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ));
   }
 }

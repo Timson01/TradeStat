@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:trade_stat/models/charts_model.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/add_deal_screen.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/edit_deal_screen.dart';
+import 'package:trade_stat/screens/charts/percentage_chart_screen.dart';
 import 'package:trade_stat/screens/deals_detail_screen/deals_detail_screen.dart';
 import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
@@ -42,6 +43,8 @@ class RouteGenerator {
         return CustomPageRoute(child: StatisticScreen());
       case NamedIncomeChartScreen.id:
         return CustomPageRoute(child: NamedIncomeChartScreen(chartModel: routeSettings.arguments as ChartsModel));
+      case PercentageChartScreen.id:
+        return CustomPageRoute(child: PercentageChartScreen(chartModel: routeSettings.arguments as ChartsModel));
       default:
         return _errorRoute();
     }

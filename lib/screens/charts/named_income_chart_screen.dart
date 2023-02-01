@@ -49,10 +49,11 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
                         .contains(widget.chartModel.name.toLowerCase()))
                         .toList();
                     title = widget.chartModel.hashtag ?
-                    'Income Chart. Position - ${widget.chartModel.position}.\nHashtag: ${widget.chartModel.name}'
-                        : 'Income Chart. Position - ${widget.chartModel.position}.\nTickerSymbol: ${widget.chartModel.name}';
+                    'Income Chart. Position: ${widget.chartModel.position}.\nHashtag: ${widget.chartModel.name}'
+                        : 'Income Chart. Position: ${widget.chartModel.position}.\nTickerSymbol: ${widget.chartModel.name}';
                   }else{
                     filteredList = state.deals;
+                    title = 'Income Chart. Position: ${widget.chartModel.position}';
                   }
                 }
                 return SfCartesianChart(
@@ -85,7 +86,14 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
                         xValueMapper: (Deal deal, _) => DateFormat('yyyy/MM/dd').format(DateTime.fromMillisecondsSinceEpoch(deal.dateCreated)).toString(),
                         yValueMapper: (Deal deal, _) => deal.income,
                         dataLabelMapper: (Deal deal, _) => '${deal.tickerName.toUpperCase()}\nIncome: ${deal.income}',
-                        dataLabelSettings: const DataLabelSettings(isVisible: true),
+                        dataLabelSettings: const DataLabelSettings(
+                            isVisible: true,
+                          textStyle: TextStyle(
+                              color: Colors.black,
+                              fontFamily: 'Lato',
+                              fontWeight: FontWeight.w400,
+                              fontSize: 12),
+                        ),
                         markerSettings: const MarkerSettings(
                             isVisible: true
                         ),
@@ -99,10 +107,4 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
         )
     );
   }
-}
-
-class ChartData {
-  ChartData(this.day, this.income);
-  final String day;
-  final double income;
 }

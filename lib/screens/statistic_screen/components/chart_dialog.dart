@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/charts_model.dart';
 import 'package:trade_stat/screens/charts/named_income_chart_screen.dart';
+import 'package:trade_stat/screens/charts/percentage_chart_screen.dart';
 
 import '../../../styles/style_exports.dart';
 
@@ -57,23 +58,19 @@ class _ChartDialogState extends State<ChartDialog> {
         title = 'Ticker symbol income chart';
         break;
       case 3:
+        id = PercentageChartScreen.id;
         title = 'Percentage of positive and negative deals';
         break;
       case 4:
+        id = PercentageChartScreen.id;
         hashtag = true;
         haveSearch = true;
         title = 'Percentage of positive and negative deals by hashtag';
         break;
       case 5:
+        id = PercentageChartScreen.id;
         haveSearch = true;
         title = 'Percentage of positive and negative deals by ticker symbol';
-        break;
-      case 6:
-        title = 'Percentage of positive and negative deals by all hashtags';
-        break;
-      case 7:
-        title =
-            'Percentage of positive and negative deals by all ticker symbols';
         break;
     }
 

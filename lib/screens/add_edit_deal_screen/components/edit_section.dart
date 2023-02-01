@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
@@ -30,9 +31,9 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
   late Deal currentDeal;
   final _tickerNameController = TextEditingController();
   final _descriptionController = TextEditingController();
-  final _amountController = TextEditingController();
-  final _numberOfStocksController = TextEditingController();
-  final _incomeController = TextEditingController();
+  final _amountController = TextEditingController(text: '0');
+  final _numberOfStocksController = TextEditingController(text: '0');
+  final _incomeController = TextEditingController(text: '0');
   bool _tickerNameState = false;
   DateTime _date = DateTime.now();
   bool doItOnce = false;
@@ -441,9 +442,10 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         fontSize: 12,
                                         color: colorDarkGrey,
                                         letterSpacing: 1),
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 decoration: InputDecoration(
                                     isDense: true,
                                     filled: true,
@@ -482,6 +484,9 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                               TextField(
                                 controller: _numberOfStocksController,
                                 keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 style: Theme.of(context)
                                     .textTheme
                                     .subtitle2
@@ -538,9 +543,10 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         fontSize: 12,
                                         color: colorDarkGrey,
                                         letterSpacing: 1),
-                                keyboardType:
-                                    const TextInputType.numberWithOptions(
-                                        decimal: true),
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
                                 decoration: InputDecoration(
                                     isDense: true,
                                     filled: true,
@@ -645,12 +651,12 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
                                         amount: double.parse(
-                                            _amountController.value.text),
+                                            _amountController.value.text).abs(),
                                         income: double.parse(
                                             _incomeController.value.text),
                                         numberOfStocks: int.parse(
                                             _numberOfStocksController
-                                                .value.text));
+                                                .value.text).abs().round());
                                     context
                                         .read<DealsBloc>()
                                         .add(AddDeal(deal: deal));
@@ -685,12 +691,12 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         dateCreated:
                                             _date.millisecondsSinceEpoch,
                                         amount: double.parse(
-                                            _amountController.value.text),
+                                            _amountController.value.text).abs(),
                                         income: double.parse(
                                             _incomeController.value.text),
                                         numberOfStocks: int.parse(
                                             _numberOfStocksController
-                                                .value.text));
+                                                .value.text).abs().round());
                                     context
                                         .read<DealsBloc>()
                                         .add(UpdateDeal(deal: deal));
