@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
+import 'package:trade_stat/screens/settings_screen/settings_screen.dart';
 import 'package:trade_stat/styles/app_images.dart';
 
 import '../../models/deal.dart';
@@ -138,9 +139,9 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage == DrawerSections.deals ? true : false),
           menuItem(2, "Statistic", Icons.insert_chart_outlined_rounded,
               currentPage == DrawerSections.statistic ? true : false),
-          menuItem(4, "Settings", Icons.settings_outlined,
+          menuItem(3, "Settings", Icons.settings_outlined,
               currentPage == DrawerSections.settings ? true : false),
-          menuItem(5, "Help", Icons.help_outline_rounded,
+          menuItem(4, "Help", Icons.help_outline_rounded,
               currentPage == DrawerSections.help ? true : false),
           const SizedBox(height: 30),
           Row(
@@ -175,10 +176,9 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage = DrawerSections.statistic;
               Navigator.of(context).pushReplacementNamed(StatisticScreen.id);
             } else if (id == 3) {
-              currentPage = DrawerSections.hashtags;
-            } else if (id == 4) {
               currentPage = DrawerSections.settings;
-            } else if (id == 5) {
+              Navigator.of(context).pushReplacementNamed(SettingsScreen.id);
+            } else if (id == 4) {
               currentPage = DrawerSections.help;
             }
           });
@@ -215,7 +215,6 @@ class _DealsScreenState extends State<DealsScreen> {
 enum DrawerSections {
   deals,
   statistic,
-  hashtags,
   settings,
   help,
 }

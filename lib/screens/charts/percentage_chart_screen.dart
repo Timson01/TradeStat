@@ -26,6 +26,8 @@ class _PercentageChartScreenState extends State<PercentageChartScreen> {
   @override
   Widget build(BuildContext context) {
 
+    double height = MediaQuery.of(context).size.height;
+
     String startDate = DateFormat('yyyy/MM/dd').format(widget.chartModel.dateTimeRange.start);
     String endDate = DateFormat('yyyy/MM/dd').format(widget.chartModel.dateTimeRange.end);
 
@@ -75,53 +77,69 @@ class _PercentageChartScreenState extends State<PercentageChartScreen> {
         child: Scaffold(
           body: WillPopScope(
             onWillPop: () async {
-
-              Navigator.of(context).pushNamedAndRemoveUntil(
-                  StatisticScreen.id, (Route<dynamic> route)=>false);
-              return true;
+              return false;
             },
-            child: BlocBuilder<DealsBloc, DealsState>(
-              builder: (context, state) {
-                if(state.deals.isNotEmpty) {
-                  init(state.deals, startDate, endDate);
-                }
-                return state.deals.isNotEmpty ? SfCircularChart(
-                  palette: const <Color>[
-                    colorBlue,
-                    Colors.red
-                  ],
-                  title: ChartTitle(text: title,
-                      textStyle: Theme.of(context).textTheme.subtitle2?.copyWith(
-                          color: colorBlue,
-                          letterSpacing: 0
-                      )),
-                  tooltipBehavior: TooltipBehavior(
-                      enable: true,
-                      header: ''
+            child: Column(
+              children: [
+                SizedBox(height: height * 0.03),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    padding: const EdgeInsets.only(left: 20),
+                    constraints: const BoxConstraints(),
+                    iconSize: 22,
+                    icon: const Icon(Icons.arrow_back_ios_new_rounded,
+                        color: Colors.black),
+                    onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                        StatisticScreen.id, (Route<dynamic> route) => false),
                   ),
-                  series: <CircularSeries>[
-                    PieSeries<CircularChartData, String>(
-                        name: "Deal",
-                        dataSource: chartData,
-                        xValueMapper: (CircularChartData data, _) => data.name,
-                        yValueMapper: (CircularChartData data, _) => data.percent,
-                        dataLabelMapper: (CircularChartData data, _) => '${data.name}: %${data.percent}',
-                        dataLabelSettings: const DataLabelSettings(
-                            isVisible: true,
-                          textStyle: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Lato',
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14),
+                ),
+                BlocBuilder<DealsBloc, DealsState>(
+                  builder: (context, state) {
+                    if(state.deals.isNotEmpty) {
+                      init(state.deals, startDate, endDate);
+                    }
+                    return Expanded(
+                        child: state.deals.isNotEmpty ? SfCircularChart(
+                          palette: const <Color>[
+                            colorBlue,
+                            Colors.red
+                          ],
+                          title: ChartTitle(text: title,
+                              textStyle: Theme.of(context).textTheme.subtitle2?.copyWith(
+                                  color: colorBlue,
+                                  letterSpacing: 0
+                              )),
+                          tooltipBehavior: TooltipBehavior(
+                              enable: true,
+                              header: ''
+                          ),
+                          series: <CircularSeries>[
+                            PieSeries<CircularChartData, String>(
+                                name: "Deal",
+                                dataSource: chartData,
+                                xValueMapper: (CircularChartData data, _) => data.name,
+                                yValueMapper: (CircularChartData data, _) => data.percent,
+                                dataLabelMapper: (CircularChartData data, _) => '${data.name}: %${data.percent}',
+                                dataLabelSettings: const DataLabelSettings(
+                                  isVisible: true,
+                                  textStyle: TextStyle(
+                                      color: Colors.white,
+                                      fontFamily: 'Lato',
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 14),
+                                ),
+                                enableTooltip: true
+                            )
+                          ],
+                        ) :
+                        const Center(
+                            child: Text('No data')
                         ),
-                        enableTooltip: true
-                    )
-                  ],
-                ) :
-                    const Center(
-                      child: Text('No data')
                     );
-              },
+                  },
+                ),
+              ],
             ),
           ),
         )

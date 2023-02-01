@@ -13,6 +13,7 @@ import 'package:trade_stat/screens/statistic_screen/statistic_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import '../models/deal.dart';
 import '../screens/charts/named_income_chart_screen.dart';
+import '../screens/settings_screen/settings_screen.dart';
 import '../screens/strategy_screen/strategy_screen.dart';
 import 'custom_page_route.dart';
 
@@ -45,6 +46,8 @@ class RouteGenerator {
         return CustomPageRoute(child: NamedIncomeChartScreen(chartModel: routeSettings.arguments as ChartsModel));
       case PercentageChartScreen.id:
         return CustomPageRoute(child: PercentageChartScreen(chartModel: routeSettings.arguments as ChartsModel));
+      case SettingsScreen.id:
+        return CustomPageRoute(child: SettingsScreen());
       default:
         return _errorRoute();
     }
