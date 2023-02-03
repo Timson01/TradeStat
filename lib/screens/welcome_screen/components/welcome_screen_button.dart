@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeScreenButton extends StatelessWidget {
@@ -20,7 +21,9 @@ class WelcomeScreenButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 15.0),
         child: Text(title,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.subtitle1?.copyWith(
+              fontSize: context.locale == Locale('ru') ? 14 : 16,
+            ),
             )),
     );
   }

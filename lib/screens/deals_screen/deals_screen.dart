@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/screens/settings_screen/settings_screen.dart';
 import 'package:trade_stat/styles/app_images.dart';
 
+import '../../generated/locale_keys.g.dart';
 import '../../models/deal.dart';
 import '../statistic_screen/statistic_screen.dart';
 import 'components/deals_button_section.dart';
@@ -135,13 +137,13 @@ class _DealsScreenState extends State<DealsScreen> {
       child: Column(
         // shows the list of menu drawer
         children: [
-          menuItem(1, "Deals", Icons.dashboard_outlined,
+          menuItem(1, LocaleKeys.deals_title.tr(), Icons.dashboard_outlined,
               currentPage == DrawerSections.deals ? true : false),
-          menuItem(2, "Statistic", Icons.insert_chart_outlined_rounded,
+          menuItem(2, LocaleKeys.statistics_title.tr(), Icons.insert_chart_outlined_rounded,
               currentPage == DrawerSections.statistic ? true : false),
-          menuItem(3, "Settings", Icons.settings_outlined,
+          menuItem(3, LocaleKeys.settings_title.tr(), Icons.settings_outlined,
               currentPage == DrawerSections.settings ? true : false),
-          menuItem(4, "Help", Icons.help_outline_rounded,
+          menuItem(4, LocaleKeys.help.tr(), Icons.help_outline_rounded,
               currentPage == DrawerSections.help ? true : false),
           const SizedBox(height: 30),
           Row(

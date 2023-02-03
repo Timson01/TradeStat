@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,6 +12,7 @@ import 'package:trade_stat/models/image_path.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/add_deal_screen.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/edit_deal_screen.dart';
 
+import '../../../generated/locale_keys.g.dart';
 import '../../../styles/style_exports.dart';
 import '../../deals_screen/deals_screen.dart';
 import 'add_edit_deal_methods.dart';
@@ -193,7 +195,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                         child: InkWell(
                           onTap: () => showSelectPhotoOptions(),
                           child: Text(
-                            'Add Photo',
+                            LocaleKeys.add_photo.tr(),
                             style:
                                 Theme.of(context).textTheme.subtitle2?.copyWith(
                                       color: colorBlue,
@@ -220,11 +222,14 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Ticker Name',
+                        Text(LocaleKeys.ticker_symbol.tr(),
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1
-                                ?.copyWith(color: Colors.black)),
+                                ?.copyWith(
+                                color: Colors.black,
+                                fontSize: context.locale == Locale('ru') ? 14 : 16
+                            )),
                         SizedBox(height: height * 0.01),
                         TextField(
                           controller: _tickerNameController,
@@ -246,7 +251,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
                                       width: 1, color: colorDarkGrey)),
-                              hintText: 'Enter ticker name',
+                              hintText: LocaleKeys.enter_ticker_symbol.tr(),
                               hintStyle: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -262,11 +267,14 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Description',
+                        Text(LocaleKeys.description.tr(),
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1
-                                ?.copyWith(color: Colors.black)),
+                                ?.copyWith(
+                                color: Colors.black,
+                                fontSize: context.locale == Locale('ru') ? 14 : 16
+                            )),
                         SizedBox(height: height * 0.01),
                         TextField(
                           keyboardType: TextInputType.multiline,
@@ -290,7 +298,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                   borderRadius: BorderRadius.circular(10),
                                   borderSide: const BorderSide(
                                       width: 1, color: colorDarkGrey)),
-                              hintText: 'Enter description for a deal',
+                              hintText: LocaleKeys.enter_description.tr(),
                               hintStyle: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -306,11 +314,14 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hashtag',
+                        Text(LocaleKeys.hashtag.tr(),
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1
-                                ?.copyWith(color: Colors.black)),
+                                ?.copyWith(
+                                color: Colors.black,
+                                fontSize: context.locale == Locale('ru') ? 14 : 16
+                            )),
                         SizedBox(height: height * 0.01),
                         Padding(
                           padding: const EdgeInsets.only(left: 7, right: 7),
@@ -345,11 +356,11 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                                     constraints:
                                                         const BoxConstraints(),
                                                     onPressed: () {
-                                                      currentSelectedValueHashtag = 'Add a new hashtag';
                                                       widget.id ==
                                                               EditDealScreen.id
                                                           ? null
-                                                          : showHashtagDeleteDialog(value);
+                                                          : showHashtagDeleteDialog(value, currentSelectedValueHashtag);
+                                                      currentSelectedValueHashtag = 'Add a new hashtag';
                                                       /*hashtags.remove(value);
                                                       setHashtag(hashtags);
                                                       context.read<DealsBloc>()
@@ -381,11 +392,14 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Position',
+                        Text(LocaleKeys.position.tr(),
                             style: Theme.of(context)
                                 .textTheme
                                 .subtitle1
-                                ?.copyWith(color: Colors.black)),
+                                ?.copyWith(
+                                color: Colors.black,
+                                fontSize: context.locale == Locale('ru') ? 14 : 16
+                            )),
                         SizedBox(height: height * 0.01),
                         Padding(
                           padding: const EdgeInsets.only(left: 7, right: 7),
@@ -427,11 +441,14 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Amount of deal',
+                              Text(LocaleKeys.amount_of_deal.tr(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1
-                                      ?.copyWith(color: Colors.black)),
+                                      ?.copyWith(
+                                      color: Colors.black,
+                                      fontSize: context.locale == Locale('ru') ? 14 : 16
+                                  )),
                               SizedBox(height: height * 0.01),
                               TextField(
                                 controller: _amountController,
@@ -475,11 +492,15 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Number of stocks',
+                              Text(LocaleKeys.number_of_stocks.tr(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1
-                                      ?.copyWith(color: Colors.black)),
+                                      ?.copyWith(
+                                      color: Colors.black,
+                                    fontSize: context.locale == Locale('ru') ? 14 : 16
+                                  )
+                              ),
                               SizedBox(height: height * 0.01),
                               TextField(
                                 controller: _numberOfStocksController,
@@ -528,11 +549,14 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Income',
+                              Text(LocaleKeys.income.tr(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1
-                                      ?.copyWith(color: Colors.black)),
+                                      ?.copyWith(
+                                      color: Colors.black,
+                                      fontSize: context.locale == Locale('ru') ? 14 : 16
+                                  )),
                               SizedBox(height: height * 0.01),
                               TextField(
                                 controller: _incomeController,
@@ -576,11 +600,14 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Date',
+                              Text(LocaleKeys.date.tr(),
                                   style: Theme.of(context)
                                       .textTheme
                                       .subtitle1
-                                      ?.copyWith(color: Colors.black)),
+                                      ?.copyWith(
+                                      color: Colors.black,
+                                      fontSize: context.locale == Locale('ru') ? 14 : 16
+                                  )),
                               SizedBox(height: height * 0.01),
                               Container(
                                 padding: const EdgeInsets.only(
@@ -729,7 +756,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                   return;
                                 },
                           child: Text(
-                              widget.id == AddDealScreen.id ? 'Create' : 'Edit',
+                              widget.id == AddDealScreen.id ? LocaleKeys.create.tr() : LocaleKeys.edit.tr(),
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle1

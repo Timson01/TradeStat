@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 import 'components/welcome_screen_bottom_section.dart';
 
@@ -18,8 +20,11 @@ class WelcomeScreen extends StatelessWidget {
         children: [
           SizedBox(height: height * 0.05),
           Text(
-            'Welcome',
-            style: Theme.of(context).textTheme.headline4,
+            LocaleKeys.welcome_title.tr(),
+            style: Theme.of(context).textTheme.headline4?.copyWith(
+              letterSpacing: context.locale == Locale('ru') ? 0 : 4,
+              fontSize: context.locale == Locale('ru') ? 28 : 32,
+            ),
           ),
           SizedBox(height: height * 0.07),
           SvgPicture.asset(welcomeImage, width: width, fit: BoxFit.scaleDown),

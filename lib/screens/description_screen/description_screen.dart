@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
@@ -38,7 +40,7 @@ class DescriptionScreen extends StatelessWidget {
                   left: width * 0.08,
                   right: width * 0.08,
                   child: Text(
-                    'Keep statistics, improve your strategy correctly and increase your income with TradeStat',
+                    LocaleKeys.desc_description.tr(),
                     style: Theme.of(context).textTheme.subtitle1,
                     textAlign: TextAlign.center,
                   ),
@@ -51,7 +53,7 @@ class DescriptionScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Let’s started',
+                        LocaleKeys.desc_button_title.tr(),
                         style: Theme.of(context).textTheme.subtitle1,
                       ),
                       InkWell(

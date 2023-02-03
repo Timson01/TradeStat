@@ -116,7 +116,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
     );
   }
 
-  FutureOr<void> showHashtagDeleteDialog(String value) async {
+  FutureOr<void> showHashtagDeleteDialog(String value, String currentValue) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -158,16 +158,16 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                         fontSize: 15, color: Colors.red, letterSpacing: 1, fontWeight: FontWeight.w500),
                   ),
                   onPressed: (){
-                    hashtags.remove(value);
-                    setHashtag(hashtags);
-                    context.read<DealsBloc>()
-                        .add(UpdateDealDeletedHashtag(
-                        hashtag: value));
-                    context.read<DealsBloc>()
-                        .add(DeleteHashtag(
-                        hashtag: value));
-                    Navigator.pop(context);
-                    Navigator.pop(context);
+                      hashtags.remove(value);
+                      setHashtag(hashtags);
+                      context.read<DealsBloc>()
+                          .add(UpdateDealDeletedHashtag(
+                          hashtag: value));
+                      context.read<DealsBloc>()
+                          .add(DeleteHashtag(
+                          hashtag: value));
+                      Navigator.pop(context);
+                      if(currentValue == "Add a new hashtag") Navigator.pop(context);
                   },
                 ),
               ],

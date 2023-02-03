@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/app_colors.dart';
 import 'package:trade_stat/styles/app_images.dart';
 
@@ -33,9 +35,11 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
             ),
           ),
           Text(
-            "Hello!",
+            LocaleKeys.hello.tr(),
             style: Theme.of(context).textTheme.subtitle1?.copyWith(
               color: colorDarkGrey,
+              letterSpacing: context.locale == Locale('ru') ? 0 : 1,
+              fontSize: context.locale == Locale('ru') ? 16 : 18,
             ),
           ),
           Text(
@@ -48,9 +52,11 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
           InkWell(
             onTap: (){},
             child: Text(
-              "support developers",
+              LocaleKeys.support_developers.tr(),
               style: Theme.of(context).textTheme.subtitle2?.copyWith(
                   color: colorBlue,
+                letterSpacing: context.locale == Locale('ru') ? 0 : 2,
+                fontSize: context.locale == Locale('ru') ? 14 : 16,
               ),
             ),
           ),

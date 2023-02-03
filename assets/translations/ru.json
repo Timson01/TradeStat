@@ -1,0 +1,65 @@
+{
+  "desc_description" : "Ведите статистику, улучшайте свою стратегию правильно и увеличивайте свой доход с TradeStat",
+  "desc_button_title" : "Начнем",
+
+  "settings_title" : "Настройки",
+  "settings_language_title" : "Язык",
+  "settings_choose_language" : "Выберите язык",
+  "settings_user_name" : "Имя пользователя",
+  "settings_enter_user_name" : "Введите имя пользователя",
+
+  "welcome_title" : "Добро пожаловать",
+  "sign_up" : "Зарегистрироваться",
+  "welcome_or" : "или",
+  "welcome_sign_in_google" : "Войти через Google",
+  "log_in_button_desc" : "У вас уже есть аккаунт?",
+  "log_in" : "Войти",
+
+  "log_in_title" : "С \nвозвращением",
+  "log_in_register_eMail" : "eMail",
+  "log_in_register_password" : "Пароль",
+  "log_in_forgot" : "Забыли пароль?",
+  "log_in_sign_up_desc" : "У вас нет аккаунта?",
+
+  "register_title" : "Создать \nаккаунт",
+  "register_name" : "Имя",
+  "create" : "Создать",
+
+  "statistics_title" : "Статистика",
+  "income_chart" : "График доходов",
+  "hashtag_income_chart" : "График доходов по хештегам",
+  "ticker_symbol_income_chart" : "График доходов по тикерам",
+  "percentage_of_positive_and_negative_deals" : "Процент положительных и отрицательных сделок",
+  "percentage_of_positive_and_negative_deals_by_hashtag" : "Процент положительных и отрицательных сделок по хэштегу",
+  "percentage_of_positive_and_negative_deals_by_ticker_symbol" : "Процент положительных и отрицательных сделок по тикеру",
+
+  "deals_title" : "Сделки",
+  "date" :  "Дата: ",
+  "income" : "Доход: ",
+  "count_of_trades" : "Количество сделок: ",
+  "search_for_deals" : "Поиск по тикеру",
+  "only_positive_deals" : "Только положительные сделки",
+  "all_deals" : "Все сделки",
+  "only_negative_deals" : "Только отрицательные сделки",
+  "hello" : "Привет!",
+  "support_developers" : "поддержать разработчиков",
+  "you_did_not_put_anything" : "Пустое поле",
+
+  "description" : "Описание",
+  "hashtag" : "Хэштег",
+  "position" : "Позиция",
+  "number_of_stocks" : "Количество",
+  "amount_of_deal" : "Сумма сделки",
+
+  "create_new_deal" : "Создай новую сделку",
+  "edit_deal" : "Изменение сделки",
+  "edit" : "Изменить",
+  "it_simple" : "Это просто",
+  "ticker_symbol" : "Тикер",
+  "enter_ticker_symbol" : "Введите тикер",
+  "enter_description" : "Введите описание для сделки",
+  "add_hashtag" : "Добавить новый хэштег",
+  "add_photo" : "Добавить фото",
+
+  "help" : "Служба поддержки"
+}

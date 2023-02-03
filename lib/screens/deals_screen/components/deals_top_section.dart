@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import '../../../generated/locale_keys.g.dart';
 import '../../../styles/style_exports.dart';
 
 typedef StringCallback = void Function(String userSearchInput);
@@ -39,9 +41,11 @@ class _DealsTopSectionState extends State<DealsTopSection> {
                     ),
                   ),
                   Text(
-                    "Deals",
+                    LocaleKeys.deals_title.tr(),
                     style: Theme.of(context).textTheme.headline4?.copyWith(
                           color: Colors.white,
+                      fontSize: context.locale == Locale('ru') ? 30 : 32,
+                      letterSpacing: context.locale == Locale('ru') ? 2 : 4,
                         ),
                   ),
                   const SizedBox(width: 10)
@@ -73,11 +77,15 @@ class _DealsTopSectionState extends State<DealsTopSection> {
                           Icons.search,
                           size: 20,
                         ),
-                        hintText: 'Search for deals',
+                        hintText: LocaleKeys.search_for_deals.tr(),
                         hintStyle: Theme.of(context)
                             .textTheme
                             .subtitle2
-                            ?.copyWith(color: colorDarkGrey),
+                            ?.copyWith(
+                            color: colorDarkGrey,
+                          fontSize: context.locale == Locale('ru') ? 12 : 14,
+                          letterSpacing: context.locale == Locale('ru') ? 1 : 2,
+                        ),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
                             borderSide:

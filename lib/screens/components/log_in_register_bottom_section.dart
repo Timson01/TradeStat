@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 
+import '../../generated/locale_keys.g.dart';
 import '../../styles/app_colors.dart';
 import '../log_in_screen/log_in_screen.dart';
 
@@ -24,9 +26,11 @@ class LogInRegisterBottomSection extends StatelessWidget {
           children: [
             Text(
               id == LogInScreen.id ?
-              'Log In' : 'Create',
-              style: Theme.of(context).textTheme.headlineMedium,
-
+              LocaleKeys.log_in.tr() : LocaleKeys.create.tr(),
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                  letterSpacing: context.locale == Locale('ru') ? 1 : 4,
+                  fontSize: context.locale == Locale('ru') ? 30 : 32
+              ),
             ),
             Container(
               width: 50,
@@ -49,22 +53,23 @@ class LogInRegisterBottomSection extends StatelessWidget {
           children: [
             Text(
               id == LogInScreen.id ?
-              'Don’t have an account?' : 'Already have an account?',
+              LocaleKeys.log_in_sign_up_desc.tr() : LocaleKeys.log_in_button_desc.tr(),
               style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                color: colorDarkGrey
+                color: colorDarkGrey,
+                  letterSpacing: context.locale == Locale('ru') ? 0 : 2,
               ),
             ),
             SizedBox(width: 5),
             InkWell(
               child: Text(
                 id == LogInScreen.id ?
-                'Sign Up' : 'Log In',
+                LocaleKeys.sign_up.tr() : LocaleKeys.log_in.tr(),
                 style: TextStyle(
                   color: colorMidnightBlue,
                   fontFamily: 'Lato',
                   fontWeight: FontWeight.w400,
                   fontSize: 14,
-                  letterSpacing: 2,
+                  letterSpacing: context.locale == Locale('ru') ? 0 : 2
                 ),
               ),
               onTap: () =>

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/screens/components/text_field_container.dart';
 
@@ -25,7 +26,7 @@ class CompletedInputField extends StatelessWidget {
           hintStyle: TextStyle(
               fontFamily: 'Lato',
               fontWeight: FontWeight.w400,
-              fontSize: 14
+              fontSize: context.locale == Locale('ru') ? 12 : 14
           ),
         ),
       ),

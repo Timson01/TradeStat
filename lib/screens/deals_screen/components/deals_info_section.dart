@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 
 import '../../../blocs/bloc_exports.dart';
@@ -37,8 +39,10 @@ class DealsInfoSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Date: ',
-              style: Theme.of(context).textTheme.headline6,
+              LocaleKeys.date.tr(),
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontSize: context.locale == Locale('ru') ? 16 : 18,
+              ),
             ),
             InkWell(
               onTap: () async {
@@ -83,8 +87,10 @@ class DealsInfoSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Income: ',
-              style: Theme.of(context).textTheme.headline6,
+              LocaleKeys.income.tr(),
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontSize: context.locale == Locale('ru') ? 16 : 18,
+              ),
             ),
             RichText(
               text: TextSpan(
@@ -151,7 +157,8 @@ class DealsInfoSection extends StatelessWidget {
                           itemBuilder: (context) {
                             return [
                               PopupMenuItem(
-                                  padding: const EdgeInsets.only(right: 50, left: 20),
+                                  padding: context.locale == Locale("ru") ? EdgeInsets.only(left: 20)
+                                      : const EdgeInsets.only(right: 50, left: 20),
                                   value: _PopupMenuValues.onlyPositive,
                                   child: Column(
                                     crossAxisAlignment:
@@ -168,12 +175,13 @@ class DealsInfoSection extends StatelessWidget {
                                             width: 5,
                                           ),
                                           Text(
-                                            'Only positive deals',
+                                            LocaleKeys.only_positive_deals.tr(),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle2
                                                 ?.copyWith(
                                                     color: Colors.green,
+                                                fontSize: context.locale == Locale("ru") ? 12 : 14,
                                                     letterSpacing: 1),
                                           ),
                                         ],
@@ -181,8 +189,8 @@ class DealsInfoSection extends StatelessWidget {
                                     ],
                                   )),
                               PopupMenuItem(
-                                  padding: const EdgeInsets.only(
-                                      right: 50, left: 20),
+                                  padding: context.locale == Locale("ru") ? EdgeInsets.only(left: 20)
+                                      : const EdgeInsets.only(right: 50, left: 20),
                                   value: _PopupMenuValues.all,
                                   child: Column(
                                     crossAxisAlignment:
@@ -199,12 +207,13 @@ class DealsInfoSection extends StatelessWidget {
                                             width: 5,
                                           ),
                                           Text(
-                                            'All deals',
+                                            LocaleKeys.all_deals.tr(),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle2
                                                 ?.copyWith(
                                                     color: colorDarkGrey,
+                                                fontSize: context.locale == Locale("ru") ? 12 : 14,
                                                     letterSpacing: 1),
                                           ),
                                         ],
@@ -212,8 +221,8 @@ class DealsInfoSection extends StatelessWidget {
                                     ],
                                   )),
                               PopupMenuItem(
-                                  padding: const EdgeInsets.only(
-                                      right: 50, left: 20),
+                                  padding: context.locale == Locale("ru") ? EdgeInsets.only(left: 20)
+                                      : const EdgeInsets.only(right: 50, left: 20),
                                   value: _PopupMenuValues.onlyNegative,
                                   child: Column(
                                     crossAxisAlignment:
@@ -230,12 +239,13 @@ class DealsInfoSection extends StatelessWidget {
                                             width: 5,
                                           ),
                                           Text(
-                                            'Only negative deals',
+                                            LocaleKeys.only_negative_deals.tr(),
                                             style: Theme.of(context)
                                                 .textTheme
                                                 .subtitle2
                                                 ?.copyWith(
                                                     color: Colors.red,
+                                                    fontSize: context.locale == Locale("ru") ? 12 : 14,
                                                     letterSpacing: 1),
                                           ),
                                         ],
@@ -256,8 +266,10 @@ class DealsInfoSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Count of trades: ',
-              style: Theme.of(context).textTheme.headline6,
+              LocaleKeys.count_of_trades.tr(),
+              style: Theme.of(context).textTheme.headline6?.copyWith(
+                fontSize: context.locale == Locale('ru') ? 16 : 18,
+              ),
             ),
             Text(
               '${deals.length}',

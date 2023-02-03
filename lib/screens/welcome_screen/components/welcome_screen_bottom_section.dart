@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/screens/log_in_screen/log_in_screen.dart';
 import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/components/welcome_screen_button.dart';
@@ -12,7 +14,6 @@ class WelcomeScreenBottom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
 
@@ -33,38 +34,42 @@ class WelcomeScreenBottom extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               InkWell(
-                onTap: () => Navigator.of(context).pushNamed(RegistrationScreen.id),
-                child: const WelcomeScreenButton(title: 'Sign Up'),
+                onTap: () =>
+                    Navigator.of(context).pushNamed(RegistrationScreen.id),
+                child: WelcomeScreenButton(title: LocaleKeys.sign_up.tr()),
               ),
               SizedBox(height: height * 0.02),
               Text(
-                  'or',
-                style: Theme.of(context).textTheme.subtitle1
+                LocaleKeys.welcome_or.tr(),
+                style: Theme.of(context).textTheme.subtitle1?.copyWith(
+                      fontSize: context.locale == Locale('ru') ? 14 : 16,
+                    ),
               ),
               SizedBox(height: height * 0.02),
               InkWell(
                 onTap: () {},
-                child: const WelcomeScreenButton(
-                    title: 'Sign in with Google'),
+                child: WelcomeScreenButton(
+                    title: LocaleKeys.welcome_sign_in_google.tr()),
               ),
               SizedBox(height: height * 0.05),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text('Already have an account?',
+                  Text(LocaleKeys.log_in_button_desc.tr(),
                       style: TextStyle(
                         color: colorGrey,
                         fontSize: 14,
                         fontFamily: 'Lato',
-                        letterSpacing: 3,
+                        letterSpacing: context.locale == Locale('ru') ? 1 : 3,
                         fontWeight: FontWeight.w400,
-                      )
-                  ),
+                      )),
                   InkWell(
-                    onTap: () => Navigator.of(context).pushNamed(LogInScreen.id),
-                    child: Text(' Log In',
-                        style: Theme.of(context).textTheme.subtitle2
-                    ),
+                    onTap: () =>
+                        Navigator.of(context).pushNamed(LogInScreen.id),
+                    child: Text(" ${LocaleKeys.log_in.tr()}",
+                        style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                              letterSpacing: context.locale == Locale('ru') ? 1 : 2,
+                            )),
                   ),
                 ],
               )

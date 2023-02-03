@@ -24,6 +24,7 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     on<DeleteDeal>(_onDeleteDeal);
     on<UpdateDealDeletedHashtag>(_updateDealDeletedHashtag);
     on<AddHashtag>(_onAddHashtag);
+    on<ChangeHashtags>(_onChangeHashtags);
     on<DeleteHashtag>(_onDeleteHashtag);
     on<AddDealImage>(_onAddDealImage);
     on<DeleteDealImage>(_onDeleteDealImage);
@@ -117,6 +118,10 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
           hashtags: hashtags
       ));
     }
+  }
+
+  void _onChangeHashtags(ChangeHashtags event, Emitter<DealsState> emit) {
+    emit(DealsState(hashtags: event.hashtags));
   }
 
   void _onDeleteHashtag(DeleteHashtag event, Emitter<DealsState> emit) {

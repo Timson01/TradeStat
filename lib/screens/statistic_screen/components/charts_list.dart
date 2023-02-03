@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
 import 'chart_dialog.dart';
@@ -14,12 +16,12 @@ class ChartsList extends StatelessWidget {
     double width = MediaQuery.of(context).size.width;
 
     List<String> chartsList = <String>[
-      'Income chart',
-      'Hashtag income chart',
-      'Ticker symbol income chart',
-      'Percentage of positive and negative deals',
-      'Percentage of positive and negative deals by hashtag',
-      'Percentage of positive and negative deals by ticker symbol',
+      LocaleKeys.income_chart.tr(),
+      LocaleKeys.hashtag_income_chart.tr(),
+      LocaleKeys.ticker_symbol_income_chart.tr(),
+      LocaleKeys.percentage_of_positive_and_negative_deals.tr(),
+      LocaleKeys.percentage_of_positive_and_negative_deals_by_hashtag.tr(),
+      LocaleKeys.percentage_of_positive_and_negative_deals_by_ticker_symbol.tr(),
     ];
 
     return SizedBox(
@@ -59,7 +61,10 @@ class ChartsList extends StatelessWidget {
                         style: Theme.of(context)
                             .textTheme
                             .subtitle1
-                            ?.copyWith(color: colorDarkGrey),
+                            ?.copyWith(
+                            color: colorDarkGrey,
+                          fontSize: context.locale == Locale('ru') ? 14 : 16
+                        ),
                       ),
                     ),
                     IconButton(

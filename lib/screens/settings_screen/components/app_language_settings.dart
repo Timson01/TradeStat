@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
 enum _PopupMenuValues { ru, en }
@@ -21,6 +23,8 @@ class _AppLanguageSettingsState extends State<AppLanguageSettings> {
 
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    if(context.locale == Locale('ru')) language = 'RU';
 
     return Container(
       width: width * 0.85,
@@ -46,7 +50,7 @@ class _AppLanguageSettingsState extends State<AppLanguageSettings> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Language',
+            LocaleKeys.settings_language_title.tr(),
             style: Theme.of(context)
                 .textTheme
                 .subtitle2
@@ -59,7 +63,7 @@ class _AppLanguageSettingsState extends State<AppLanguageSettings> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Choose language',
+                LocaleKeys.settings_choose_language.tr(),
                 style: Theme.of(context)
                     .textTheme
                     .subtitle2
@@ -72,11 +76,13 @@ class _AppLanguageSettingsState extends State<AppLanguageSettings> {
                     case _PopupMenuValues.ru:
                       setState(() {
                         language = 'RU';
+                        context.setLocale(Locale('ru'));
                       });
                       break;
                     case _PopupMenuValues.en:
                       setState(() {
                         language = 'EN';
+                        context.setLocale(Locale('en'));
                       });
                       break;
                   }

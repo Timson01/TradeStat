@@ -1,8 +1,10 @@
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/screens/components/completed_input_field.dart';
 import 'package:trade_stat/screens/components/completed_password_field.dart';
 import 'package:trade_stat/styles/app_colors.dart';
+import '../../generated/locale_keys.g.dart';
 import '../components/log_in_register_bottom_section.dart';
 import '../components/log_in_register_top_background.dart';
 
@@ -25,15 +27,15 @@ class LogInScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: width * 0.1),
                 child: Column(
                   children: [
-                    CompletedInputField(hintText: 'eMail'),
-                    CompletedPasswordField(),
+                    CompletedInputField(hintText: LocaleKeys.log_in_register_eMail.tr()),
+                    CompletedPasswordField(hint: LocaleKeys.log_in_register_password.tr()),
                     Padding(
                       padding: const EdgeInsets.only(right: 10.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                              'Forgot your password?',
+                            LocaleKeys.log_in_forgot.tr(),
                             style: TextStyle(
                               fontFamily: 'Lato',
                               fontSize: 10,

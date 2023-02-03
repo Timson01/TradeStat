@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/screens/components/completed_input_field.dart';
 import 'package:trade_stat/screens/components/completed_password_field.dart';
+import '../../generated/locale_keys.g.dart';
 import '../components/log_in_register_bottom_section.dart';
 import '../components/log_in_register_top_background.dart';
 
@@ -23,8 +25,8 @@ class RegistrationScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: width * 0.1),
                   child: Column(
                     children: [
-                      CompletedInputField(hintText: 'Name'),
-                      CompletedInputField(hintText: 'eMail'),
+                      CompletedInputField(hintText: LocaleKeys.register_name.tr()),
+                      CompletedInputField(hintText: LocaleKeys.log_in_register_eMail.tr()),
                       CompletedPasswordField(),
                       SizedBox(height: height * 0.07),
                       LogInRegisterBottomSection(id: id),

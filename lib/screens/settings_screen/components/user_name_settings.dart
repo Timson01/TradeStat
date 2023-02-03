@@ -1,4 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
 class UserNameSettings extends StatelessWidget {
@@ -34,7 +36,7 @@ class UserNameSettings extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'UserName',
+            LocaleKeys.settings_user_name.tr(),
             style: Theme.of(context).textTheme.subtitle2?.copyWith(
                 color: Colors.black,
                 letterSpacing: 0,
@@ -61,7 +63,7 @@ class UserNameSettings extends StatelessWidget {
                 border: OutlineInputBorder(
                     borderSide: const BorderSide(
                         width: 1, color: colorDarkGrey)),
-                hintText: 'Enter UserName',
+                hintText: LocaleKeys.settings_enter_user_name.tr(),
                 hintStyle: Theme.of(context)
                     .textTheme
                     .subtitle2

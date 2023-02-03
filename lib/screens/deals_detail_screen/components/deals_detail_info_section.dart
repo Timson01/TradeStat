@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
+import '../../../generated/locale_keys.g.dart';
 import '../../../models/deal.dart';
 import '../deals_detail_screen.dart';
 
@@ -41,7 +43,7 @@ class DealsDetailInfoSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Description',
+                  LocaleKeys.description.tr(),
                   style: Theme.of(context).textTheme.headline5?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -50,7 +52,7 @@ class DealsDetailInfoSection extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.01),
                 Text(
-                  currentDeal.description == '' ? 'You didn\'t put anything here' : currentDeal.description,
+                  currentDeal.description == '' ? LocaleKeys.you_did_not_put_anything.tr() : currentDeal.description,
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: Colors.black,
                       letterSpacing: 0
@@ -64,7 +66,7 @@ class DealsDetailInfoSection extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hashtag',
+                  LocaleKeys.hashtag.tr(),
                   style: Theme.of(context).textTheme.headline5?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -73,7 +75,7 @@ class DealsDetailInfoSection extends StatelessWidget {
                 ),
                 SizedBox(height: height * 0.01),
                 Text(
-                  currentDeal.hashtag == '' ? 'You didn\'t put anything here' : '#${currentDeal.hashtag}',
+                  currentDeal.hashtag == '' ? LocaleKeys.you_did_not_put_anything.tr() : '#${currentDeal.hashtag}',
                   style: Theme.of(context).textTheme.subtitle2?.copyWith(
                       color: Colors.black,
                       letterSpacing: 0
@@ -87,7 +89,7 @@ class DealsDetailInfoSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Position',
+                  LocaleKeys.position.tr(),
                   style: Theme.of(context).textTheme.headline5?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -110,7 +112,7 @@ class DealsDetailInfoSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Number of stocks',
+                  LocaleKeys.number_of_stocks.tr(),
                   style: Theme.of(context).textTheme.headline5?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
@@ -133,7 +135,7 @@ class DealsDetailInfoSection extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Amount of deal',
+                  LocaleKeys.amount_of_deal.tr(),
                   style: Theme.of(context).textTheme.headline5?.copyWith(
                       fontSize: 16,
                       fontWeight: FontWeight.w500,
