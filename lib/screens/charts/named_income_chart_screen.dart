@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/models/charts_model.dart';
 import 'package:trade_stat/screens/statistic_screen/statistic_screen.dart';
 import 'package:trade_stat/styles/app_colors.dart';
@@ -64,12 +66,12 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
                                 .contains(widget.chartModel.name.toLowerCase()))
                             .toList();
                     title = widget.chartModel.hashtag
-                        ? 'Income Chart. Position: ${widget.chartModel.position}.\nHashtag: ${widget.chartModel.name}'
-                        : 'Income Chart. Position: ${widget.chartModel.position}.\nTickerSymbol: ${widget.chartModel.name}';
+                        ? '${LocaleKeys.income_chart.tr()}. ${LocaleKeys.position.tr()} ${widget.chartModel.position}.\n${LocaleKeys.hashtag.tr()} ${widget.chartModel.name}'
+                        : '${LocaleKeys.income_chart.tr()}. ${LocaleKeys.position.tr()} ${widget.chartModel.position}.\n${LocaleKeys.ticker_symbol.tr()} ${widget.chartModel.name}';
                   } else {
                     filteredList = state.deals;
                     title =
-                        'Income Chart. Position: ${widget.chartModel.position}';
+                        '${LocaleKeys.income_chart.tr()}. ${LocaleKeys.position.tr()} ${widget.chartModel.position}';
                   }
                 }
                 return Expanded(
@@ -91,7 +93,11 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
                           textStyle: Theme.of(context)
                               .textTheme
                               .subtitle2
-                              ?.copyWith(color: colorBlue, letterSpacing: 0)),
+                              ?.copyWith(
+                            fontSize: context.locale == Locale('ru') ? 12 : 14,
+                              color: colorDarkGrey,
+                              letterSpacing: 0
+                          )),
                       tooltipBehavior: TooltipBehavior(enable: true, header: ''),
                       series: <ChartSeries<Deal, String>>[
                         LineSeries<Deal, String>(

@@ -1,11 +1,13 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/models/image_path.dart';
 import 'package:trade_stat/repository/deals_repository.dart';
 
+import '../../generated/locale_keys.g.dart';
 import '../../models/deal.dart';
 
 part 'deals_event.dart';
@@ -15,7 +17,7 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
   final DealsRepository dealsRepository;
 
   DealsBloc({required this.dealsRepository}) : super(DealsState(
-      hashtags: <String>['Add a new hashtag'],
+      hashtags: <String>[LocaleKeys.add_hashtag.tr()],
   )) {
     on<AddDeal>(_onAddDeal);
     on<UpdateDeal>(_onUpdateDeal);
@@ -24,7 +26,7 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     on<DeleteDeal>(_onDeleteDeal);
     on<UpdateDealDeletedHashtag>(_updateDealDeletedHashtag);
     on<AddHashtag>(_onAddHashtag);
-    on<ChangeHashtags>(_onChangeHashtags);
+    on<ChangeHashtag>(_onChangeHashtag);
     on<DeleteHashtag>(_onDeleteHashtag);
     on<AddDealImage>(_onAddDealImage);
     on<DeleteDealImage>(_onDeleteDealImage);
@@ -120,8 +122,10 @@ class DealsBloc extends HydratedBloc<DealsEvent, DealsState> {
     }
   }
 
-  void _onChangeHashtags(ChangeHashtags event, Emitter<DealsState> emit) {
-    emit(DealsState(hashtags: event.hashtags));
+  void _onChangeHashtag(ChangeHashtag event, Emitter<DealsState> emit) {
+    List<String> hashtags = List.from(state.hashtags);
+    hashtags[0] = event.hashtag;
+    emit(DealsState(hashtags: hashtags));
   }
 
   void _onDeleteHashtag(DeleteHashtag event, Emitter<DealsState> emit) {

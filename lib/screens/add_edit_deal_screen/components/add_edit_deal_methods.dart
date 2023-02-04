@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/screens/add_edit_deal_screen/components/select_photo_options_screen.dart';
 
 import '../../../models/image_path.dart';
@@ -44,7 +46,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
   Future setHashtag(List<String> setHashtags) async {
     final SharedPreferences prefs = await _prefs;
     prefs.setStringList("Hashtags", setHashtags);
-    hashtags = prefs.getStringList("Hashtags") ?? <String>['Add a new hashtag'];
+    hashtags = prefs.getStringList("Hashtags") ?? <String>[LocaleKeys.add_hashtag.tr()];
   }
 
   Future<List<String>> getHashtags() async {
@@ -62,7 +64,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'Add a new hashtag to group deals',
+            LocaleKeys.add_hashtag_desc.tr(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5?.copyWith(
               letterSpacing: 0,
@@ -86,7 +88,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(width: 1, color: colorDarkGrey),
                 ),
-                hintText: 'Add a new hashtag',
+                hintText: LocaleKeys.add_hashtag.tr(),
                 hintStyle: Theme.of(context).textTheme.subtitle2?.copyWith(
                     fontSize: 12, color: colorDarkGrey, letterSpacing: 1)),
           ),
@@ -96,9 +98,12 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
               child: Text(
-                'Save',
+                LocaleKeys.save.tr(),
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                    fontSize: 15, color: colorBlue, letterSpacing: 1),
+                    fontSize: 15,
+                    color: colorBlue,
+                    letterSpacing: 1
+                ),
               ),
               onPressed: () async {
                 if (_hashtagController.value.text.isNotEmpty) {
@@ -122,7 +127,11 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            'If you delete a hashtag #$value, it will be deleted in all deals.\nDo you really want to delete #$value hashtag?',
+            context.locale == Locale('ru')
+                ? 'Если Вы удалите хэштег #$value, то он удалится во всех сделках.'
+                '\nВы уверены что хотите удалить #$value хэштег?'
+                : 'If you delete a hashtag #$value, it will be deleted in all deals.'
+                '\nDo you really want to delete #$value hashtag?',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5?.copyWith(
               color: Colors.red,
@@ -140,7 +149,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                     textStyle: Theme.of(context).textTheme.labelLarge,
                   ),
                   child: Text(
-                    'Cancel',
+                    LocaleKeys.cancel.tr(),
                     style: Theme.of(context).textTheme.subtitle2?.copyWith(
                         fontSize: 15, color: colorBlue, letterSpacing: 1),
                   ),
@@ -153,7 +162,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                     textStyle: Theme.of(context).textTheme.labelLarge,
                   ),
                   child: Text(
-                    'Delete',
+                    LocaleKeys.delete.tr(),
                     style: Theme.of(context).textTheme.subtitle2?.copyWith(
                         fontSize: 15, color: Colors.red, letterSpacing: 1, fontWeight: FontWeight.w500),
                   ),
@@ -167,7 +176,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                           .add(DeleteHashtag(
                           hashtag: value));
                       Navigator.pop(context);
-                      if(currentValue == "Add a new hashtag") Navigator.pop(context);
+                      if(currentValue == LocaleKeys.add_hashtag.tr()) Navigator.pop(context);
                   },
                 ),
               ],

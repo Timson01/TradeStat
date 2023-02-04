@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
@@ -5,6 +6,7 @@ import 'package:trade_stat/models/charts_model.dart';
 import 'package:trade_stat/screens/charts/named_income_chart_screen.dart';
 import 'package:trade_stat/screens/charts/percentage_chart_screen.dart';
 
+import '../../../generated/locale_keys.g.dart';
 import '../../../styles/style_exports.dart';
 
 class ChartDialog extends StatefulWidget {
@@ -21,8 +23,8 @@ class _ChartDialogState extends State<ChartDialog> {
   bool haveSearch = false;
   bool hashtag = false;
   bool doItOnce = false;
-  var currentSelectedValuePosition = 'All';
-  List<String> position = <String>['Long', 'All', 'Short'];
+  var currentSelectedValuePosition = LocaleKeys.all.tr();
+  List<String> position = <String>['Long', LocaleKeys.all.tr(), 'Short'];
   String id = '';
   String title = '';
   final _controller = TextEditingController();
@@ -44,33 +46,33 @@ class _ChartDialogState extends State<ChartDialog> {
     switch (widget.index) {
       case 0:
         id = NamedIncomeChartScreen.id;
-        title = 'Income chart';
+        title = LocaleKeys.income_chart.tr();
         break;
       case 1:
         id = NamedIncomeChartScreen.id;
         hashtag = true;
         haveSearch = true;
-        title = 'Hashtag income chart';
+        title = LocaleKeys.hashtag_income_chart.tr();
         break;
       case 2:
         id = NamedIncomeChartScreen.id;
         haveSearch = true;
-        title = 'Ticker symbol income chart';
+        title = LocaleKeys.ticker_symbol_income_chart.tr();
         break;
       case 3:
         id = PercentageChartScreen.id;
-        title = 'Percentage of positive and negative deals';
+        title = LocaleKeys.percentage_of_positive_and_negative_deals.tr();
         break;
       case 4:
         id = PercentageChartScreen.id;
         hashtag = true;
         haveSearch = true;
-        title = 'Percentage of positive and negative deals by hashtag';
+        title = LocaleKeys.percentage_of_positive_and_negative_deals_by_hashtag.tr();
         break;
       case 5:
         id = PercentageChartScreen.id;
         haveSearch = true;
-        title = 'Percentage of positive and negative deals by ticker symbol';
+        title = LocaleKeys.percentage_of_positive_and_negative_deals_by_ticker_symbol.tr();
         break;
     }
 
@@ -117,7 +119,7 @@ class _ChartDialogState extends State<ChartDialog> {
                           children: [
                             SizedBox(height: height * 0.02),
                             Text(
-                              hashtag ? 'Hashtag:' : 'Ticker symbol:',
+                              hashtag ? LocaleKeys.hashtag.tr() : LocaleKeys.ticker_symbol.tr(),
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -198,8 +200,8 @@ class _ChartDialogState extends State<ChartDialog> {
                                                 width: 1,
                                                 color: colorDarkGrey)),
                                         hintText: hashtag
-                                            ? 'Enter hashtag'
-                                            : 'Enter ticker symbol',
+                                            ? LocaleKeys.enter_hashtag.tr()
+                                            : LocaleKeys.enter_ticker_symbol.tr(),
                                         hintStyle: Theme.of(context)
                                             .textTheme
                                             .subtitle2
@@ -219,7 +221,7 @@ class _ChartDialogState extends State<ChartDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Date: ',
+                        LocaleKeys.date.tr(),
                         style: Theme.of(context).textTheme.subtitle2?.copyWith(
                             fontSize: 15,
                             color: colorDarkGrey,
@@ -279,7 +281,7 @@ class _ChartDialogState extends State<ChartDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Position: ',
+                        LocaleKeys.position.tr(),
                         style: Theme.of(context).textTheme.subtitle2?.copyWith(
                             fontSize: 15,
                             color: colorDarkGrey,
@@ -309,7 +311,7 @@ class _ChartDialogState extends State<ChartDialog> {
                           onChanged: (String? newValue) {
                             setState(() {
                               currentSelectedValuePosition = newValue!;
-                              if(currentSelectedValuePosition != "All"){
+                              if(currentSelectedValuePosition != LocaleKeys.all.tr()){
                                 context.read<DealsBloc>().add(FetchDealsByPosition(
                                     startDate: dateTimeRange.start.millisecondsSinceEpoch,
                                     endDate: dateTimeRange.end.millisecondsSinceEpoch,
@@ -340,7 +342,7 @@ class _ChartDialogState extends State<ChartDialog> {
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
               child: Text(
-                'Cancel',
+                LocaleKeys.cancel.tr(),
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
                     fontSize: 15, color: colorMidnightBlue, letterSpacing: 1),
               ),
@@ -353,7 +355,7 @@ class _ChartDialogState extends State<ChartDialog> {
                 textStyle: Theme.of(context).textTheme.labelLarge,
               ),
               child: Text(
-                'Confirm',
+                LocaleKeys.confirm.tr(),
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
                     fontSize: 15, color: colorMidnightBlue, letterSpacing: 1),
               ),

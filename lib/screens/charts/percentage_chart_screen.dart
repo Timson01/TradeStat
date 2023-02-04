@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../blocs/bloc_exports.dart';
+import '../../generated/locale_keys.g.dart';
 import '../../models/charts_model.dart';
 import '../../models/deal.dart';
 import '../../styles/style_exports.dart';
@@ -49,16 +51,16 @@ class _PercentageChartScreenState extends State<PercentageChartScreen> {
             .contains(widget.chartModel.name.toLowerCase()))
             .toList();
         title = widget.chartModel.hashtag ?
-        'Percentage of positive and negative deals.\nDate: $startDate - $endDate'
-            '\nPosition: ${widget.chartModel.position}. Hashtag: ${widget.chartModel.name}'
-            : 'Percentage of positive and negative deals.\nDate: $startDate - $endDate'
-            '\nPosition: ${widget.chartModel.position}. '
-            'TickerSymbol: ${widget.chartModel.name}';
+        '${LocaleKeys.percentage_of_positive_and_negative_deals.tr()}.\n${LocaleKeys.date.tr()} $startDate - $endDate'
+            '\n${LocaleKeys.position.tr()} ${widget.chartModel.position}. ${LocaleKeys.hashtag.tr()} ${widget.chartModel.name}'
+            : '${LocaleKeys.percentage_of_positive_and_negative_deals.tr()}.\n${LocaleKeys.date.tr()} $startDate - $endDate'
+            '\n${LocaleKeys.position.tr()} ${widget.chartModel.position}. '
+            '${LocaleKeys.ticker_symbol.tr()} ${widget.chartModel.name}';
       }else{
         filteredList = deals;
-        title = 'Percentage of positive and negative deals.'
-            '\nDate: $startDate - $endDate'
-            '\n Position: ${widget.chartModel.position}';
+        title = '${LocaleKeys.percentage_of_positive_and_negative_deals.tr()}.'
+            '\n${LocaleKeys.date.tr()} $startDate - $endDate'
+            '\n ${LocaleKeys.position.tr()} ${widget.chartModel.position}';
       }
       if(filteredList.isNotEmpty){
         for (var element in filteredList) {
@@ -107,8 +109,9 @@ class _PercentageChartScreenState extends State<PercentageChartScreen> {
                           ],
                           title: ChartTitle(text: title,
                               textStyle: Theme.of(context).textTheme.subtitle2?.copyWith(
-                                  color: colorBlue,
-                                  letterSpacing: 0
+                                  color: colorDarkGrey,
+                                  letterSpacing: 0,
+                                fontSize: context.locale == Locale('ru') ? 12 : 14
                               )),
                           tooltipBehavior: TooltipBehavior(
                               enable: true,

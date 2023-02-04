@@ -127,16 +127,16 @@ class AddHashtag extends DealsEvent {
 
 // ------ ChangeHashtags event ----------
 
-class ChangeHashtags extends DealsEvent {
+class ChangeHashtag extends DealsEvent {
 
-  final List<String> hashtags;
+  final String hashtag;
 
-  const ChangeHashtags({
-    required this.hashtags
+  const ChangeHashtag({
+    required this.hashtag
   });
 
   @override
-  List<Object> get props => [ hashtags ];
+  List<Object> get props => [ hashtag ];
 }
 
 // ------ DeleteHashtag event ----------

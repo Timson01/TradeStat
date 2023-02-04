@@ -28,7 +28,7 @@ class EditSection extends StatefulWidget {
 
 class _EditSectionState extends State<EditSection> with AddEditDealMethods {
   List<String> position = <String>['Long', 'Short'];
-  var currentSelectedValueHashtag = 'Add a new hashtag';
+  var currentSelectedValueHashtag = LocaleKeys.add_hashtag.tr();
   var currentSelectedValuePosition = 'Long';
   late Deal currentDeal;
   final _tickerNameController = TextEditingController();
@@ -102,7 +102,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
     setState(() {
       currentSelectedValueHashtag = value;
     });
-    if (value == 'Add a new hashtag') {
+    if (value == LocaleKeys.add_hashtag.tr()) {
       showHashtagDialog();
     }
   }
@@ -125,7 +125,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
         _incomeController.text = currentDeal.income.toString();
         _date = DateTime.fromMillisecondsSinceEpoch(currentDeal.dateCreated);
         if (currentDeal.hashtag == '' || currentDeal.hashtag.isEmpty) {
-          currentSelectedValueHashtag = "Add a new hashtag";
+          currentSelectedValueHashtag = LocaleKeys.add_hashtag.tr();
         } else {
           currentSelectedValueHashtag = currentDeal.hashtag;
         }
@@ -347,7 +347,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                                         fontSize: 12,
                                                         color: colorDarkGrey,
                                                         letterSpacing: 1)),
-                                            value == "Add a new hashtag"
+                                            value == LocaleKeys.add_hashtag.tr()
                                                 ? const Icon(Icons.add,
                                                     color: colorDarkGrey,
                                                     size: 22)
@@ -360,7 +360,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                                               EditDealScreen.id
                                                           ? null
                                                           : showHashtagDeleteDialog(value, currentSelectedValueHashtag);
-                                                      currentSelectedValueHashtag = 'Add a new hashtag';
+                                                      currentSelectedValueHashtag = LocaleKeys.add_hashtag.tr();
                                                       /*hashtags.remove(value);
                                                       setHashtag(hashtags);
                                                       context.read<DealsBloc>()
@@ -671,7 +671,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         description:
                                             _descriptionController.value.text,
                                         hashtag: currentSelectedValueHashtag ==
-                                                'Add a new hashtag'
+                                            LocaleKeys.add_hashtag.tr()
                                             ? ''
                                             : currentSelectedValueHashtag,
                                         position: currentSelectedValuePosition,
@@ -711,7 +711,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         description:
                                             _descriptionController.value.text,
                                         hashtag: currentSelectedValueHashtag ==
-                                                'Add a new hashtag'
+                                            LocaleKeys.add_hashtag.tr()
                                             ? ''
                                             : currentSelectedValueHashtag,
                                         position: currentSelectedValuePosition,

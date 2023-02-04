@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
@@ -77,12 +78,14 @@ class _AppLanguageSettingsState extends State<AppLanguageSettings> {
                       setState(() {
                         language = 'RU';
                         context.setLocale(Locale('ru'));
+                        context.read<DealsBloc>().add(ChangeHashtag(hashtag: 'Добавить новый хэштег'));
                       });
                       break;
                     case _PopupMenuValues.en:
                       setState(() {
                         language = 'EN';
                         context.setLocale(Locale('en'));
+                        context.read<DealsBloc>().add(ChangeHashtag(hashtag: 'Add a new hashtag'));
                       });
                       break;
                   }

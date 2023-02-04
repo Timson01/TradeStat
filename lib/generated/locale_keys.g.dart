@@ -54,6 +54,13 @@ abstract class  LocaleKeys {
   static const add_hashtag = 'add_hashtag';
   static const you_did_not_put_anything = 'you_did_not_put_anything';
   static const add_photo = 'add_photo';
+  static const add_hashtag_desc = 'add_hashtag_desc';
+  static const save = 'save';
+  static const cancel = 'cancel';
+  static const delete = 'delete';
+  static const all = 'all';
+  static const enter_hashtag = 'enter_hashtag';
+  static const confirm = 'confirm';
   static const help = 'help';
 
 }
