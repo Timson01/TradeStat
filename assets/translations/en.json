@@ -68,6 +68,17 @@
   "enter_hashtag" : "Enter hashtag",
   "confirm" : "Confirm",
 
+  "my_rules" : "My Rules",
+  "search_for_rules" : "Search for rules",
+  "can_not_be_empty" : "Can't be empty",
+  "add_rule" : "Add a new Rule",
+  "edit_rule" : "Edit your Rule",
+  "add_rule_title" : "Add a rule title",
+  "add_rule_desc" : "Add a rule description",
+
+  "my_strategy" : "My Strategy",
+  "strategy_desc" : "Here you can store all your knowledge and return to it when you need it",
+
   "help" : "Help"
 
 }

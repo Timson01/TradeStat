@@ -75,6 +75,15 @@ class CodegenLoader extends AssetLoader{
   "all": "All",
   "enter_hashtag": "Enter hashtag",
   "confirm": "Confirm",
+  "my_rules": "My Rules",
+  "search_for_rules": "Search for rules",
+  "can_not_be_empty": "Can't be empty",
+  "add_rule": "Add a new Rule",
+  "edit_rule": "Edit your Rule",
+  "add_rule_title": "Add a rule title",
+  "add_rule_desc": "Add a rule description",
+  "my_strategy": "My Strategy",
+  "strategy_desc": "Here you can store all your knowledge and return to it when you need it",
   "help": "Help"
 };
 static const Map<String,dynamic> ru = {
@@ -138,6 +147,15 @@ static const Map<String,dynamic> ru = {
   "all": "Все",
   "enter_hashtag": "Введите хэштег",
   "confirm": "Подтвердить",
+  "my_rules": "Мои Правила",
+  "search_for_rules": "Поиск по названию правила",
+  "can_not_be_empty": "Обязательно к заполнению",
+  "add_rule": "Добавить правило",
+  "edit_rule": "Измение правила",
+  "add_rule_title": "Введите название правила",
+  "add_rule_desc": "Введите описание правила",
+  "my_strategy": "Моя стратегия",
+  "strategy_desc": "Здесь вы можете хранить свою стратегию и возвращаться к ней, когда она вам понадобится",
   "help": "Служба поддержки"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ru": ru};

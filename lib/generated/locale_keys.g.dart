@@ -61,6 +61,15 @@ abstract class  LocaleKeys {
   static const all = 'all';
   static const enter_hashtag = 'enter_hashtag';
   static const confirm = 'confirm';
+  static const my_rules = 'my_rules';
+  static const search_for_rules = 'search_for_rules';
+  static const can_not_be_empty = 'can_not_be_empty';
+  static const add_rule = 'add_rule';
+  static const edit_rule = 'edit_rule';
+  static const add_rule_title = 'add_rule_title';
+  static const add_rule_desc = 'add_rule_desc';
+  static const my_strategy = 'my_strategy';
+  static const strategy_desc = 'strategy_desc';
   static const help = 'help';
 
 }

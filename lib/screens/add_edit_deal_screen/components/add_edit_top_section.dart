@@ -36,7 +36,7 @@ class _AddEditTopSectionState extends State<AddEditTopSection> {
                   .textTheme
                   .headline5
                   ?.copyWith(
-                  fontSize: context.locale == Locale('ru') ? 22 : 24,
+                  fontSize: context.locale == Locale('ru') ? 20 : 24,
                   letterSpacing: context.locale == Locale('ru') ? 2 : 4,
                   color: Colors.white
               ),
@@ -48,7 +48,7 @@ class _AddEditTopSectionState extends State<AddEditTopSection> {
                   .textTheme
                   .headline5
                   ?.copyWith(
-                  fontSize: context.locale == Locale('ru') ? 20 : 22,
+                  fontSize: context.locale == Locale('ru') ? 18 : 22,
                   letterSpacing: context.locale == Locale('ru') ? 2 : 4,
                   color: Colors.white
               ),

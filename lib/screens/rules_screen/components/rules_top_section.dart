@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:trade_stat/models/rule.dart';
 
+import '../../../generated/locale_keys.g.dart';
 import '../../../styles/style_exports.dart';
 import 'add_edit_dialog.dart';
 
@@ -39,11 +41,15 @@ class _RulesTopSectionState extends State<RulesTopSection> {
                       icon: const Icon(Icons.arrow_back_ios_new_rounded,
                           size: 22, color: Colors.white)),
                   Text(
-                    "My Rules",
+                    LocaleKeys.my_rules.tr(),
                     style: Theme.of(context)
                         .textTheme
                         .headline5
-                        ?.copyWith(color: Colors.white, fontSize: 24),
+                        ?.copyWith(
+                        color: Colors.white,
+                      fontSize: 24,
+                      letterSpacing: context.locale == Locale('ru') ? 2 : 4
+                    ),
                   ),
                   IconButton(
                       padding: EdgeInsets.zero,
@@ -87,11 +93,15 @@ class _RulesTopSectionState extends State<RulesTopSection> {
                           Icons.search,
                           size: 20,
                         ),
-                        hintText: 'Search for rules',
+                        hintText: LocaleKeys.search_for_rules.tr(),
                         hintStyle: Theme.of(context)
                             .textTheme
                             .subtitle2
-                            ?.copyWith(color: colorDarkGrey),
+                            ?.copyWith(
+                            color: colorDarkGrey,
+                          letterSpacing: context.locale == Locale('ru') ? 1 : 2,
+                          fontSize: context.locale == Locale('ru') ? 12 : 14,
+                        ),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(50),
                             borderSide:

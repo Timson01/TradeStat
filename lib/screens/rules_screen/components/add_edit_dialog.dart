@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 
+import '../../../generated/locale_keys.g.dart';
 import '../../../models/rule.dart';
 import '../../../styles/style_exports.dart';
 
@@ -41,7 +43,7 @@ class _AddEditDialogState extends State<AddEditDialog> {
   String? get _errorText {
     final text = ruleTitleController.value.text;
     if (text.isEmpty) {
-      return 'Can\'t be empty';
+      return LocaleKeys.can_not_be_empty.tr();
     }
     // return null if the text is valid
     return null;
@@ -76,7 +78,7 @@ class _AddEditDialogState extends State<AddEditDialog> {
     return SingleChildScrollView(
       child: AlertDialog(
         title: Text(
-          addRule ? 'Add a new Rule' : 'Edit your Rule',
+          addRule ? LocaleKeys.add_rule.tr() : LocaleKeys.edit_rule.tr(),
           textAlign: TextAlign.center,
           style: Theme.of(context)
               .textTheme
@@ -104,7 +106,7 @@ class _AddEditDialogState extends State<AddEditDialog> {
                       borderSide:
                           const BorderSide(width: 1, color: colorDarkGrey),
                     ),
-                    hintText: 'Add a rule title',
+                    hintText: LocaleKeys.add_rule_title.tr(),
                     hintStyle: Theme.of(context).textTheme.subtitle2?.copyWith(
                         fontSize: 12, color: colorDarkGrey, letterSpacing: 1)),
               ),
@@ -129,7 +131,7 @@ class _AddEditDialogState extends State<AddEditDialog> {
                           borderSide:
                               const BorderSide(width: 1, color: colorDarkGrey),
                         ),
-                        hintText: 'Add a rule description',
+                        hintText: LocaleKeys.add_rule_desc.tr(),
                         hintStyle: Theme.of(context)
                             .textTheme
                             .subtitle2
@@ -251,7 +253,7 @@ class _AddEditDialogState extends State<AddEditDialog> {
                                     ruleName: ruleTitleController.text,
                                     description:
                                         ruleDescriptionController.text == ''
-                                            ? 'You didn\'t put anything here'
+                                            ? LocaleKeys.you_did_not_put_anything.tr()
                                             : ruleDescriptionController.text,
                                     ruleColor: ruleColor)))
                             : context.read<RulesBloc>().add(UpdateRule(
@@ -270,9 +272,12 @@ class _AddEditDialogState extends State<AddEditDialog> {
                       return null;
                     },
               child: Text(
-                'Save',
+                LocaleKeys.save.tr(),
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                    fontSize: 15, color: colorBlue, letterSpacing: 1),
+                    fontSize: 15,
+                    color: colorBlue,
+                    letterSpacing: context.locale == Locale('ru') ? 0 : 1
+                ),
               )),
         ],
       ),

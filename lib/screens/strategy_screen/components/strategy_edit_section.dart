@@ -1,5 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:trade_stat/generated/locale_keys.g.dart';
 import '../../../styles/style_exports.dart';
 
 class StrategyEditSection extends StatefulWidget {
@@ -14,7 +16,7 @@ class StrategyEditSection extends StatefulWidget {
 class _StrategyEditSectionState extends State<StrategyEditSection> {
   TextEditingController strategyController = TextEditingController(
       text:
-          'Here you can store all your knowledge and return to it when you need it');
+          LocaleKeys.strategy_desc.tr());
   bool doItJustOnce = false;
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
