@@ -59,7 +59,7 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
             ),
           ),
           Text(
-            name == '' ? "User" : name,
+            name == '' ? LocaleKeys.user.tr() : name,
             style: Theme.of(context).textTheme.subtitle1?.copyWith(
               color: Colors.black,
               fontSize: 24

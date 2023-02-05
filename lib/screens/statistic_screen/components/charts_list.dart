@@ -6,9 +6,14 @@ import 'package:trade_stat/styles/style_exports.dart';
 
 import 'chart_dialog.dart';
 
-class ChartsList extends StatelessWidget {
+class ChartsList extends StatefulWidget {
   const ChartsList({Key? key}) : super(key: key);
 
+  @override
+  State<ChartsList> createState() => _ChartsListState();
+}
+
+class _ChartsListState extends State<ChartsList> {
 
   @override
   Widget build(BuildContext context) {

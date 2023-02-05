@@ -1,12 +1,14 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
-import 'package:trade_stat/models/charts_model.dart';
 import 'package:trade_stat/screens/charts/named_income_chart_screen.dart';
 import 'package:trade_stat/screens/charts/percentage_chart_screen.dart';
 
 import '../../../generated/locale_keys.g.dart';
+import '../../../models/charts_model.dart';
 import '../../../styles/style_exports.dart';
 
 class ChartDialog extends StatefulWidget {
@@ -32,10 +34,53 @@ class _ChartDialogState extends State<ChartDialog> {
       DateTimeRange(start: DateTime.now(), end: DateTime.now());
   List<String> hashtags = [];
 
+  InterstitialAd? interstitialAd;
+  bool isLoaded = false;
+
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadInterstitialAd();
+  }
+
+  void _loadInterstitialAd() {
+    InterstitialAd.load(
+        adUnitId: Platform.isAndroid ? 'ca-app-pub-3940256099942544/1033173712' : 'ca-app-pub-3940256099942544/4411468910',
+        request: const AdRequest(),
+        adLoadCallback: InterstitialAdLoadCallback(
+            onAdLoaded: (ad){
+              interstitialAd = ad;
+              _setFullScreenCallback(ad);
+            },
+            onAdFailedToLoad: (err){
+              debugPrint(err.message);
+            }
+        )
+    );
+  }
+
+  void _setFullScreenCallback (InterstitialAd ad){
+    ad.fullScreenContentCallback = FullScreenContentCallback(
+      onAdShowedFullScreenContent: (InterstitialAd ad) => print('$ad onAdShowedFullScreenContent'),
+      onAdDismissedFullScreenContent: (InterstitialAd ad) {
+        print('$ad onAdDismissedFullScreenContent');
+        ad.dispose();
+      },
+      onAdFailedToShowFullScreenContent: ( InterstitialAd ad, AdError error ) {
+        print('$ad onAdFailedToShowFullScreenContent: $error');
+      },
+      onAdImpression: (InterstitialAd ad) => print('$ad Impression occurred'),
+    );
+  }
+
+  void _showInterstitialAd(){
+    interstitialAd!.show();
   }
 
   @override
@@ -360,6 +405,7 @@ class _ChartDialogState extends State<ChartDialog> {
                     fontSize: 15, color: colorMidnightBlue, letterSpacing: 1),
               ),
               onPressed: () {
+                _showInterstitialAd();
                 Navigator.of(context).pushReplacementNamed(id,
                     arguments: ChartsModel(
                         name: hashtag ? currentSelectedValueHashtag : _controller.text,
@@ -374,3 +420,4 @@ class _ChartDialogState extends State<ChartDialog> {
     );
   }
 }
+

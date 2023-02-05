@@ -79,8 +79,7 @@
   "my_strategy" : "My Strategy",
   "strategy_desc" : "Here you can store all your knowledge and return to it when you need it",
 
-  "enter_user_name" : "Enter User Name",
-  "add_user_name" : "Add User Name",
+  "user" : "User",
 
   "help" : "Help"
 
