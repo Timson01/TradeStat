@@ -233,6 +233,9 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                         SizedBox(height: height * 0.01),
                         TextField(
                           controller: _tickerNameController,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(10),
+                          ],
                           style: Theme.of(context)
                               .textTheme
                               .subtitle2

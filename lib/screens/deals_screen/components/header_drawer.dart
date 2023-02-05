@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/app_colors.dart';
 import 'package:trade_stat/styles/app_images.dart';
@@ -12,9 +13,24 @@ class HeaderDrawer extends StatefulWidget {
 }
 
 class _HeaderDrawerState extends State<HeaderDrawer> {
+  late String name;
+  bool doItOnce = false;
+
+  _getName() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState((){
+      name = prefs.getString("UserName") ?? '';
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
+
+    if(!doItOnce){
+      _getName();
+      doItOnce = !doItOnce;
+    }
 
     return Container(
       color: Colors.white,
@@ -38,12 +54,12 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
             LocaleKeys.hello.tr(),
             style: Theme.of(context).textTheme.subtitle1?.copyWith(
               color: colorDarkGrey,
-              letterSpacing: context.locale == Locale('ru') ? 0 : 1,
-              fontSize: context.locale == Locale('ru') ? 16 : 18,
+              letterSpacing: context.locale == const Locale('ru') ? 0 : 1,
+              fontSize: context.locale == const Locale('ru') ? 16 : 18,
             ),
           ),
           Text(
-            "Timur Kreminskiy",
+            name == '' ? "User" : name,
             style: Theme.of(context).textTheme.subtitle1?.copyWith(
               color: Colors.black,
               fontSize: 24
@@ -55,8 +71,8 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
               LocaleKeys.support_developers.tr(),
               style: Theme.of(context).textTheme.subtitle2?.copyWith(
                   color: colorBlue,
-                letterSpacing: context.locale == Locale('ru') ? 0 : 2,
-                fontSize: context.locale == Locale('ru') ? 14 : 16,
+                letterSpacing: context.locale == const Locale('ru') ? 0 : 2,
+                fontSize: context.locale == const Locale('ru') ? 14 : 16,
               ),
             ),
           ),

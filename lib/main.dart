@@ -45,8 +45,6 @@ class _MyAppState extends State<MyApp> {
     if (_seen) {
       return WelcomeScreen.id;
     } else {
-      // Set the flag to true at the end of onboarding screen if everything is successfull and so I am commenting it out
-      // await prefs.setBool('seen', true);
       await prefs.setBool('seen', true);
       return DescriptionScreen.id;
     }
@@ -58,11 +56,9 @@ class _MyAppState extends State<MyApp> {
         future: checkFirstSeen(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              body: Center(
+            return Center(
                 child: CircularProgressIndicator(),
-              ),
-            );
+              );
           } else {
             return MultiBlocProvider(
               providers: [

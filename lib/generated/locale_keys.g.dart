@@ -70,6 +70,8 @@ abstract class  LocaleKeys {
   static const add_rule_desc = 'add_rule_desc';
   static const my_strategy = 'my_strategy';
   static const strategy_desc = 'strategy_desc';
+  static const enter_user_name = 'enter_user_name';
+  static const add_user_name = 'add_user_name';
   static const help = 'help';
 
 }

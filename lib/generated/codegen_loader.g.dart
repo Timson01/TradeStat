@@ -84,6 +84,8 @@ class CodegenLoader extends AssetLoader{
   "add_rule_desc": "Add a rule description",
   "my_strategy": "My Strategy",
   "strategy_desc": "Here you can store all your knowledge and return to it when you need it",
+  "enter_user_name": "Enter User Name",
+  "add_user_name": "Add User Name",
   "help": "Help"
 };
 static const Map<String,dynamic> ru = {
@@ -156,6 +158,8 @@ static const Map<String,dynamic> ru = {
   "add_rule_desc": "Введите описание правила",
   "my_strategy": "Моя стратегия",
   "strategy_desc": "Здесь вы можете хранить свою стратегию и возвращаться к ней, когда она вам понадобится",
+  "enter_user_name": "Введите имя пользователя",
+  "add_user_name": "Добавьте имя пользователя",
   "help": "Служба поддержки"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ru": ru};

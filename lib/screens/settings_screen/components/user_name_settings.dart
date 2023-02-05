@@ -1,17 +1,47 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/generated/locale_keys.g.dart';
 import 'package:trade_stat/styles/style_exports.dart';
 
-class UserNameSettings extends StatelessWidget {
+class UserNameSettings extends StatefulWidget {
   const UserNameSettings({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<UserNameSettings> createState() => _UserNameSettingsState();
+}
+
+class _UserNameSettingsState extends State<UserNameSettings> {
+
+  TextEditingController nameController = TextEditingController();
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  bool doItOnce = false;
+
+  Future setName(String text) async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setString("UserName", text);
+  }
+
+  Future getName() async {
+    final SharedPreferences prefs = await _prefs;
+    setState((){
+      nameController.text = prefs.getString("UserName") ?? '';
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
+
+    if(!doItOnce){
+      getName();
+      doItOnce = !doItOnce;
+    }
+
 
     return Container(
       width: width * 0.85,
@@ -47,6 +77,10 @@ class UserNameSettings extends StatelessWidget {
             height: height * 0.02,
           ),
           TextField(
+            controller: nameController,
+            inputFormatters: [
+              LengthLimitingTextInputFormatter(18),
+            ],
             style: Theme.of(context)
                 .textTheme
                 .subtitle2
@@ -71,6 +105,9 @@ class UserNameSettings extends StatelessWidget {
                     fontSize: 12,
                     color: colorDarkGrey,
                     letterSpacing: 1)),
+            onChanged: (value) {
+              setName(value);
+            },
           ),
           SizedBox(
             height: height * 0.01,
