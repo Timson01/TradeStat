@@ -77,9 +77,6 @@ class _NamedIncomeChartScreenState extends State<NamedIncomeChartScreen> {
                 return Expanded(
                   child: SfCartesianChart(
                       primaryXAxis: CategoryAxis(),
-                      primaryYAxis: NumericAxis(
-                          numberFormat:
-                              NumberFormat.simpleCurrency(decimalDigits: 0)),
                       zoomPanBehavior: ZoomPanBehavior(
                           enableDoubleTapZooming: true,
                           enablePanning: true,

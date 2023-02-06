@@ -56,7 +56,7 @@ class CodegenLoader extends AssetLoader{
   "description": "Description",
   "hashtag": "Hashtag: ",
   "position": "Position: ",
-  "number_of_stocks": "Number of stocks: ",
+  "number_of_stocks": "Quantity: ",
   "amount_of_deal": "Amount of deal: ",
   "create_new_deal": "Create new deal",
   "edit_deal": "Edit deal",

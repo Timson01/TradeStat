@@ -6,11 +6,8 @@ import 'package:trade_stat/screens/charts/percentage_chart_screen.dart';
 import 'package:trade_stat/screens/deals_detail_screen/deals_detail_screen.dart';
 import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
-import 'package:trade_stat/screens/log_in_screen/log_in_screen.dart';
-import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
 import 'package:trade_stat/screens/rules_screen/rules_screen.dart';
 import 'package:trade_stat/screens/statistic_screen/statistic_screen.dart';
-import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import '../models/deal.dart';
 import '../screens/charts/named_income_chart_screen.dart';
 import '../screens/settings_screen/settings_screen.dart';
@@ -22,12 +19,6 @@ class RouteGenerator {
     switch (routeSettings.name) {
       case DescriptionScreen.id:
         return CustomPageRoute(child: DescriptionScreen());
-      case WelcomeScreen.id:
-          return CustomPageRoute(child: WelcomeScreen());
-      case LogInScreen.id:
-        return CustomPageRoute(child: LogInScreen());
-      case RegistrationScreen.id:
-        return CustomPageRoute(child: RegistrationScreen());
       case DealsScreen.id:
         return CustomPageRoute(child: DealsScreen());
       case AddDealScreen.id:

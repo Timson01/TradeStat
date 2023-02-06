@@ -47,6 +47,7 @@ class _ChartDialogState extends State<ChartDialog> {
   void initState() {
     super.initState();
     _loadInterstitialAd();
+    _init();
   }
 
   void _loadInterstitialAd() {
@@ -83,11 +84,7 @@ class _ChartDialogState extends State<ChartDialog> {
     interstitialAd!.show();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
-
+  void _init(){
     switch (widget.index) {
       case 0:
         id = NamedIncomeChartScreen.id;
@@ -120,6 +117,12 @@ class _ChartDialogState extends State<ChartDialog> {
         title = LocaleKeys.percentage_of_positive_and_negative_deals_by_ticker_symbol.tr();
         break;
     }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
 
     return AlertDialog(
       title: Text(
@@ -141,8 +144,10 @@ class _ChartDialogState extends State<ChartDialog> {
             builder: (context, state) {
               if (state.deals.isNotEmpty) {
                 if (!doItOnce) {
-                  hashtags.addAll(state.hashtags);
-                  hashtags.removeAt(0);
+                  if(state.hashtags.length >= 3){
+                    hashtags.addAll(state.hashtags);
+                    hashtags.removeAt(0);
+                  }
                   hashtags.isNotEmpty ? currentSelectedValueHashtag = hashtags[1] : '';
                   dateTimeRange = DateTimeRange(
                       start: DateTime.fromMillisecondsSinceEpoch(

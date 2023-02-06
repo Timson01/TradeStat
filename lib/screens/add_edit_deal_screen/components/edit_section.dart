@@ -464,7 +464,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         letterSpacing: 1),
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
+                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
                                 ],
                                 decoration: InputDecoration(
                                     isDense: true,
@@ -509,7 +509,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                 controller: _numberOfStocksController,
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
+                                  FilteringTextInputFormatter(RegExp("[0-9.]"), allow: true),
                                 ],
                                 style: Theme.of(context)
                                     .textTheme
@@ -572,7 +572,7 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         letterSpacing: 1),
                                 keyboardType: TextInputType.number,
                                 inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
+                                  FilteringTextInputFormatter(RegExp("[0-9.-]"), allow: true),
                                 ],
                                 decoration: InputDecoration(
                                     isDense: true,

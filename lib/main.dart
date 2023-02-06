@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,8 +8,8 @@ import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/generated/codegen_loader.g.dart';
 import 'package:trade_stat/repository/deals_repository.dart';
 import 'package:trade_stat/repository/rules_repository.dart';
+import 'package:trade_stat/screens/deals_screen/deals_screen.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
-import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import 'package:trade_stat/services/app_theme.dart';
 import 'package:trade_stat/services/route_generator.dart';
 
@@ -45,7 +46,7 @@ class _MyAppState extends State<MyApp> {
     bool _seen = (prefs.getBool('seen') ?? false);
 
     if (_seen) {
-      return WelcomeScreen.id;
+      return DealsScreen.id;
     } else {
       await prefs.setBool('seen', true);
       return DescriptionScreen.id;
@@ -54,6 +55,10 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return FutureBuilder(
         future: checkFirstSeen(),
         builder: (context, snapshot) {
