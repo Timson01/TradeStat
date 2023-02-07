@@ -4,13 +4,13 @@ import 'package:trade_stat/screens/components/text_field_container.dart';
 import 'package:trade_stat/styles/app_colors.dart';
 
 class CompletedPasswordField extends StatefulWidget {
-  final ValueChanged<String>? onChanged;
   final String hint;
+  final TextEditingController controller;
 
   const CompletedPasswordField({
     Key? key,
     this.hint = 'Password',
-    this.onChanged,
+    required this.controller
   }) : super(key: key);
 
   @override
@@ -30,8 +30,15 @@ class _CompletedPasswordFieldState extends State<CompletedPasswordField> {
   Widget build(BuildContext context) {
     return TextFieldContainer(
         child: TextField(
+          controller: widget.controller,
           obscureText: !_passwordVisible,
-          onChanged: widget.onChanged,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle2
+              ?.copyWith(
+              fontSize: 12,
+              color: colorDarkGrey,
+              letterSpacing: 1),
           textAlignVertical: TextAlignVertical.center,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10),

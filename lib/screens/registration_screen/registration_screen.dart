@@ -7,8 +7,11 @@ import '../components/log_in_register_bottom_section.dart';
 import '../components/log_in_register_top_background.dart';
 
 class RegistrationScreen extends StatelessWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+  RegistrationScreen({Key? key}) : super(key: key);
   static const id = 'registration_screen';
+
+  final eMailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +28,10 @@ class RegistrationScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: width * 0.1),
                   child: Column(
                     children: [
-                      CompletedInputField(hintText: LocaleKeys.register_name.tr()),
-                      CompletedInputField(hintText: LocaleKeys.log_in_register_eMail.tr()),
-                      CompletedPasswordField(),
+                      CompletedInputField(hintText: LocaleKeys.log_in_register_eMail.tr(), controller: eMailController),
+                      CompletedPasswordField(controller: passwordController),
                       SizedBox(height: height * 0.07),
-                      LogInRegisterBottomSection(id: id),
+                      LogInRegisterBottomSection(id: id, eMailController: eMailController, passwordController: passwordController),
                     ],
                   )
               ),

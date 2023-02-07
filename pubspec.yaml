@@ -51,6 +51,8 @@ dependencies:
   syncfusion_flutter_charts: ^20.4.44
   easy_localization: ^3.0.1
   google_mobile_ads: ^2.3.0
+  firebase_core: ^2.4.1
+  firebase_auth: ^4.2.5
 dev_dependencies:
   flutter_test:
     sdk: flutter
