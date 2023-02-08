@@ -72,5 +72,18 @@ abstract class  LocaleKeys {
   static const strategy_desc = 'strategy_desc';
   static const user = 'user';
   static const help = 'help';
+  static const exit = 'exit';
+  static const wrong_email_or_pass = 'wrong_email_or_pass';
+  static const unknown_error = 'unknown_error';
+  static const email_already_in_use = 'email_already_in_use';
+  static const something_went_wrong = 'something_went_wrong';
+  static const verification_email = 'verification_email';
+  static const letter_sent = 'letter_sent';
+  static const resend = 'resend';
+  static const email_not_found = 'email_not_found';
+  static const reset_password_done = 'reset_password_done';
+  static const reset_password_title = 'reset_password_title';
+  static const reset_password = 'reset_password';
+  static const enter_email = 'enter_email';
 
 }

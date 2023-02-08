@@ -81,6 +81,20 @@
 
   "user" : "User",
 
-  "help" : "Help"
+  "help" : "Help",
+  "exit" : "Exit",
+  "wrong_email_or_pass" : "Wrong email or password. Try again",
+  "unknown_error" : "Unknown error! Please try again or contact support.",
+  "email_already_in_use" : "This Email is already in use, please try again using another Email",
+  "something_went_wrong" : "Something went wrong!",
+  "verification_email" : "Email Address Verification",
+  "letter_sent" : "A confirmation email has been sent to your email.",
+  "resend" : "Resend",
+  "email_not_found" : "This email is not registered!",
+  "reset_password_done" : "Resetting the password is done. Check your mail",
+  "reset_password_title" : "Password reset",
+  "reset_password" : "Reset the password",
+  "enter_email" : "Enter eMail"
+
 
 }

@@ -12,6 +12,7 @@ import 'package:trade_stat/repository/rules_repository.dart';
 import 'package:trade_stat/screens/description_screen/description_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import 'package:trade_stat/services/app_theme.dart';
+import 'package:trade_stat/services/firebase_streem.dart';
 import 'package:trade_stat/services/route_generator.dart';
 
 void main() async {
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
       return WelcomeScreen.id;
     } else {
       await prefs.setBool('seen', true);
-      return DescriptionScreen.id;
+      return FirebaseStream.id;
     }
   }
 

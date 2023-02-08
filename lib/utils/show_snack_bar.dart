@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
 
-void showSnackBar(BuildContext context, String text){
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-        content: Text(text)
-    )
-  );
+class SnackBarService {
+  static const errorColor = Colors.red;
+  static const okColor = Colors.green;
+
+  static Future<void> showSnackBar(
+      BuildContext context, String message, bool error) async {
+    ScaffoldMessenger.of(context).removeCurrentSnackBar();
+
+    final snackBar = SnackBar(
+      content: Text(message),
+      backgroundColor: error ? errorColor : okColor,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
 }

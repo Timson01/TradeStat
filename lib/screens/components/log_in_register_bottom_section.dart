@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/screens/registration_screen/registration_screen.dart';
-import 'package:trade_stat/services/firebase_auth_methods.dart';
+import 'package:trade_stat/services/firebase_streem.dart';
 
 import '../../generated/locale_keys.g.dart';
 import '../../styles/app_colors.dart';
+import '../../utils/show_snack_bar.dart';
+import '../deals_screen/deals_screen.dart';
 import '../log_in_screen/log_in_screen.dart';
 
 class LogInRegisterBottomSection extends StatefulWidget {
@@ -27,20 +29,63 @@ class LogInRegisterBottomSection extends StatefulWidget {
 
 class _LogInRegisterBottomSectionState extends State<LogInRegisterBottomSection> {
 
-  void signUpUser() async {
-    FirebaseAuthMethods(FirebaseAuth.instance).signUpWithEmail(
-        email: widget.eMailController.text,
-        password: widget.passwordController.text,
-        context: context
-    );
+
+  Future<void> login() async {
+    final navigator = Navigator.of(context);
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: widget.eMailController.text.trim(),
+        password: widget.passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        SnackBarService.showSnackBar(
+          context,
+          LocaleKeys.wrong_email_or_pass.tr(),
+          true,
+        );
+        return;
+      } else {
+        SnackBarService.showSnackBar(
+          context,
+          LocaleKeys.unknown_error.tr(),
+          true,
+        );
+        return;
+      }
+    }
+    navigator.pushNamedAndRemoveUntil(DealsScreen.id, (Route<dynamic> route) => false);
   }
 
-  void logInUser(){
-    FirebaseAuthMethods(FirebaseAuth.instance).logInWithEmail(
-        email: widget.eMailController.text,
-        password: widget.passwordController.text,
-        context: context
-    );
+  Future<void> signUp() async {
+    final navigator = Navigator.of(context);
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: widget.eMailController.text.trim(),
+        password: widget.passwordController.text.trim(),
+      );
+    } on FirebaseAuthException catch (e) {
+      print(e.code);
+
+      if (e.code == 'email-already-in-use') {
+        SnackBarService.showSnackBar(
+          context,
+          LocaleKeys.email_already_in_use.tr(),
+          true,
+        );
+        return;
+      } else {
+        SnackBarService.showSnackBar(
+          context,
+          LocaleKeys.unknown_error.tr(),
+          true,
+        );
+      }
+    }
+
+    navigator.pushNamedAndRemoveUntil(FirebaseStream.id, (Route<dynamic> route) => false);
   }
 
   @override
@@ -66,7 +111,7 @@ class _LogInRegisterBottomSectionState extends State<LogInRegisterBottomSection>
               height: 50,
               child: FloatingActionButton(
                 backgroundColor: colorBlue,
-                onPressed: widget.id == RegistrationScreen.id ? signUpUser : logInUser,
+                onPressed: widget.id == RegistrationScreen.id ? signUp : login,
                 child: const Icon(
                     size: 18,
                     color: Colors.white,

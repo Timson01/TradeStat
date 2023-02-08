@@ -11,8 +11,10 @@ import 'package:trade_stat/screens/registration_screen/registration_screen.dart'
 import 'package:trade_stat/screens/rules_screen/rules_screen.dart';
 import 'package:trade_stat/screens/statistic_screen/statistic_screen.dart';
 import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
+import 'package:trade_stat/services/firebase_streem.dart';
 import '../models/deal.dart';
 import '../screens/charts/named_income_chart_screen.dart';
+import '../screens/reset_password_screen/reset_password_screen.dart';
 import '../screens/settings_screen/settings_screen.dart';
 import '../screens/strategy_screen/strategy_screen.dart';
 import 'custom_page_route.dart';
@@ -48,6 +50,10 @@ class RouteGenerator {
         return CustomPageRoute(child: PercentageChartScreen(chartModel: routeSettings.arguments as ChartsModel));
       case SettingsScreen.id:
         return CustomPageRoute(child: SettingsScreen());
+      case FirebaseStream.id:
+        return CustomPageRoute(child: FirebaseStream());
+      case ResetPasswordScreen.id:
+        return CustomPageRoute(child: ResetPasswordScreen());
       default:
         return _errorRoute();
     }

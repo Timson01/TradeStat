@@ -85,7 +85,20 @@ class CodegenLoader extends AssetLoader{
   "my_strategy": "My Strategy",
   "strategy_desc": "Here you can store all your knowledge and return to it when you need it",
   "user": "User",
-  "help": "Help"
+  "help": "Help",
+  "exit": "Exit",
+  "wrong_email_or_pass": "Wrong email or password. Try again",
+  "unknown_error": "Unknown error! Please try again or contact support.",
+  "email_already_in_use": "This Email is already in use, please try again using another Email",
+  "something_went_wrong": "Something went wrong!",
+  "verification_email": "Email Address Verification",
+  "letter_sent": "A confirmation email has been sent to your email.",
+  "resend": "Resend",
+  "email_not_found": "This email is not registered!",
+  "reset_password_done": "Resetting the password is done. Check your mail",
+  "reset_password_title": "Password reset",
+  "reset_password": "Reset the password",
+  "enter_email": "Enter eMail"
 };
 static const Map<String,dynamic> ru = {
   "desc_description": "Ведите статистику, улучшайте свою стратегию правильно и увеличивайте свой доход с TradeStat",
@@ -158,7 +171,20 @@ static const Map<String,dynamic> ru = {
   "my_strategy": "Моя стратегия",
   "strategy_desc": "Здесь вы можете хранить свою стратегию и возвращаться к ней, когда она вам понадобится",
   "user": "Пользователь",
-  "help": "Служба поддержки"
+  "help": "Служба поддержки",
+  "exit": "Выход",
+  "wrong_email_or_pass": "Неправильный email или пароль. Повторите попытку",
+  "unknown_error": "Неизвестная ошибка! Попробуйте еще раз или обратитесь в поддержку.",
+  "email_already_in_use": "Такой Email уже используется, повторите попытку с использованием другого Email",
+  "something_went_wrong": "Что-то пошло не так!",
+  "verification_email": "Верификация Email адреса",
+  "letter_sent": "Письмо с подтверждением было отправлено на вашу электронную почту.",
+  "resend": "Повторно отправить",
+  "email_not_found": "Такой email незарегистрирован!",
+  "reset_password_done": "Сброс пароля осуществен. Проверьте почту",
+  "reset_password_title": "Сброс пароля",
+  "reset_password": "Сбросить пароль",
+  "enter_email": "Введите eMail"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ru": ru};
 }

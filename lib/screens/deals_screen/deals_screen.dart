@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/screens/settings_screen/settings_screen.dart';
+import 'package:trade_stat/screens/welcome_screen/welcome_screen.dart';
 import 'package:trade_stat/styles/app_images.dart';
-
 import '../../generated/locale_keys.g.dart';
 import '../../models/deal.dart';
 import '../statistic_screen/statistic_screen.dart';
@@ -67,6 +68,14 @@ class _DealsScreenState extends State<DealsScreen> {
   void initState() {
     context.read<DealsBloc>().add(const FetchDeals());
     super.initState();
+  }
+
+
+
+  Future<void> signOut() async {
+    final navigator = Navigator.of(context);
+    await FirebaseAuth.instance.signOut();
+    navigator.pushNamedAndRemoveUntil(WelcomeScreen.id, (Route<dynamic> route) => false);
   }
 
   @override
@@ -145,6 +154,8 @@ class _DealsScreenState extends State<DealsScreen> {
               currentPage == DrawerSections.settings ? true : false),
           menuItem(4, LocaleKeys.help.tr(), Icons.help_outline_rounded,
               currentPage == DrawerSections.help ? true : false),
+          menuItem(5, LocaleKeys.exit.tr(), Icons.exit_to_app_rounded,
+              currentPage == DrawerSections.exit ? true : false),
           const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -182,6 +193,9 @@ class _DealsScreenState extends State<DealsScreen> {
               Navigator.of(context).pushReplacementNamed(SettingsScreen.id);
             } else if (id == 4) {
               currentPage = DrawerSections.help;
+            } else if (id == 5) {
+              currentPage = DrawerSections.exit;
+              signOut();
             }
           });
         },
@@ -219,4 +233,5 @@ enum DrawerSections {
   statistic,
   settings,
   help,
+  exit
 }
