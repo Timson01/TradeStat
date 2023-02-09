@@ -94,15 +94,17 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 onPressed: resetPassword,
                 style: ElevatedButton.styleFrom(
                     backgroundColor: colorBlue,
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                    textStyle: Theme.of(context)
+                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20)),
+                child: Center(child: Text(
+                    LocaleKeys.reset_password.tr(),
+                    style: Theme.of(context)
                         .textTheme
                         .subtitle2
                         ?.copyWith(
                         fontSize: 12,
                         color: Colors.white,
                         letterSpacing: 1)),
-                child: Center(child: Text(LocaleKeys.reset_password.tr())),
+                )
               ),
             ],
           ),
