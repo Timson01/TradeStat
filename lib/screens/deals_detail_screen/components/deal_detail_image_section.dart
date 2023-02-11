@@ -59,7 +59,6 @@ class _DealDetailImageSectionState extends State<DealDetailImageSection> {
       ),
       child: BlocBuilder<DealsBloc, DealsState>(
         builder: (context, state) {
-          print('deals_detail ${imagePaths}');
           return imagePaths.isNotEmpty ?
           CarouselSlider.builder(
               itemCount: imagePaths.length,

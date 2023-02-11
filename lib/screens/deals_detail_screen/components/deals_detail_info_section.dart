@@ -34,8 +34,7 @@ class DealsDetailInfoSection extends StatelessWidget {
       ),
       padding: EdgeInsets.symmetric(
           horizontal: width * 0.05, vertical: height * 0.03),
-      child: Expanded(
-        child: Column(
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             // ----- Description Section -----
@@ -154,7 +153,6 @@ class DealsDetailInfoSection extends StatelessWidget {
             ),
           ],
         ),
-      ),
     );
   }
 }
