@@ -141,8 +141,10 @@ class _ChartDialogState extends State<ChartDialog> {
             builder: (context, state) {
               if (state.deals.isNotEmpty) {
                 if (!doItOnce) {
-                  hashtags.addAll(state.hashtags);
-                  hashtags.removeAt(0);
+                  if(state.hashtags.length >= 3){
+                    hashtags.addAll(state.hashtags);
+                    hashtags.removeAt(0);
+                  }
                   hashtags.isNotEmpty ? currentSelectedValueHashtag = hashtags[1] : '';
                   dateTimeRange = DateTimeRange(
                       start: DateTime.fromMillisecondsSinceEpoch(
