@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/generated/locale_keys.g.dart';
@@ -13,8 +15,7 @@ import '../../../models/image_path.dart';
 import '../../../repository/deals_repository.dart';
 import '../../../styles/style_exports.dart';
 
-mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
-
+mixin AddEditDealMethods<T extends StatefulWidget> on State<T> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   List<String> hashtags = [];
   final _hashtagController = TextEditingController();
@@ -46,7 +47,8 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
   Future setHashtag(List<String> setHashtags) async {
     final SharedPreferences prefs = await _prefs;
     prefs.setStringList("Hashtags", setHashtags);
-    hashtags = prefs.getStringList("Hashtags") ?? <String>[LocaleKeys.add_hashtag.tr()];
+    hashtags = prefs.getStringList("Hashtags") ??
+        <String>[LocaleKeys.add_hashtag.tr()];
   }
 
   Future<List<String>> getHashtags() async {
@@ -67,9 +69,9 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
             LocaleKeys.add_hashtag_desc.tr(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5?.copyWith(
-              letterSpacing: 0,
-              fontSize: 18,
-            ),
+                  letterSpacing: 0,
+                  fontSize: 18,
+                ),
           ),
           content: TextField(
             controller: _hashtagController,
@@ -83,7 +85,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                 filled: true,
                 fillColor: Colors.white,
                 contentPadding:
-                const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                   borderSide: const BorderSide(width: 1, color: colorDarkGrey),
@@ -100,10 +102,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
               child: Text(
                 LocaleKeys.save.tr(),
                 style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                    fontSize: 15,
-                    color: colorBlue,
-                    letterSpacing: 1
-                ),
+                    fontSize: 15, color: colorBlue, letterSpacing: 1),
               ),
               onPressed: () async {
                 if (_hashtagController.value.text.isNotEmpty) {
@@ -121,7 +120,8 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
     );
   }
 
-  FutureOr<void> showHashtagDeleteDialog(String value, String currentValue) async {
+  FutureOr<void> showHashtagDeleteDialog(
+      String value, String currentValue) async {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -129,16 +129,16 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
           title: Text(
             context.locale == Locale('ru')
                 ? 'Если Вы удалите хэштег #$value, то он удалится во всех сделках.'
-                '\nВы уверены что хотите удалить #$value хэштег?'
+                    '\nВы уверены что хотите удалить #$value хэштег?'
                 : 'If you delete a hashtag #$value, it will be deleted in all deals.'
-                '\nDo you really want to delete #$value hashtag?',
+                    '\nDo you really want to delete #$value hashtag?',
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5?.copyWith(
-              color: Colors.red,
-              letterSpacing: 0,
-              fontWeight: FontWeight.w500,
-              fontSize: 18,
-            ),
+                  color: Colors.red,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
           ),
           actions: <Widget>[
             Row(
@@ -153,7 +153,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                     style: Theme.of(context).textTheme.subtitle2?.copyWith(
                         fontSize: 15, color: colorBlue, letterSpacing: 1),
                   ),
-                  onPressed: (){
+                  onPressed: () {
                     Navigator.pop(context);
                   },
                 ),
@@ -164,19 +164,23 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
                   child: Text(
                     LocaleKeys.delete.tr(),
                     style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                        fontSize: 15, color: Colors.red, letterSpacing: 1, fontWeight: FontWeight.w500),
+                        fontSize: 15,
+                        color: Colors.red,
+                        letterSpacing: 1,
+                        fontWeight: FontWeight.w500),
                   ),
-                  onPressed: (){
-                      hashtags.remove(value);
-                      setHashtag(hashtags);
-                      context.read<DealsBloc>()
-                          .add(UpdateDealDeletedHashtag(
-                          hashtag: value));
-                      context.read<DealsBloc>()
-                          .add(DeleteHashtag(
-                          hashtag: value));
+                  onPressed: () {
+                    hashtags.remove(value);
+                    setHashtag(hashtags);
+                    context
+                        .read<DealsBloc>()
+                        .add(UpdateDealDeletedHashtag(hashtag: value));
+                    context
+                        .read<DealsBloc>()
+                        .add(DeleteHashtag(hashtag: value));
+                    Navigator.pop(context);
+                    if (currentValue == LocaleKeys.add_hashtag.tr())
                       Navigator.pop(context);
-                      if(currentValue == LocaleKeys.add_hashtag.tr()) Navigator.pop(context);
                   },
                 ),
               ],
@@ -217,21 +221,28 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T>{
       if (source == ImageSource.camera) {
         final image = await ImagePicker().pickImage(source: source);
         if (image == null) return;
-        setState(() => imagePaths = List.from(imagePaths)..add(image.path));
+        final directory = await getApplicationDocumentsDirectory();
+        final imageFile = File(image.path);
+        final savedFile =
+            await imageFile.copy('${directory.path}/${DateTime.now()}.png');
+        setState(() => imagePaths = List.from(imagePaths)..add(savedFile.path));
       } else {
         final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
         if (selectedImages.isNotEmpty) {
           final List<String> selectedImagesPaths = [];
           for (var element in selectedImages) {
-            selectedImagesPaths.add(element.path);
+            final directory = await getApplicationDocumentsDirectory();
+            final imageFile = File(element.path);
+            final savedFile =
+                await imageFile.copy('${directory.path}/${DateTime.now()}.png');
+            selectedImagesPaths.add(savedFile.path);
           }
-          setState(() => imagePaths = List.from(imagePaths)
-            ..addAll(selectedImagesPaths));
+          setState(() =>
+              imagePaths = List.from(imagePaths)..addAll(selectedImagesPaths));
         }
       }
     } on PlatformException catch (_) {
       Navigator.of(context).pop();
     }
   }
-
 }

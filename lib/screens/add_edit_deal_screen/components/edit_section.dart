@@ -173,6 +173,8 @@ class _EditSectionState extends State<EditSection> with AddEditDealMethods {
                                         child: FloatingActionButton(
                                           backgroundColor: colorBlue,
                                           onPressed: () => setState(() {
+                                            File fileToDelete = File(imagePaths[itemIndex]);
+                                            fileToDelete.delete();
                                             imagePaths
                                                 .remove(imagePaths[itemIndex]);
                                           }),

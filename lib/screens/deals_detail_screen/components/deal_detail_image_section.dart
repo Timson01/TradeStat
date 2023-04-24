@@ -35,7 +35,7 @@ class _DealDetailImageSectionState extends State<DealDetailImageSection> {
   @override
   Widget build(BuildContext context) {
     Deal currentDeal = InheritedDealsDetailScreen.of(context).currentDeal;
-    if(!doItOnce){
+    if (!doItOnce) {
       _onFetchImagePaths(currentDeal.id!);
       doItOnce = !doItOnce;
     }
@@ -46,8 +46,7 @@ class _DealDetailImageSectionState extends State<DealDetailImageSection> {
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
             bottomLeft: Radius.circular(10),
-            bottomRight: Radius.circular(10)
-        ),
+            bottomRight: Radius.circular(10)),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.3),
@@ -59,50 +58,55 @@ class _DealDetailImageSectionState extends State<DealDetailImageSection> {
       ),
       child: BlocBuilder<DealsBloc, DealsState>(
         builder: (context, state) {
-          return imagePaths.isNotEmpty ?
-          CarouselSlider.builder(
-              itemCount: imagePaths.length,
-              itemBuilder: (BuildContext context, int itemIndex,
-                  int pageViewIndex) => ClipRRect(
-                            borderRadius: BorderRadius.circular(5),
-                            child: GestureDetector(
-                              child: Image.file(
-                                  File(imagePaths[itemIndex].imagePath!),
-                                  fit: BoxFit.cover),
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        fullscreenDialog: true,
-                                        builder: (BuildContext context) {
-                                          return Scaffold(
-                                            body: GestureDetector(
-                                              child: Container(
-                                                height: MediaQuery.of(context).size.height,
-                                                width: MediaQuery.of(context).size.width,
-                                                child: Hero(
-                                                  tag: 'imageHero',
-                                                  child: Image.file(
-                                                      File(imagePaths[itemIndex].imagePath!),
-                                                      fit: BoxFit.cover),
-                                                  ),
-                                                ),
-                                              onTap: () {
-                                                Navigator.pop(context);
-                                              },
+          return imagePaths.isNotEmpty
+              ? CarouselSlider.builder(
+                  itemCount: imagePaths.length,
+                  itemBuilder: (BuildContext context, int itemIndex,
+                          int pageViewIndex) =>
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(5),
+                          child: GestureDetector(
+                            child: Image.file(
+                                File(imagePaths[itemIndex].imagePath!),
+                                fit: BoxFit.cover),
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      fullscreenDialog: true,
+                                      builder: (BuildContext context) {
+                                        return Scaffold(
+                                          body: GestureDetector(
+                                            child: Container(
+                                              height: MediaQuery.of(context)
+                                                  .size
+                                                  .height,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Hero(
+                                                tag: 'imageHero',
+                                                child: Image.file(
+                                                    File(imagePaths[itemIndex]
+                                                        .imagePath!),
+                                                    fit: BoxFit.fitWidth),
+                                              ),
                                             ),
-                                          );
-                                        }));
-                              },
-                            )
-                            ),
-              options: CarouselOptions(
-                viewportFraction: 1,
-                enableInfiniteScroll: false,
-                scrollDirection: Axis.horizontal,
-                autoPlay: false,
-              )) :
-          SvgPicture.asset(noDataImage, fit: BoxFit.cover);
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        );
+                                      }));
+                            },
+                          )),
+                  options: CarouselOptions(
+                    viewportFraction: 1,
+                    enableInfiniteScroll: false,
+                    scrollDirection: Axis.horizontal,
+                    autoPlay: false,
+                  ))
+              : SvgPicture.asset(noDataImage, fit: BoxFit.cover);
         },
       ),
     );
