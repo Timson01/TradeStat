@@ -18,7 +18,7 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
 
   _getName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState((){
+    setState(() {
       name = prefs.getString("UserName") ?? '';
     });
   }
@@ -27,7 +27,7 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
 
-    if(!doItOnce){
+    if (!doItOnce) {
       _getName();
       doItOnce = !doItOnce;
     }
@@ -53,29 +53,19 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
           Text(
             LocaleKeys.hello.tr(),
             style: Theme.of(context).textTheme.subtitle1?.copyWith(
-              color: colorDarkGrey,
-              letterSpacing: context.locale == const Locale('ru') ? 0 : 1,
-              fontSize: context.locale == const Locale('ru') ? 16 : 18,
-            ),
+                  color: colorDarkGrey,
+                  letterSpacing: context.locale == const Locale('ru') ? 0 : 1,
+                  fontSize: context.locale == const Locale('ru') ? 16 : 18,
+                ),
           ),
           Text(
             name == '' ? LocaleKeys.user.tr() : name,
-            style: Theme.of(context).textTheme.subtitle1?.copyWith(
-              color: Colors.black,
-              fontSize: 24
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .subtitle1
+                ?.copyWith(color: Colors.black, fontSize: 24),
           ),
-          InkWell(
-            onTap: (){},
-            child: Text(
-              LocaleKeys.support_developers.tr(),
-              style: Theme.of(context).textTheme.subtitle2?.copyWith(
-                  color: colorBlue,
-                letterSpacing: context.locale == const Locale('ru') ? 0 : 2,
-                fontSize: context.locale == const Locale('ru') ? 14 : 16,
-              ),
-            ),
-          ),
+          const SizedBox(height: 10),
           const Divider(),
         ],
       ),

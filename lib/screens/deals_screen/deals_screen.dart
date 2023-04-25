@@ -43,8 +43,10 @@ class DealsScreen extends StatefulWidget {
 }
 
 class _DealsScreenState extends State<DealsScreen> {
-
-  ValueNotifier<List<int>> dateTimeRange = ValueNotifier([DateTime.now().millisecondsSinceEpoch, DateTime.now().millisecondsSinceEpoch]);
+  ValueNotifier<List<int>> dateTimeRange = ValueNotifier([
+    DateTime.now().millisecondsSinceEpoch,
+    DateTime.now().millisecondsSinceEpoch
+  ]);
   ValueNotifier<String> userSearchInput = ValueNotifier<String>('');
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int initCounter = 0;
@@ -57,8 +59,8 @@ class _DealsScreenState extends State<DealsScreen> {
     setState(() {
       filteredList = list.value
           .where((text) => text.tickerName
-          .toLowerCase()
-          .contains(value.toString().toLowerCase()))
+              .toLowerCase()
+              .contains(value.toString().toLowerCase()))
           .toList();
     });
   }
@@ -71,61 +73,63 @@ class _DealsScreenState extends State<DealsScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     double height = MediaQuery.of(context).size.height;
     userSearchInput.addListener(() => filterList(userSearchInput.value));
     dateTimeRange.addListener(() => setState(() {}));
     list.addListener(() => setState(() {
-      filteredList = list.value.where((text) => text.tickerName
-          .toLowerCase()
-          .contains(userSearchInput.value.toString().toLowerCase()))
-          .toList();
-    }));
+          filteredList = list.value
+              .where((text) => text.tickerName
+                  .toLowerCase()
+                  .contains(userSearchInput.value.toString().toLowerCase()))
+              .toList();
+        }));
 
     return InheritedDealsScreen(
       dateTimeRange: dateTimeRange.value,
       dealsScreen: this,
       child: Scaffold(
-            key: _scaffoldKey,
-            drawer: Drawer(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const HeaderDrawer(),
-                    DrawerList(),
-                  ],
-                ),
+          key: _scaffoldKey,
+          drawer: Drawer(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const HeaderDrawer(),
+                  DrawerList(),
+                ],
               ),
             ),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: BlocBuilder<DealsBloc, DealsState>(
-                  builder: (context, state) {
-                    if(state.deals.isNotEmpty){
-                      if (!doItJustOnce) {
-                        list.value = state.deals;
-                        dateTimeRange.value = [state.deals[state.deals.length - 1].dateCreated, state.deals[0].dateCreated];
-                        doItJustOnce = !doItJustOnce;
-                      }
-                    }
-                    if(list != state.deals){
+          ),
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: BlocBuilder<DealsBloc, DealsState>(
+                builder: (context, state) {
+                  if (state.deals.isNotEmpty) {
+                    if (!doItJustOnce) {
                       list.value = state.deals;
+                      dateTimeRange.value = [
+                        state.deals[state.deals.length - 1].dateCreated,
+                        state.deals[0].dateCreated
+                      ];
+                      doItJustOnce = !doItJustOnce;
                     }
-                    return Column(children: [
-                      DealsTopSection(
-                          scaffoldKey: _scaffoldKey,
-                          callback: (val) => userSearchInput.value = val),
-                      DealsInfoSection(dealsList: filteredList),
-                      SizedBox(height: height * 0.03),
-                      const DealsButtonSection(),
-                      SizedBox(height: height * 0.03),
-                      DealsContainer(dealsList: filteredList)
-                    ]);
-                  },
-                ),
+                  }
+                  if (list != state.deals) {
+                    list.value = state.deals;
+                  }
+                  return Column(children: [
+                    DealsTopSection(
+                        scaffoldKey: _scaffoldKey,
+                        callback: (val) => userSearchInput.value = val),
+                    DealsInfoSection(dealsList: filteredList),
+                    SizedBox(height: height * 0.03),
+                    const DealsButtonSection(),
+                    SizedBox(height: height * 0.03),
+                    DealsContainer(dealsList: filteredList)
+                  ]);
+                },
               ),
-            )
-      ),
+            ),
+          )),
     );
   }
 
@@ -139,27 +143,16 @@ class _DealsScreenState extends State<DealsScreen> {
         children: [
           menuItem(1, LocaleKeys.deals_title.tr(), Icons.dashboard_outlined,
               currentPage == DrawerSections.deals ? true : false),
-          menuItem(2, LocaleKeys.statistics_title.tr(), Icons.insert_chart_outlined_rounded,
+          menuItem(
+              2,
+              LocaleKeys.statistics_title.tr(),
+              Icons.insert_chart_outlined_rounded,
               currentPage == DrawerSections.statistic ? true : false),
           menuItem(3, LocaleKeys.settings_title.tr(), Icons.settings_outlined,
               currentPage == DrawerSections.settings ? true : false),
           menuItem(4, LocaleKeys.help.tr(), Icons.help_outline_rounded,
               currentPage == DrawerSections.help ? true : false),
-          const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(width: 30),
-              IconButton(
-                onPressed: () {},
-                icon: Image.asset(globeWebImage),
-              ),
-              IconButton(
-                onPressed: () {},
-                icon: Image.asset(instagramImage),
-              ),
-            ],
-          ),
+          const SizedBox(height: 30)
         ],
       ),
     );

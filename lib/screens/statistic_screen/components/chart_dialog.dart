@@ -52,39 +52,38 @@ class _ChartDialogState extends State<ChartDialog> {
 
   void _loadInterstitialAd() {
     InterstitialAd.load(
-        adUnitId: Platform.isAndroid ? 'ca-app-pub-3940256099942544/1033173712' : 'ca-app-pub-3940256099942544/4411468910',
+        adUnitId: Platform.isAndroid
+            ? 'ca-app-pub-1228412829445638/5167158042'
+            : 'ca-app-pub-1228412829445638/3419231603',
         request: const AdRequest(),
-        adLoadCallback: InterstitialAdLoadCallback(
-            onAdLoaded: (ad){
-              interstitialAd = ad;
-              _setFullScreenCallback(ad);
-            },
-            onAdFailedToLoad: (err){
-              debugPrint(err.message);
-            }
-        )
-    );
+        adLoadCallback: InterstitialAdLoadCallback(onAdLoaded: (ad) {
+          interstitialAd = ad;
+          _setFullScreenCallback(ad);
+        }, onAdFailedToLoad: (err) {
+          debugPrint(err.message);
+        }));
   }
 
-  void _setFullScreenCallback (InterstitialAd ad){
+  void _setFullScreenCallback(InterstitialAd ad) {
     ad.fullScreenContentCallback = FullScreenContentCallback(
-      onAdShowedFullScreenContent: (InterstitialAd ad) => print('$ad onAdShowedFullScreenContent'),
+      onAdShowedFullScreenContent: (InterstitialAd ad) =>
+          print('$ad onAdShowedFullScreenContent'),
       onAdDismissedFullScreenContent: (InterstitialAd ad) {
         print('$ad onAdDismissedFullScreenContent');
         ad.dispose();
       },
-      onAdFailedToShowFullScreenContent: ( InterstitialAd ad, AdError error ) {
+      onAdFailedToShowFullScreenContent: (InterstitialAd ad, AdError error) {
         print('$ad onAdFailedToShowFullScreenContent: $error');
       },
       onAdImpression: (InterstitialAd ad) => print('$ad Impression occurred'),
     );
   }
 
-  void _showInterstitialAd(){
-    interstitialAd!.show();
+  void _showInterstitialAd() {
+    interstitialAd?.show();
   }
 
-  void _init(){
+  void _init() {
     switch (widget.index) {
       case 0:
         id = NamedIncomeChartScreen.id;
@@ -109,12 +108,15 @@ class _ChartDialogState extends State<ChartDialog> {
         id = PercentageChartScreen.id;
         hashtag = true;
         haveSearch = true;
-        title = LocaleKeys.percentage_of_positive_and_negative_deals_by_hashtag.tr();
+        title = LocaleKeys.percentage_of_positive_and_negative_deals_by_hashtag
+            .tr();
         break;
       case 5:
         id = PercentageChartScreen.id;
         haveSearch = true;
-        title = LocaleKeys.percentage_of_positive_and_negative_deals_by_ticker_symbol.tr();
+        title = LocaleKeys
+            .percentage_of_positive_and_negative_deals_by_ticker_symbol
+            .tr();
         break;
     }
   }
@@ -144,11 +146,13 @@ class _ChartDialogState extends State<ChartDialog> {
             builder: (context, state) {
               if (state.deals.isNotEmpty) {
                 if (!doItOnce) {
-                  if(state.hashtags.length >= 3){
+                  if (state.hashtags.length >= 3) {
                     hashtags.addAll(state.hashtags);
                     hashtags.removeAt(0);
                   }
-                  hashtags.isNotEmpty ? currentSelectedValueHashtag = hashtags[1] : '';
+                  hashtags.isNotEmpty
+                      ? currentSelectedValueHashtag = hashtags[1]
+                      : '';
                   dateTimeRange = DateTimeRange(
                       start: DateTime.fromMillisecondsSinceEpoch(
                           state.deals[state.deals.length - 1].dateCreated),
@@ -169,7 +173,9 @@ class _ChartDialogState extends State<ChartDialog> {
                           children: [
                             SizedBox(height: height * 0.02),
                             Text(
-                              hashtag ? LocaleKeys.hashtag.tr() : LocaleKeys.ticker_symbol.tr(),
+                              hashtag
+                                  ? LocaleKeys.hashtag.tr()
+                                  : LocaleKeys.ticker_symbol.tr(),
                               style: Theme.of(context)
                                   .textTheme
                                   .subtitle2
@@ -181,52 +187,51 @@ class _ChartDialogState extends State<ChartDialog> {
                             SizedBox(height: height * 0.015),
                             hashtag
                                 ? Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: 7, right: 7),
-                                        child: DropdownButton<String>(
-                                          menuMaxHeight: height * 0.2,
-                                          isExpanded: true,
-                                          isDense: true,
-                                          value: hashtags.isNotEmpty ? currentSelectedValueHashtag : null,
-                                          items: hashtags
-                                              .map<DropdownMenuItem<String>>(
-                                                  (String value) =>
-                                                      DropdownMenuItem(
-                                                        value: value,
-                                                        child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: [
-                                                              Text(value,
-                                                                  style: Theme
-                                                                          .of(
-                                                                              context)
-                                                                      .textTheme
-                                                                      .subtitle2
-                                                                      ?.copyWith(
-                                                                          fontSize:
-                                                                              12,
-                                                                          color:
-                                                                              colorDarkGrey,
-                                                                          letterSpacing:
-                                                                              1)),
-                                                              const Icon(
-                                                                  Icons
-                                                                      .grid_3x3_rounded,
+                                    padding: const EdgeInsets.only(
+                                        left: 7, right: 7),
+                                    child: DropdownButton<String>(
+                                      menuMaxHeight: height * 0.2,
+                                      isExpanded: true,
+                                      isDense: true,
+                                      value: hashtags.isNotEmpty
+                                          ? currentSelectedValueHashtag
+                                          : null,
+                                      items: hashtags
+                                          .map<DropdownMenuItem<String>>((String
+                                                  value) =>
+                                              DropdownMenuItem(
+                                                value: value,
+                                                child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(value,
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .subtitle2
+                                                              ?.copyWith(
+                                                                  fontSize: 12,
                                                                   color:
                                                                       colorDarkGrey,
-                                                                  size: 16)
-                                                            ]),
-                                                      ))
-                                              .toList(),
-                                          onChanged: (value) {
-                                            setState((){
-                                              currentSelectedValueHashtag = value!;
-                                            });
-                                          },
-                                        ),
-                                      )
+                                                                  letterSpacing:
+                                                                      1)),
+                                                      const Icon(
+                                                          Icons
+                                                              .grid_3x3_rounded,
+                                                          color: colorDarkGrey,
+                                                          size: 16)
+                                                    ]),
+                                              ))
+                                          .toList(),
+                                      onChanged: (value) {
+                                        setState(() {
+                                          currentSelectedValueHashtag = value!;
+                                        });
+                                      },
+                                    ),
+                                  )
                                 : TextField(
                                     controller: _controller,
                                     style: Theme.of(context)
@@ -251,7 +256,8 @@ class _ChartDialogState extends State<ChartDialog> {
                                                 color: colorDarkGrey)),
                                         hintText: hashtag
                                             ? LocaleKeys.enter_hashtag.tr()
-                                            : LocaleKeys.enter_ticker_symbol.tr(),
+                                            : LocaleKeys.enter_ticker_symbol
+                                                .tr(),
                                         hintStyle: Theme.of(context)
                                             .textTheme
                                             .subtitle2
@@ -302,9 +308,11 @@ class _ChartDialogState extends State<ChartDialog> {
                             setState(() {
                               dateTimeRange = newDateRange;
                               context.read<DealsBloc>().add(FetchDealsWithDate(
-                                startDate: dateTimeRange.start.millisecondsSinceEpoch,
-                                endDate: dateTimeRange.end.millisecondsSinceEpoch,
-                              ));
+                                    startDate: dateTimeRange
+                                        .start.millisecondsSinceEpoch,
+                                    endDate: dateTimeRange
+                                        .end.millisecondsSinceEpoch,
+                                  ));
                             });
                           }
                         },
@@ -361,12 +369,16 @@ class _ChartDialogState extends State<ChartDialog> {
                           onChanged: (String? newValue) {
                             setState(() {
                               currentSelectedValuePosition = newValue!;
-                              if(currentSelectedValuePosition != LocaleKeys.all.tr()){
-                                context.read<DealsBloc>().add(FetchDealsByPosition(
-                                    startDate: dateTimeRange.start.millisecondsSinceEpoch,
-                                    endDate: dateTimeRange.end.millisecondsSinceEpoch,
-                                    position: currentSelectedValuePosition
-                                ));
+                              if (currentSelectedValuePosition !=
+                                  LocaleKeys.all.tr()) {
+                                context.read<DealsBloc>().add(
+                                    FetchDealsByPosition(
+                                        startDate: dateTimeRange
+                                            .start.millisecondsSinceEpoch,
+                                        endDate: dateTimeRange
+                                            .end.millisecondsSinceEpoch,
+                                        position:
+                                            currentSelectedValuePosition));
                               }
                             });
                           },
@@ -413,7 +425,9 @@ class _ChartDialogState extends State<ChartDialog> {
                 _showInterstitialAd();
                 Navigator.of(context).pushReplacementNamed(id,
                     arguments: ChartsModel(
-                        name: hashtag ? currentSelectedValueHashtag : _controller.text,
+                        name: hashtag
+                            ? currentSelectedValueHashtag
+                            : _controller.text,
                         hashtag: hashtag,
                         position: currentSelectedValuePosition,
                         dateTimeRange: dateTimeRange));
@@ -425,4 +439,3 @@ class _ChartDialogState extends State<ChartDialog> {
     );
   }
 }
-
