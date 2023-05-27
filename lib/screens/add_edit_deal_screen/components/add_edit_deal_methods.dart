@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:trade_stat/blocs/bloc_exports.dart';
 import 'package:trade_stat/generated/locale_keys.g.dart';
@@ -219,30 +221,106 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T> {
   Future pickImage(ImageSource source) async {
     try {
       if (source == ImageSource.camera) {
-        final image = await ImagePicker().pickImage(source: source);
-        if (image == null) return;
-        final directory = await getApplicationDocumentsDirectory();
-        final imageFile = File(image.path);
-        final savedFile =
-            await imageFile.copy('${directory.path}/${DateTime.now()}.png');
-        setState(() => imagePaths = List.from(imagePaths)..add(savedFile.path));
+        PermissionStatus cameraStatus = await Permission.camera.request();
+        if (cameraStatus == PermissionStatus.granted) {
+          final image = await ImagePicker().pickImage(source: source);
+          if (image == null) return;
+          final directory = await getApplicationDocumentsDirectory();
+          final imageFile = File(image.path);
+          final savedFile =
+              await imageFile.copy('${directory.path}/${DateTime.now()}.png');
+          setState(
+              () => imagePaths = List.from(imagePaths)..add(savedFile.path));
+        }
+        if (cameraStatus == PermissionStatus.denied) {
+          showPermissionDialog(context, true);
+        }
+        if (cameraStatus == PermissionStatus.permanentlyDenied) {
+          showPermissionDialog(context, true);
+        }
       } else {
-        final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
-        if (selectedImages.isNotEmpty) {
-          final List<String> selectedImagesPaths = [];
-          for (var element in selectedImages) {
-            final directory = await getApplicationDocumentsDirectory();
-            final imageFile = File(element.path);
-            final savedFile =
-                await imageFile.copy('${directory.path}/${DateTime.now()}.png');
-            selectedImagesPaths.add(savedFile.path);
+        PermissionStatus storageStatus = await Permission.storage.request();
+        if (storageStatus == PermissionStatus.granted){
+          final List<XFile> selectedImages = await ImagePicker().pickMultiImage();
+          if (selectedImages.isNotEmpty) {
+            final List<String> selectedImagesPaths = [];
+            for (var element in selectedImages) {
+              final directory = await getApplicationDocumentsDirectory();
+              final imageFile = File(element.path);
+              final savedFile =
+              await imageFile.copy('${directory.path}/${DateTime.now()}.png');
+              selectedImagesPaths.add(savedFile.path);
+            }
+            setState(() =>
+            imagePaths = List.from(imagePaths)..addAll(selectedImagesPaths));
           }
-          setState(() =>
-              imagePaths = List.from(imagePaths)..addAll(selectedImagesPaths));
+        }
+        if (storageStatus == PermissionStatus.denied) {
+          showPermissionDialog(context, false);
+        }
+        if (storageStatus == PermissionStatus.permanentlyDenied) {
+          showPermissionDialog(context, false);
         }
       }
     } on PlatformException catch (_) {
       Navigator.of(context).pop();
     }
+  }
+
+  void showPermissionDialog(BuildContext context, bool cameraOrStorage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            cameraOrStorage ? "You need to provide camera permission" : "You need to provide storage permission",
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.headline5?.copyWith(
+                  color: colorBlue,
+                  letterSpacing: 0,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  child: Text(
+                    "Cancel",
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontSize: 15,
+                        color: colorBlue,
+                        letterSpacing: 1),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    textStyle: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  child: Text(
+                    "Open Settings",
+                    style: Theme.of(context).textTheme.subtitle2?.copyWith(
+                        fontSize: 15,
+                        color: colorBlue,
+                        letterSpacing: 1)
+                  ),
+                  onPressed: () {
+                    openAppSettings();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 }
