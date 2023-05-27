@@ -85,7 +85,10 @@ class CodegenLoader extends AssetLoader{
   "my_strategy": "My Strategy",
   "strategy_desc": "Here you can store all your knowledge and return to it when you need it",
   "user": "User",
-  "help": "Help"
+  "help": "Help",
+  "camera_permission": "Need to grant camera permission",
+  "storage_permission": "Need to grant storage permission",
+  "open_settings": "Open Settings"
 };
 static const Map<String,dynamic> ru = {
   "desc_description": "Ведите статистику, улучшайте свою стратегию правильно и увеличивайте свой доход с TradeStat",
@@ -158,7 +161,10 @@ static const Map<String,dynamic> ru = {
   "my_strategy": "Моя стратегия",
   "strategy_desc": "Здесь вы можете хранить свою стратегию и возвращаться к ней, когда она вам понадобится",
   "user": "Пользователь",
-  "help": "Служба поддержки"
+  "help": "Служба поддержки",
+  "camera_permission": "Необходимо предоставить разрешение для камеры",
+  "storage_permission": "Необходимо предоставить доступ к фото",
+  "open_settings": "Открыть настройки"
 };
 static const Map<String, Map<String,dynamic>> mapLocales = {"en": en, "ru": ru};
 }

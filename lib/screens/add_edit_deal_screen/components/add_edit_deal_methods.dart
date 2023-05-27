@@ -273,7 +273,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text(
-            cameraOrStorage ? "You need to provide camera permission" : "You need to provide storage permission",
+            cameraOrStorage ? LocaleKeys.camera_permission.tr() : LocaleKeys.storage_permission.tr(),
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.headline5?.copyWith(
                   color: colorBlue,
@@ -291,7 +291,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T> {
                     textStyle: Theme.of(context).textTheme.labelLarge,
                   ),
                   child: Text(
-                    "Cancel",
+                    LocaleKeys.cancel.tr(),
                     style: Theme.of(context).textTheme.subtitle2?.copyWith(
                         fontSize: 15,
                         color: colorBlue,
@@ -306,7 +306,7 @@ mixin AddEditDealMethods<T extends StatefulWidget> on State<T> {
                     textStyle: Theme.of(context).textTheme.labelLarge,
                   ),
                   child: Text(
-                    "Open Settings",
+                      LocaleKeys.open_settings.tr(),
                     style: Theme.of(context).textTheme.subtitle2?.copyWith(
                         fontSize: 15,
                         color: colorBlue,

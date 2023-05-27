@@ -81,6 +81,9 @@
 
   "user" : "User",
 
-  "help" : "Help"
+  "help" : "Help",
 
+  "camera_permission" : "Need to grant camera permission",
+  "storage_permission" : "Need to grant storage permission",
+  "open_settings" : "Open Settings"
 }

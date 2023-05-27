@@ -72,5 +72,8 @@ abstract class  LocaleKeys {
   static const strategy_desc = 'strategy_desc';
   static const user = 'user';
   static const help = 'help';
+  static const camera_permission = 'camera_permission';
+  static const storage_permission = 'storage_permission';
+  static const open_settings = 'open_settings';
 
 }
