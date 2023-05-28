@@ -1,4 +1,4 @@
-package com.example.trade_stat
+package com.timur.tradestat
 
 import io.flutter.embedding.android.FlutterActivity
 
