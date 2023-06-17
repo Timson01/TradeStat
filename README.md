@@ -2,15 +2,12 @@
 
 Trade Stat.
 
-## Getting Started
+![create_new_deal](https://github.com/Timson01/TradeStat/assets/110234876/9434dde3-72bf-43b6-840b-5fd5df08e6eb)
 
-This project is a starting point for a Flutter application.
+![deals](https://github.com/Timson01/TradeStat/assets/110234876/7f1a1975-8273-46ca-a788-63f42cb115c9)
 
-A few resources to get you started if this is your first Flutter project:
+![desc](https://github.com/Timson01/TradeStat/assets/110234876/76033f35-a9ee-4a59-b4ed-9df9f40b9758)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+![rules](https://github.com/Timson01/TradeStat/assets/110234876/177b9de2-d6bc-459a-a930-dea197abb16a)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![strategy](https://github.com/Timson01/TradeStat/assets/110234876/1a99ea31-1970-4805-b813-454f989816a0)
